@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 app.use(express.static('uploads'));
 
 // Configure Headers HTTP - CORS
-app.use(cors());
+app.use(cors()); // Allow all domains
 
 // Configure Routes
 
