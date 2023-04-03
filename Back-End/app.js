@@ -4,7 +4,9 @@ const cors = require('cors');
 const { API_VERSION, IP_SERVER } = require('./constants');
 
 const app = express();
+
 //Import routes
+const authRoutes = require('./router/authentication'); 
 
 //CONFIGURE BodyParser
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -17,5 +19,6 @@ app.use(express.static('uploads'));
 app.use(cors()); // Allow all domains
 
 // Configure Routes
+app.use(`/api/${API_VERSION}`, authRoutes);
 
 module.exports = app;
