@@ -9,7 +9,7 @@ function signUp(req, res) {
     lastName, 
     email, 
     password, 
-    birthdate, 
+    birthDate, 
     role 
   } = req.body;
 
@@ -28,7 +28,7 @@ function signUp(req, res) {
   if(!password)
     res.status(400).send({ message: "La contraseña es obligatoria"});
 
-  if(!birthdate)
+  if(!birthDate)
     res.status(400).send({ message: "La fecha de nacimiento es obligatoria"});
 
   if(!role)
@@ -40,7 +40,7 @@ function signUp(req, res) {
     lastName,
     email: email.toLowerCase(),
     password,
-    birthdate,
+    birthDate,
     role
   });
 
@@ -52,7 +52,6 @@ function signUp(req, res) {
   .then((userStored) => {
     if(!userStored) {
       res.status(404).send({ message: "Error al crear el usuario" });
-      console.log("es aqui");
     } else {
       res.status(200).send({ user: userStored });
     }
