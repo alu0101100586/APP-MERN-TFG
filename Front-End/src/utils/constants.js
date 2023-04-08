@@ -9,5 +9,13 @@ export const ENV = {
       SING_UP: '/auth/sign-up',
       REFRESH_TOKEN: '/auth/refresh-access-token',
     },
+    USER: {
+      GET_USERS: '/users',
+      GET_USER: '/user/me',
+    },
+  },
+  JWT: {
+    ACCESS: 'accessToken',
+    REFRESH: 'refreshToken',
   },
 };
