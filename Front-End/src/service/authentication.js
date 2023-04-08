@@ -53,4 +53,54 @@ export class Auth {
       throw error;
     }
   }
+
+  async refreshTokenApi(refreshToken) {
+    try {
+      const url = `${this.api}${ENV.API_ROUTES.AUTH.REFRESH_TOKEN}`;
+      const params = {
+        method: 'POST',
+        body: JSON.stringify({ token: refreshToken }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      };
+
+      const response = await fetch(url, params);
+      const result = await response.json();
+
+      if(response.status !== 200) throw result;
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  setAccessToken(token) {
+    localStorage.setItem(ENV.JWT.ACCESS, token);
+  }
+
+  getAccessToken() {
+    return localStorage.getItem(ENV.JWT.ACCESS);
+  }
+
+  removeAccessToken() {
+    localStorage.removeItem(ENV.JWT.ACCESS);
+  }
+
+  setRefreshToken(token) {
+    localStorage.setItem(ENV.JWT.REFRESH, token);
+  }
+
+  getRefreshToken() {
+    return localStorage.getItem(ENV.JWT.REFRESH);
+  }
+
+  removeRefreshToken() {
+    localStorage.removeItem(ENV.JWT.REFRESH);
+  }
+
+  removeTokens() {
+    this.removeAccessToken();
+    this.removeRefreshToken();
+  }
 }
