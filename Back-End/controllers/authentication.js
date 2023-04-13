@@ -10,7 +10,8 @@ function signUp(req, res) {
     email, 
     password, 
     birthDate, 
-    role 
+    role,
+    avatar
   } = req.body;
 
   if(!nickName)
@@ -41,7 +42,8 @@ function signUp(req, res) {
     email: email.toLowerCase(),
     password,
     birthDate,
-    role
+    role,
+    avatar,
   });
 
   const salt = bcrypt.genSaltSync(10);

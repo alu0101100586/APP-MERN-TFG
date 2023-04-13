@@ -38,9 +38,10 @@ const UserSchema = mongoose.Schema({
     default: "common",
     required: true
   },
+  avatar: String,
   discs: [{type: String}],
   concerts: [{type: String}],
-  merchandise: [{type: String}]
+  merchandise: [{type: String}],
 }, {versionKey: false,
   timestamps: true});
 
