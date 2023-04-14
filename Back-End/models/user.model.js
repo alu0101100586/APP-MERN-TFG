@@ -34,7 +34,7 @@ const UserSchema = mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ["artist", "common"],
+    enum: ["artist", "common", "admin"],
     default: "common",
     required: true
   },
