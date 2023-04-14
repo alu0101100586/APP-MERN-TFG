@@ -5,21 +5,21 @@ const { API_VERSION, IP_SERVER } = require('./constants');
 
 const app = express();
 
-//Import routes
-const authRoutes = require('./router/authentication'); 
-const userRoutes = require('./router/user');
+//Importación de las Rutas
+const authRoutes = require('./router/authentication.routes'); 
+const userRoutes = require('./router/user.routes');
 
-//CONFIGURE BodyParser
+//Configuración del Body Parser
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// Configure static folder
+// Configuración de la carpeta uploads
 app.use(express.static('uploads'));
 
-// Configure Headers HTTP - CORS
+// Configuración de CORS
 app.use(cors()); // Allow all domains
 
-// Configure Routes
+// Configuración de las rutas
 app.use(`/api/${API_VERSION}`, authRoutes);
 app.use(`/api/${API_VERSION}`, userRoutes);
 
