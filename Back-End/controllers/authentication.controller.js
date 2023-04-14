@@ -1,6 +1,6 @@
-const User = require("../models/userModel");
+const User = require("../models/user.model");
 const bcrypt = require("bcryptjs");
-const jwt = require("../utils/jwt");
+const jwt = require("../utils/jwt.utils");
 
 function signUp(req, res) {
   const { 
