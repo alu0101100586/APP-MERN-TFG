@@ -10,6 +10,7 @@ const authRoutes = require('./router/authentication.routes');
 const userRoutes = require('./router/user.routes');
 const menuRoutes = require('./router/menu.routes');
 const newsletterRoutes = require('./router/newsletter.routes');
+const artistRoutes = require('./router/artist.routes');
 
 //Configuración del Body Parser
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -26,5 +27,6 @@ app.use(`/api/${API_VERSION}`, authRoutes);
 app.use(`/api/${API_VERSION}`, userRoutes);
 app.use(`/api/${API_VERSION}`, menuRoutes);
 app.use(`/api/${API_VERSION}`, newsletterRoutes);
+app.use(`/api/${API_VERSION}`, artistRoutes);
 
 module.exports = app;
