@@ -1,16 +1,41 @@
 const express = require('express');
 const multiparty = require('connect-multiparty');
 const artistController = require('../controllers/artist.controller');
-const mw_auth = require('../middlewares/authentication.middleware');
+const mwAuth = require('../middlewares/authentication.middleware');
+const mwNotCommon = require('../middlewares/notCommon.middleware');
+const mwUpload = multiparty({uploadDir: './uploads/artist'});
 
-const mw_upload = multiparty({uploadDir: './uploads/artist'});
 const api = express.Router();
 
-api.get('/artists', [ mw_auth.asureAuthenticated ], artistController.getArtists);
-api.get('/artist/:id', [ mw_auth.asureAuthenticated ], artistController.getArtist);
-api.post('/artist', [ mw_auth.asureAuthenticated, mw_upload ], artistController.createArtist);
-api.patch('/artist/:id', [ mw_auth.asureAuthenticated, mw_upload ], artistController.updateArtist);
-api.delete('/artist/:id', [ mw_auth.asureAuthenticated ], artistController.deleteArtist);
+api.get(
+  '/artists', 
+  [ mwAuth.asureAuthenticated, mwNotCommon.asureNotCommon ], 
+  artistController.getArtists
+);
+
+api.get(
+  '/artist/:id', 
+  [ mwAuth.asureAuthenticated, mwNotCommon.asureNotCommon ], 
+  artistController.getArtist
+);
+
+api.post(
+  '/artist', 
+  [ mwAuth.asureAuthenticated, mwUpload, mwNotCommon.asureNotCommon ], 
+  artistController.createArtist
+);
+
+api.patch(
+  '/artist/:id', 
+  [ mwAuth.asureAuthenticated, mwUpload, mwNotCommon.asureNotCommon ], 
+  artistController.updateArtist
+);
+
+api.delete(
+  '/artist/:id', 
+  [ mwAuth.asureAuthenticated, mwNotCommon.asureNotCommon ], 
+  artistController.deleteArtist
+);
 
 module.exports = api;
 

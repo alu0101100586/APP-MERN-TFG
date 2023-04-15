@@ -4,7 +4,12 @@ const authenticationController = require('../controllers/authentication.controll
 const api = express.Router();
 
 api.post('/auth/sign-up', authenticationController.signUp);
+
 api.post('/auth/sign-in', authenticationController.signIn);
-api.post('/auth/refresh-access-token', authenticationController.refreshAccessToken);
+
+api.post(
+  '/auth/refresh-access-token', 
+  authenticationController.refreshAccessToken
+);
 
 module.exports = api;

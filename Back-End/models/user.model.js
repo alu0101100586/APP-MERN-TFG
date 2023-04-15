@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const userRoleEnum = require("../enum/userRole.enum");
+const musicGenreEnum = require("../enum/musicGenre.enum");
 
 const UserSchema = mongoose.Schema({
   nickName: {
@@ -33,14 +35,18 @@ const UserSchema = mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ["artist", "common", "admin"],
-    default: "common",
+    enum: Object.values(userRoleEnum),
+    default: userRoleEnum.COMMON,
     required: true
   },
   avatar: String,
   discs: [{type: String}],
   concerts: [{type: String}],
   merchandise: [{type: String}],
+  musicalGenre: [{ 
+    type: String, 
+    enum: Object.values(musicGenreEnum),
+   }],
 }, {versionKey: false,
   timestamps: true});
 

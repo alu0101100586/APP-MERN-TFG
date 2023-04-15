@@ -1,7 +1,12 @@
 const mongoose = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate');
+const musicGenreEnum = require("../enum/musicGenre.enum");
 
 const ArtistSchema = mongoose.Schema({
+    ownerId: {
+      type: String, 
+      required: true
+    },
     name: {
       type: String,
       required: true,
@@ -14,41 +19,8 @@ const ArtistSchema = mongoose.Schema({
     },
     musicalGenre: [{ 
       type: String, 
+      enum: Object.values(musicGenreEnum),
       required: true,
-      enum: ['Rock', 
-             'Pop', 
-             'Metal', 
-             'Punk', 
-             'Indie', 
-             'Electronica', 
-             'Hip-Hop', 
-             'Rap', 
-             'Soul', 
-             'Reggae', 
-             'Blues', 
-             'Jazz', 
-             'Country', 
-             'Folk', 
-             'Latin', 
-             'Clasica', 
-             'Phonk', 
-             'House',
-             'Techno',
-             'Trance',
-             'Drum & Bass',
-             'Dubstep',
-             'Trap',
-             'Funk',
-             'Disco',
-             'R&B',
-             'Ska',
-             'Reggaeton',
-             'Salsa',
-             'Merengue',
-             'Bachata',
-             'Cumbia',
-             'Vallenato',
-             'Otros']
      }],
     avatar: { type: String },
     successfulDiscs: { type: Number },
