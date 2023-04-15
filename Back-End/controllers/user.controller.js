@@ -3,34 +3,34 @@ const User = require('../models/user.model');
 const Image = require('../utils/processImage.utils');
 
 async function getMe(req, res) {
-  const { user_id } = req.user;
+  const { user_id } = req.user; 
 
-  const response = await User.findById(user_id);
+  const userStorage = await User.findById(user_id);
 
-  if (!response) {
+  if (!userStorage) {
     return res.status(404).send({ msg: 'Usuario no encontrado' });
   } else {
-    return res.status(200).send(response);
+    return res.status(200).send(userStorage);
   }
 }
 
 async function getUsers(req, res) {
   const { artist } = req.query;
-  let response = null;
+  let userStorage = null;
 
   if (artist === undefined) {
-    response = await User.find();
+    userStorage = await User.find();
   } else if (artist === 'true') {
-    response = await User.find({ role: 'artist' });
+    userStorage = await User.find({ role: 'artist' });
   } else if (artist === 'false') {
-    response = await User.find({ role: 'common' });
+    userStorage = await User.find({ role: 'common' });
   }
 
-  if (!response) {
+  if (!userStorage) {
     return res.status(404).send({ msg: 'No hay usuarios' });
   }
 
-  return res.status(200).send(response);
+  return res.status(200).send(userStorage);
 
 }
 
@@ -48,8 +48,8 @@ async function createUser(req, res) {
   }
 
   user.save()
-    .then((response) => {
-      return res.status(201).send(response);
+    .then((userStorage) => {
+      return res.status(201).send(userStorage);
     })
     .catch(() => {
       return res.status(400).send({ msg: 'Error al crear el usuario' });
@@ -84,10 +84,13 @@ async function updateUser(req, res) {
   delete userData.role;
 
   User.findByIdAndUpdate({_id: id}, userData)
-    .then((response) => {
+    .then((userStorage) => {
+      if(!userStorage) {
+        return res.status(404).send({ msg: 'Usuario no encontrado' });
+      }
       return res.status(200).send({ msg: 'Usuario actualizado satisfactoriamente' });
     })
-    .catch((err) => {
+    .catch(() => {
       return res.status(400).send({ msg: 'Error al actualizar el usuario' });
     });
 }
@@ -96,10 +99,10 @@ async function deleteUser(req, res) {
   const { id } = req.params;
 
   User.findByIdAndDelete({_id: id})
-    .then((response) => {
+    .then(() => {
       return res.status(200).send({ msg: 'Usuario eliminado satisfactoriamente' });
     })
-    .catch((err) => {
+    .catch(() => {
       return res.status(400).send({ msg: 'Error al eliminar el usuario' });
     });
 }

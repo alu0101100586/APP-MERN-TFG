@@ -4,10 +4,12 @@ const MenuSchema = mongoose.Schema({
   name: {
     type: String,
     required: true,
+    trim: true,
   },
   path: {
     type: String,
     required: true,
+    trim: true,
   },
   position: {
     type: Number,

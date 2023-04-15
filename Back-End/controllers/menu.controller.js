@@ -2,19 +2,19 @@ const Menu = require('../models/menu.model');
 
 async function getMenus(req, res) {
   const { show } = req.query;
-  let response = null;
+  let menuStorage = null;
 
   if (show === undefined) {
-    response = await Menu.find().sort({ position: 'asc' });
+    menuStorage = await Menu.find().sort({ position: 'asc' });
   } else {
-    response = await Menu.find({ show }).sort({ position: 'asc' });
+    menuStorage = await Menu.find({ show }).sort({ position: 'asc' });
   }
 
-  if (!response) {
+  if (!menuStorage) {
     return res.status(404).send({ msg: 'No hay usuarios' });
   }
 
-  return res.status(200).send(response);
+  return res.status(200).send(menuStorage);
 }
 
 async function createMenu(req, res) {
@@ -22,8 +22,8 @@ async function createMenu(req, res) {
   const menu = new Menu({ name, path, position, show });
 
   menu.save()
-    .then((response) => {
-      return res.status(201).send(response);
+    .then((menuStorage) => {
+      return res.status(201).send(menuStorage);
     })
     .catch(() => {
       return res.status(400).send({ msg: 'Error al crear el menu' });
@@ -35,7 +35,10 @@ async function updateMenu(req, res) {
   const menuData = req.body;
 
   Menu.findByIdAndUpdate({ _id: id }, menuData)
-    .then(() => {
+    .then((menuStorage) => {
+      if (!menuStorage) {
+        return res.status(404).send({ msg: 'Menu no encontrado' });
+      }
       return res.status(200).send({ msg: 'Menu actualizado satisfactoriamente'});
     })
     .catch(() => {
