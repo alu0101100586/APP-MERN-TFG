@@ -54,7 +54,7 @@ async function createDisc(req, res) {
     songs,
   });
 
-  if(req.files.cover){
+  if (req.files.cover){
     const imagePath = Image.getFilePath(req.files.cover);
     disc.cover = imagePath;
   }
@@ -89,6 +89,15 @@ async function createDisc(req, res) {
 async function updateDisc(req, res) {
   const { id } = req.params;
   const discData = req.body;
+  const ownerId = GetId.getUserId(req);
+
+  //Controlando la actualizacion de la imagen
+  if(req.files.cover){
+    const imagePath = Image.getFilePath(req.files.cover);
+    discData.cover = imagePath;
+  } else {
+    delete discData.cover;
+  }
 
   //Controlando que no se actualiza el ownerId
   if(Object.keys(discData).length === 1 && discData.hasOwnProperty('ownerId')) {
@@ -96,11 +105,12 @@ async function updateDisc(req, res) {
   }
   delete discData.ownerId;
 
-  Disc.findByIdAndUpdate({ _id: id }, discData)
+  Disc.findByIdAndUpdate({ _id: id, ownerId: ownerId }, discData)
     .then((discStorage) => {
       if (!discStorage) {
         return res.status(404).send({ msg: 'Disco no encontrado' });
       }
+
       return res.status(200).send({ msg: 'Disco actualizado satisfactoriamente' });
     })
     .catch(() => {
@@ -112,11 +122,15 @@ async function deleteDisc(req, res) {
   const { id } = req.params;
   const ownerId = GetId.getUserId(req);
 
-  Disc.findByIdAndDelete({ _id: id })
-    .then(() => {
+  Disc.findByIdAndDelete({ _id: id, ownerId: ownerId })
+    .then((discStorage) => {
+      if (!discStorage) {
+        return res.status(404).send({ msg: 'Disco no encontrado' });
+      }
+
       User.findOne({ _id: ownerId })
         .then((user) => {
-          user.discs.pop(id);
+          user.discs.pull(id);
           user.save();
         })
         .catch(() => {
@@ -125,7 +139,7 @@ async function deleteDisc(req, res) {
 
       Artist.findOne({ ownerId: ownerId })
         .then((artist) => {
-          artist.discs.pop(id);
+          artist.discs.pull(id);
           artist.save();
         })
         .catch(() => {
@@ -145,19 +159,19 @@ async function addSong(req, res) {
   const ownerId = GetId.getUserId(req);
 
   Disc.findById({ _id: id, ownerId: ownerId })
-    .then((disc) => {
-      if (!disc) {
+    .then((discStogare) => {
+      if (!discStogare) {
         return res.status(404).send({ msg: 'Disco no encontrado' });
       }
 
       //Controlando que no se añade una canción repetida
-      const songExists = disc.songs.find((songName) => songName === song);
+      const songExists = discStogare.songs.find((songName) => songName === song);
       if(songExists) {
         return res.status(400).send({ msg: 'La canción ya existe' });
       }
 
-      disc.songs.push(song);
-      disc.save();
+      discStogare.songs.push(song);
+      discStogare.save();
       return res.status(200).send({ msg: 'Canción añadida satisfactoriamente' });
     })
     .catch(() => {
@@ -171,12 +185,19 @@ async function deleteSong(req, res) {
   const ownerId = GetId.getUserId(req);
 
   Disc.findById({ _id: id, ownerId: ownerId})
-    .then((disc) => {
-      if (!disc) {
+    .then((discStogare) => {
+      if (!discStogare) {
         return res.status(404).send({ msg: 'Disco no encontrado' });
       }
-      disc.songs.pop(song);
-      disc.save();
+
+      //Controlando que la canción a eliminar existe
+      const songExists = discStogare.songs.find((songName) => songName === song);
+      if(!songExists) {
+        return res.status(400).send({ msg: 'La canción no existe' });
+      }
+
+      discStogare.songs.pull(song);
+      discStogare.save();
       return res.status(200).send({ msg: 'Canción eliminada satisfactoriamente' });
     })
     .catch(() => {

@@ -9,13 +9,11 @@ const api = express.Router();
 
 api.get(
   '/discs', 
-  [ mwAuth.asureAuthenticated ], 
   discController.getDiscs
 );
 
 api.get(
   '/disc/:id', 
-  [ mwAuth.asureAuthenticated ], 
   discController.getDisc
 );
 

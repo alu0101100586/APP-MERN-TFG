@@ -9,13 +9,11 @@ const api = express.Router();
 
 api.get(
   '/artists', 
-  [ mwAuth.asureAuthenticated, mwNotCommon.asureNotCommon ], 
   artistController.getArtists
 );
 
 api.get(
   '/artist/:id', 
-  [ mwAuth.asureAuthenticated, mwNotCommon.asureNotCommon ], 
   artistController.getArtist
 );
 

@@ -1,11 +1,12 @@
 const Artist = require('../models/artist.model');
 const Image = require('../utils/processImage.utils');
+const GetId = require('../utils/getUserId.utils');
 
 async function getArtists(req, res) {
-  const { page = 1, limit = 10 } = req.query;
+  const { page = 1, pageItems = 10 } = req.query;
   const options = {
     page: parseInt(page),
-    limit: parseInt(limit),
+    pageItems: parseInt(pageItems),
   };
 
   Artist.paginate({}, options)
@@ -33,7 +34,8 @@ async function getArtist(req, res) {
 
 async function createArtist(req, res) {
   const { name, startDate, musicalGenre } = req.body;
-  const artist = new Artist({ name, startDate, musicalGenre });
+  const ownerId = GetId.getUserId(req);
+  const artist = new Artist({ ownerId, name, startDate, musicalGenre });
 
   if(req.files.avatar){
     const imagePath = Image.getFilePath(req.files.avatar);

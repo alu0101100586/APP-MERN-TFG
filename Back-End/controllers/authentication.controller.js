@@ -48,6 +48,7 @@ function signUp(req, res) {
   const hashPassword = bcrypt.hashSync(password, salt);
   user.password = hashPassword;
 
+  //TODO - Crear el artista y asociarlo al usuario
   user.save()
   .then((userStored) => {
     if(!userStored) {

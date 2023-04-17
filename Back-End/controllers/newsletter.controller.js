@@ -1,10 +1,10 @@
 const Newsletter = require('../models/newsletter.model');
 
 const getEmails = (req, res) => {
-  const { page = 1, limit = 10 } = req.query;
+  const { page = 1, pageItems = 10 } = req.query;
   const options = {
     page: parseInt(page),
-    limit: parseInt(limit),
+    pageItems: parseInt(pageItems),
   };
 
   Newsletter.paginate({}, options)
