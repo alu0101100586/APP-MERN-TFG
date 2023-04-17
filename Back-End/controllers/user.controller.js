@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const User = require('../models/user.model');
-const Image = require('../utils/processImage.utils');
+const Image = require('../utils/processImage.utils')
+const Artist = require('../models/artist.model');
 
 async function getMe(req, res) {
   const { user_id } = req.user; 
@@ -34,6 +35,7 @@ async function getUsers(req, res) {
 
 }
 
+//TODO - Crear el artista y asociarlo al usuario
 async function createUser(req, res) {
   const { password } = req.body;
   const user = new User({...req.body});
@@ -99,7 +101,16 @@ async function deleteUser(req, res) {
   const { id } = req.params;
 
   User.findByIdAndDelete({_id: id})
-    .then(() => {
+    .then((user) => {
+      // if (user.role === 'artist') {
+      //   Artist.findOneAndDelete({ownerId: id})
+      //   .then(() => {
+      //     return res.status(200).send({ msg: 'Artista eliminado satisfactoriamente' });
+      //   })
+      //   .catch(() => {
+      //     return res.status(400).send({ msg: 'Error al eliminar el artista' });
+      //   });
+      // }
       return res.status(200).send({ msg: 'Usuario eliminado satisfactoriamente' });
     })
     .catch(() => {
@@ -107,6 +118,11 @@ async function deleteUser(req, res) {
     });
 }
 
+// TODO- Si el usuario es de tipo artista, cuando éste se elimine tiene que eliminarse todos sus discos, conciertos y merchandising
+// evidentemente si que se tiene que eliminar el artista asociado al usuario
+// Preguntar al profesor si lo quiere así o si simplemente se elimina el usuario y se deja todo lo demás
+
+// TODO - crear la funcionalidad que permita al propio usuario a cambiar su ionfo y eliminarse a sí mismo
 
 module.exports = {
   getMe,
