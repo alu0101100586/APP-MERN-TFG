@@ -1,7 +1,7 @@
 const UserRole = {
   ADMIN: 'admin',
   ARTIST: 'artist',
-  COMMON: 'common'
-};
+  COMMON: 'common',
+}
 
-module.exports = UserRole;
+module.exports = UserRole

@@ -7,6 +7,7 @@
   "author": "Jonay Estevez Diaz",
   "license": "MIT",
   "scripts": {
+    "format": "prettier --write \"**/*.{js,jsx}\"",
     "start": "node index.js",
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -22,5 +23,8 @@
     "mongoose-paginate": "^5.0.3",
     "nodemon": "^2.0.22"
   },
-  "packageManager": "yarn@3.5.0"
+  "packageManager": "yarn@3.5.0",
+  "devDependencies": {
+    "prettier": "^2.8.7"
+  }
 }

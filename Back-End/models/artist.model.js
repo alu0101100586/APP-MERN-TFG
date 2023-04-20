@@ -1,11 +1,12 @@
-const mongoose = require('mongoose');
-const mongoosePaginate = require('mongoose-paginate');
-const musicGenreEnum = require("../enum/musicGenre.enum");
+const mongoose = require('mongoose')
+const mongoosePaginate = require('mongoose-paginate')
+const musicGenreEnum = require('../enum/musicGenre.enum')
 
-const ArtistSchema = mongoose.Schema({
+const ArtistSchema = mongoose.Schema(
+  {
     ownerId: {
-      type: String, 
-      required: true
+      type: String,
+      required: true,
     },
     name: {
       type: String,
@@ -15,12 +16,14 @@ const ArtistSchema = mongoose.Schema({
     },
     startDate: {
       type: Date,
-      required: true
+      required: true,
     },
-    musicalGenre: [{ 
-      type: String, 
-      enum: Object.values(musicGenreEnum),
-     }],
+    musicalGenre: [
+      {
+        type: String,
+        enum: Object.values(musicGenreEnum),
+      },
+    ],
     avatar: { type: String },
     successfulDiscs: { type: Number },
     successfulConcerts: { type: Number },
@@ -28,9 +31,10 @@ const ArtistSchema = mongoose.Schema({
     discs: [{ type: String }],
     concerts: [{ type: String }],
     merchandise: [{ type: String }],
-}, {versionKey: false,
-    timestamps: true});
+  },
+  { versionKey: false, timestamps: true }
+)
 
-ArtistSchema.plugin(mongoosePaginate);
+ArtistSchema.plugin(mongoosePaginate)
 
-module.exports = mongoose.model('Artist', ArtistSchema);
+module.exports = mongoose.model('Artist', ArtistSchema)

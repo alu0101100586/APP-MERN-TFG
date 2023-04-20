@@ -33,6 +33,6 @@ const MusicGenre = {
   CUMBIA: 'Cumbia',
   VALLENATO: 'Vallenato',
   OTROS: 'Otros',
-};
+}
 
-module.exports = MusicGenre;
+module.exports = MusicGenre
