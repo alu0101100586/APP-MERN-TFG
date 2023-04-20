@@ -34,16 +34,23 @@ async function getMerchandise(req, res) {
     })
 }
 
-//TODO - Meter en el usuario y en el artista los generos musicales del merchandise
 async function createMerchandise(req, res) {
-  const { name, releaseDate, moneyLimit, raisedMoney, size, description } =
-    req.body
+  const {
+    name,
+    releaseDate,
+    moneyLimit,
+    price,
+    raisedMoney,
+    size,
+    description,
+  } = req.body
   const ownerId = GetId.getUserId(req)
   const merchandise = new Merchandise({
     ownerId,
     name,
     releaseDate,
     moneyLimit,
+    price,
     raisedMoney,
     size,
     description,
@@ -138,11 +145,9 @@ async function deleteMerchandise(req, res) {
           user.save()
         })
         .catch(() => {
-          return res
-            .status(400)
-            .send({
-              msg: 'Error al actualizar el array de merchandise del usuario',
-            })
+          return res.status(400).send({
+            msg: 'Error al actualizar el array de merchandise del usuario',
+          })
         })
 
       Artist.findOne({ ownerId: ownerId })
@@ -151,11 +156,9 @@ async function deleteMerchandise(req, res) {
           artist.save()
         })
         .catch(() => {
-          return res
-            .status(400)
-            .send({
-              msg: 'Error al actualizar el array de merchandise del artista',
-            })
+          return res.status(400).send({
+            msg: 'Error al actualizar el array de merchandise del artista',
+          })
         })
 
       return res
@@ -217,9 +220,97 @@ async function deleteSize(req, res) {
     })
 }
 
-// TODO - Funcion de compra de merchandise para usuarios comunes
+async function buyMerchandise(req, res) {
+  const { id } = req.params
+  const commonUserId = GetId.getUserId(req)
 
-// TODO - Funcion de devolución de merchandise para usuarios comunes
+  Merchandise.findById({ _id: id })
+    .then((merchandiseStorage) => {
+      if (!merchandiseStorage) {
+        return res.status(404).send({ msg: 'Merchandise no encontrado' })
+      }
+
+      User.findById({ _id: commonUserId })
+        .then((commonUserStorage) => {
+          if (!commonUserStorage) {
+            return res.status(404).send({ msg: 'Usuario no encontrado' })
+          }
+
+          //Controlando que no se compre un merchandise repetido
+          const merchandiseExists = commonUserStorage.merchandises.find(
+            (merchandiseId) => merchandiseId === id
+          )
+          if (merchandiseExists) {
+            return res
+              .status(400)
+              .send({ msg: 'El merchandise ya fue comprado' })
+          }
+
+          //Actualizacion del dinero acumulado
+          const newRaisedMoney =
+            merchandiseStorage.price + merchandiseStorage.raisedMoney
+          merchandiseStorage.raisedMoney = newRaisedMoney
+          merchandiseStorage.save()
+
+          commonUserStorage.merchandises.push(id)
+          commonUserStorage.save()
+
+          return res
+            .status(200)
+            .send({ msg: 'Merchandise comprado satisfactoriamente' })
+        })
+        .catch(() => {
+          return res
+            .status(500)
+            .send({ msg: 'Error al comprar el merchandise' })
+        })
+    })
+    .catch(() => {
+      return res.status(500).send({ msg: 'Error al comprar el merchandise' })
+    })
+}
+
+async function returnMerchandise(req, res) {
+  const { id } = req.params
+  const commonUserId = GetId.getUserId(req)
+
+  Merchandise.findById({ _id: id }).then((merchandiseStorage) => {
+    if (!merchandiseStorage) {
+      return res.status(404).send({ msg: 'Merchandise no encontrado' })
+    }
+
+    User.findById({ _id: commonUserId })
+      .then((commonUserStorage) => {
+        if (!commonUserStorage) {
+          return res.status(404).send({ msg: 'Usuario no encontrado' })
+        }
+
+        //Controlando que el merchandise a devolver existe
+        const merchandiseExists = commonUserStorage.merchandises.find(
+          (merchandiseId) => merchandiseId === id
+        )
+        if (!merchandiseExists) {
+          return res.status(400).send({ msg: 'El merchandise no fue comprado' })
+        }
+
+        //Actualizacion del dinero acumulado
+        const newRaisedMoney =
+          merchandiseStorage.raisedMoney - merchandiseStorage.price
+        merchandiseStorage.raisedMoney = newRaisedMoney
+        merchandiseStorage.save()
+
+        commonUserStorage.merchandises.pull(id)
+        commonUserStorage.save()
+
+        return res
+          .status(200)
+          .send({ msg: 'Merchandise devuelto satisfactoriamente' })
+      })
+      .catch(() => {
+        return res.status(500).send({ msg: 'Error al devolver el merchandise' })
+      })
+  })
+}
 
 module.exports = {
   getMerchandises,
@@ -229,4 +320,6 @@ module.exports = {
   deleteMerchandise,
   addSize,
   deleteSize,
+  buyMerchandise,
+  returnMerchandise,
 }

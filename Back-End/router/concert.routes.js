@@ -3,6 +3,7 @@ const multiparty = require('connect-multiparty')
 const concertController = require('../controllers/concert.controller')
 const mwAuth = require('../middlewares/authentication.middleware')
 const mwNotCommon = require('../middlewares/notCommon.middleware')
+const mwNotArtist = require('../middlewares/notArtist.middleware')
 const mwUpload = multiparty({ uploadDir: './uploads/poster' })
 
 const api = express.Router()
@@ -39,6 +40,18 @@ api.delete(
   '/concert/:id/participant',
   [mwAuth.asureAuthenticated, mwNotCommon.asureNotCommon],
   concertController.deleteParticipant
+)
+
+api.patch(
+  '/buy/concert-ticket/:id',
+  [mwAuth.asureAuthenticated, mwNotArtist.asureNotArtist],
+  concertController.buyTicket
+)
+
+api.patch(
+  '/return/concert-ticket/:id',
+  [mwAuth.asureAuthenticated, mwNotArtist.asureNotArtist],
+  concertController.returnTicket
 )
 
 module.exports = api
