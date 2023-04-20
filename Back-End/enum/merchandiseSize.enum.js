@@ -4,6 +4,6 @@ const MerchandiseSize = {
   MEDIUM: 'M',
   LARGE: 'L',
   EXTRA_LARGE: 'XL',
-};
+}
 
-module.exports = MerchandiseSize;
+module.exports = MerchandiseSize

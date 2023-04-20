@@ -1,6 +1,6 @@
 const jwt = require('../utils/jwt.utils')
 
-function asureAuthenticated(req, res, next) {
+function asureNotArtist(req, res, next) {
   const token = req.headers.authorization
 
   if (!token) {
@@ -11,11 +11,12 @@ function asureAuthenticated(req, res, next) {
 
   try {
     const payload = jwt.decodeToken(tokenParts)
-    const { exp } = payload
-    const now = new Date().getTime()
+    const { role } = payload
 
-    if (exp <= now) {
-      return res.status(403).send({ msg: 'Token expirado' })
+    if (role === 'artist') {
+      return res
+        .status(403)
+        .send({ msg: 'No tienes permisos para realizar esta acción' })
     }
 
     req.user = payload
@@ -26,5 +27,5 @@ function asureAuthenticated(req, res, next) {
 }
 
 module.exports = {
-  asureAuthenticated,
+  asureNotArtist,
 }
