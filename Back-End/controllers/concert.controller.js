@@ -34,7 +34,6 @@ async function getConcert(req, res) {
     })
 }
 
-//TODO - Meter en el usuario y en el artista los generos musicales del concierto
 async function createConcert(req, res) {
   const {
     name,
@@ -66,29 +65,37 @@ async function createConcert(req, res) {
     .save()
     .then((concertStorage) => {
       User.findOne({ _id: ownerId })
-        .then((user) => {
-          user.concerts.push(concertStorage._id)
-          user.save()
+        .then((userStorage) => {
+          userStorage.concerts.push(concertStorage._id)
+          const genresToAdd = concertStorage.musicalGenre
+          const userStorageGenres = new Set(userStorage.musicalGenre)
+          genresToAdd.forEach((genre) => {
+            userStorageGenres.add(genre)
+          })
+          userStorage.musicalGenre = Array.from(userStorageGenres)
+          userStorage.save()
         })
         .catch(() => {
-          return res
-            .status(500)
-            .send({
-              msg: 'Error al actualizar el array de conciertos del usuario',
-            })
+          return res.status(500).send({
+            msg: 'Error al actualizar el array de conciertos del usuario',
+          })
         })
 
       Artist.findOne({ ownerId: ownerId })
-        .then((artist) => {
-          artist.concerts.push(concertStorage._id)
-          artist.save()
+        .then((artistStorage) => {
+          artistStorage.concerts.push(concertStorage._id)
+          const genresToAdd = concertStorage.musicalGenre
+          const artistStorageGenres = new Set(artistStorage.musicalGenre)
+          genresToAdd.forEach((genre) => {
+            artistStorageGenres.add(genre)
+          })
+          artistStorage.musicalGenre = Array.from(artistStorageGenres)
+          artistStorage.save()
         })
         .catch(() => {
-          return res
-            .status(500)
-            .send({
-              msg: 'Error al actualizar el array de conciertos del artista',
-            })
+          return res.status(500).send({
+            msg: 'Error al actualizar el array de conciertos del artista',
+          })
         })
       return res.status(201).send(concertStorage)
     })
@@ -145,29 +152,25 @@ async function deleteConcert(req, res) {
       }
 
       User.findOne({ _id: ownerId })
-        .then((user) => {
-          user.concerts.pull(id)
-          user.save()
+        .then((userStorage) => {
+          userStorage.concerts.pull(id)
+          userStorage.save()
         })
         .catch(() => {
-          return res
-            .status(400)
-            .send({
-              msg: 'Error al actualizar el array de conciertos del usuario',
-            })
+          return res.status(400).send({
+            msg: 'Error al actualizar el array de conciertos del usuario',
+          })
         })
 
       Artist.findOne({ ownerId: ownerId })
-        .then((artist) => {
-          artist.concerts.pull(id)
-          artist.save()
+        .then((artistStorage) => {
+          artistStorage.concerts.pull(id)
+          artistStorage.save()
         })
         .catch(() => {
-          return res
-            .status(400)
-            .send({
-              msg: 'Error al actualizar el array de conciertos del artista',
-            })
+          return res.status(400).send({
+            msg: 'Error al actualizar el array de conciertos del artista',
+          })
         })
 
       return res
@@ -191,13 +194,13 @@ async function addParticipant(req, res) {
       }
 
       Artist.findOne({ name: artistName })
-        .then((artist) => {
-          if (!artist) {
+        .then((artistStorage) => {
+          if (!artistStorage) {
             return res.status(404).send({ msg: 'Artista no encontrado' })
           }
 
           //Controlando que el artista no esté ya en el array de participantes
-          if (concertStorage.participants.includes(artist._id)) {
+          if (concertStorage.participants.includes(artistStorage._id)) {
             return res
               .status(400)
               .send({ msg: 'El artista ya está en el concierto' })
@@ -236,19 +239,19 @@ async function deleteParticipant(req, res) {
       }
 
       Artist.findOne({ name: artistName })
-        .then((artist) => {
-          if (!artist) {
+        .then((artistStorage) => {
+          if (!artistStorage) {
             return res.status(404).send({ msg: 'Artista no encontrado' })
           }
 
           //Controlando que el artista no esté ya en el array de participantes
-          if (!concertStorage.participants.includes(artist._id)) {
+          if (!concertStorage.participants.includes(artistStorage._id)) {
             return res
               .status(400)
               .send({ msg: 'El artista no está en el concierto' })
           }
 
-          concertStorage.participants.pull(artist._id)
+          concertStorage.participants.pull(artistStorage._id)
           concertStorage
             .save()
             .then(() => {
@@ -269,9 +272,92 @@ async function deleteParticipant(req, res) {
     })
 }
 
-// TODO - Funcion de compra de ticket concierto para usuarios comunes
+async function buyTicket(req, res) {
+  const { id } = req.params
+  const commonUserId = GetId.getUserId(req)
 
-// TODO - Funcion de devolución de ticket concierto para usuarios comunes
+  Concert.findById({ _id: id })
+    .then((concertStorage) => {
+      if (!concertStorage) {
+        return res.status(404).send({ msg: 'Concerto no encontrado' })
+      }
+
+      User.findById({ _id: commonUserId })
+        .then((commonUserStorage) => {
+          if (!commonUserStorage) {
+            return res.status(404).send({ msg: 'Usuario no encontrado' })
+          }
+
+          //Controlando que no se compre un concierto repetido
+          const concertExists = commonUserStorage.concerts.find(
+            (concertId) => concertId === id
+          )
+          if (concertExists) {
+            return res.status(400).send({ msg: 'El Concerto ya fue comprado' })
+          }
+
+          //Actualizacion del dinero acumulado
+          const newRaisedMoney =
+            concertStorage.price + concertStorage.raisedMoney
+          concertStorage.raisedMoney = newRaisedMoney
+          concertStorage.save()
+
+          commonUserStorage.concerts.push(id)
+          commonUserStorage.save()
+
+          return res
+            .status(200)
+            .send({ msg: 'Concerto comprado satisfactoriamente' })
+        })
+        .catch(() => {
+          return res.status(500).send({ msg: 'Error al comprar el concierto' })
+        })
+    })
+    .catch(() => {
+      return res.status(500).send({ msg: 'Error al comprar el concierto' })
+    })
+}
+
+async function returnTicket(req, res) {
+  const { id } = req.params
+  const commonUserId = GetId.getUserId(req)
+
+  Concert.findById({ _id: id }).then((concertStorage) => {
+    if (!concertStorage) {
+      return res.status(404).send({ msg: 'Concierto no encontrado' })
+    }
+
+    User.findById({ _id: commonUserId })
+      .then((commonUserStorage) => {
+        if (!commonUserStorage) {
+          return res.status(404).send({ msg: 'Usuario no encontrado' })
+        }
+
+        //Controlando que el concierto a devolver existe
+        const concertExists = commonUserStorage.concerts.find(
+          (concertId) => concertId === id
+        )
+        if (!concertExists) {
+          return res.status(400).send({ msg: 'El concierto no fue comprado' })
+        }
+
+        //Actualizacion del dinero acumulado
+        const newRaisedMoney = concertStorage.raisedMoney - concertStorage.price
+        concertStorage.raisedMoney = newRaisedMoney
+        concertStorage.save()
+
+        commonUserStorage.concerts.pull(id)
+        commonUserStorage.save()
+
+        return res
+          .status(200)
+          .send({ msg: 'Concierto devuelto satisfactoriamente' })
+      })
+      .catch(() => {
+        return res.status(500).send({ msg: 'Error al devolver el concierto' })
+      })
+  })
+}
 
 module.exports = {
   getConcerts,
@@ -281,4 +367,6 @@ module.exports = {
   deleteConcert,
   addParticipant,
   deleteParticipant,
+  buyTicket,
+  returnTicket,
 }

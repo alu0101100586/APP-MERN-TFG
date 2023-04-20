@@ -2,6 +2,7 @@ const express = require('express')
 const multiparty = require('connect-multiparty')
 const merchController = require('../controllers/merchandise.controller')
 const mwAuth = require('../middlewares/authentication.middleware')
+const mwNotArtist = require('../middlewares/notArtist.middleware')
 const mwNotCommon = require('../middlewares/notCommon.middleware')
 const mwUpload = multiparty({ uploadDir: './uploads/image' })
 
@@ -39,6 +40,18 @@ api.delete(
   '/merchandise/:id/size',
   [mwAuth.asureAuthenticated, mwNotCommon.asureNotCommon],
   merchController.deleteSize
+)
+
+api.patch(
+  'buy/merchandise/:id',
+  [mwAuth.asureAuthenticated, mwNotArtist.asureNotArtist],
+  merchController.buyMerchandise
+)
+
+api.patch(
+  'return/merchandise/:id',
+  [mwAuth.asureAuthenticated, mwNotArtist.asureNotArtist],
+  merchController.returnMerchandise
 )
 
 module.exports = api

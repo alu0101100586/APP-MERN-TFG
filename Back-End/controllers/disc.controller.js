@@ -34,16 +34,23 @@ async function getDisc(req, res) {
     })
 }
 
-//TODO - Meter en el usuario y en el artista los generos musicales del disco
 async function createDisc(req, res) {
-  const { name, releaseDate, moneyLimit, raisedMoney, musicalGenre, songs } =
-    req.body
+  const {
+    name,
+    releaseDate,
+    moneyLimit,
+    price,
+    raisedMoney,
+    musicalGenre,
+    songs,
+  } = req.body
   const ownerId = GetId.getUserId(req)
   const disc = new Disc({
     ownerId,
     name,
     releaseDate,
     moneyLimit,
+    price,
     raisedMoney,
     musicalGenre,
     songs,
@@ -57,10 +64,17 @@ async function createDisc(req, res) {
   disc
     .save()
     .then((discStorage) => {
+      console.log(discStorage)
       User.findOne({ _id: ownerId })
-        .then((user) => {
-          user.discs.push(disc._id)
-          user.save()
+        .then((userStorage) => {
+          userStorage.discs.push(disc._id)
+          const genresToAdd = discStorage.musicalGenre
+          const userStorageGenres = new Set(userStorage.musicalGenre)
+          genresToAdd.forEach((genre) => {
+            userStorageGenres.add(genre)
+          })
+          userStorage.musicalGenre = Array.from(userStorageGenres)
+          userStorage.save()
         })
         .catch(() => {
           return res
@@ -69,9 +83,15 @@ async function createDisc(req, res) {
         })
 
       Artist.findOne({ ownerId: disc.ownerId })
-        .then((artist) => {
-          artist.discs.push(disc._id)
-          artist.save()
+        .then((artistStorage) => {
+          artistStorage.discs.push(disc._id)
+          const genresToAdd = discStorage.musicalGenre
+          const artistStorageGenres = new Set(artistStorage.musicalGenre)
+          genresToAdd.forEach((genre) => {
+            artistStorageGenres.add(genre)
+          })
+          artistStorage.musicalGenre = Array.from(artistStorageGenres)
+          artistStorage.save()
         })
         .catch(() => {
           return res
@@ -134,9 +154,9 @@ async function deleteDisc(req, res) {
       }
 
       User.findOne({ _id: ownerId })
-        .then((user) => {
-          user.discs.pull(id)
-          user.save()
+        .then((userStorage) => {
+          userStorage.discs.pull(id)
+          userStorage.save()
         })
         .catch(() => {
           return res
@@ -145,9 +165,9 @@ async function deleteDisc(req, res) {
         })
 
       Artist.findOne({ ownerId: ownerId })
-        .then((artist) => {
-          artist.discs.pull(id)
-          artist.save()
+        .then((artistStorage) => {
+          artistStorage.discs.pull(id)
+          artistStorage.save()
         })
         .catch(() => {
           return res
@@ -216,9 +236,91 @@ async function deleteSong(req, res) {
     })
 }
 
-// TODO - Funcion de compra de disco para usuarios comunes
+async function buyDisc(req, res) {
+  const { id } = req.params
+  const commonUserId = GetId.getUserId(req)
 
-// TODO - Funcion de devolución de disco para usuarios comunes
+  Disc.findById({ _id: id })
+    .then((discStorage) => {
+      if (!discStorage) {
+        return res.status(404).send({ msg: 'Disco no encontrado' })
+      }
+
+      User.findById({ _id: commonUserId })
+        .then((commonUserStorage) => {
+          if (!commonUserStorage) {
+            return res.status(404).send({ msg: 'Usuario no encontrado' })
+          }
+
+          //Controlando que no se compre un disco repetido
+          const discExists = commonUserStorage.discs.find(
+            (discId) => discId === id
+          )
+          if (discExists) {
+            return res.status(400).send({ msg: 'El disco ya fue comprado' })
+          }
+
+          //Actualizacion del dinero acumulado
+          const newRaisedMoney = discStorage.price + discStorage.raisedMoney
+          discStorage.raisedMoney = newRaisedMoney
+          discStorage.save()
+
+          commonUserStorage.discs.push(id)
+          commonUserStorage.save()
+
+          return res
+            .status(200)
+            .send({ msg: 'Disco comprado satisfactoriamente' })
+        })
+        .catch(() => {
+          return res.status(500).send({ msg: 'Error al comprar el disco' })
+        })
+    })
+    .catch(() => {
+      return res.status(500).send({ msg: 'Error al comprar el disco' })
+    })
+}
+
+async function returnDisc(req, res) {
+  const { id } = req.params
+  const commonUserId = GetId.getUserId(req)
+
+  Disc.findById({ _id: id }).then((discStorage) => {
+    if (!discStorage) {
+      return res.status(404).send({ msg: 'Disco no encontrado' })
+    }
+
+    User.findById({ _id: commonUserId })
+      .then((commonUserStorage) => {
+        if (!commonUserStorage) {
+          return res.status(404).send({ msg: 'Usuario no encontrado' })
+        }
+
+        //Controlando que el disco a devolver existe
+        const discExists = commonUserStorage.discs.find(
+          (discId) => discId === id
+        )
+        if (!discExists) {
+          return res.status(400).send({ msg: 'El disco no fue comprado' })
+        }
+
+        //Actualizacion del dinero acumulado
+        const newRaisedMoney = discStorage.raisedMoney - discStorage.price
+        discStorage.raisedMoney = newRaisedMoney
+        discStorage.save()
+
+        commonUserStorage.discs.pull(id)
+        commonUserStorage.save()
+
+        return res
+          .status(200)
+          .send({ msg: 'Disco devuelto satisfactoriamente' })
+      })
+      .catch(() => {
+        return res.status(500).send({ msg: 'Error al devolver el disco' })
+      })
+  })
+}
 
 module.exports = {
   getDiscs,
@@ -228,4 +330,6 @@ module.exports = {
   deleteDisc,
   addSong,
   deleteSong,
+  buyDisc,
+  returnDisc,
 }
