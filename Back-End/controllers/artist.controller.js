@@ -72,7 +72,10 @@ async function deleteArtist(req, res) {
   const { id } = req.params;
 
   Artist.findByIdAndDelete({ _id: id })
-    .then(() => {
+    .then((artistStorage) => {
+      if (!artistStorage) {
+        return res.status(404).send({ msg: 'Artista no encontrado' });
+      }
       return res.status(200)
         .send({ msg: 'Artista eliminado satisfactoriamente'});
     })
@@ -80,7 +83,6 @@ async function deleteArtist(req, res) {
       return res.status(500).send({ msg: 'Error al eliminar el artista' });
     });
 }
-
 
 module.exports = {
   getArtists,

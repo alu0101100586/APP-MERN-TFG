@@ -35,7 +35,6 @@ async function getUsers(req, res) {
 
 }
 
-//TODO - Crear el artista y asociarlo al usuario
 async function createUser(req, res) {
   const { password } = req.body;
   const user = new User({...req.body});
@@ -50,12 +49,43 @@ async function createUser(req, res) {
   }
 
   user.save()
-    .then((userStorage) => {
-      return res.status(201).send(userStorage);
-    })
-    .catch(() => {
-      return res.status(400).send({ msg: 'Error al crear el usuario' });
-    });
+  .then((userStorage) => {
+    if(!userStorage) {
+      res.status(404).send({ msg: "Error al crear el usuario" });
+    } else {
+      if (userStorage.role === "artist") {
+        const artist = new Artist({
+          ownerId: userStorage._id,
+          name: userStorage.nickName,
+          startDate: userStorage.birthDate,
+        });
+        artist.save()
+        .then((artistStorage) => {
+          if(!artistStorage) {
+            res.status(404).send({ msg: "Error al crear el artista" });
+          } else {
+            const responseObj = { user: userStorage, artist: artistStorage };
+            res.status(200).send(responseObj);
+          }
+        }).catch((err) => {
+          if (err.code === 11000) {
+            res.status(500).send({ msg: "El artista ya existe" });
+          } else {
+            res.status(500).send({ msg: "Error al crear el artista" });
+          }
+        });
+      } else {
+        const responseObj = { user: userStorage };
+        res.status(200).send(responseObj);
+      }
+    }
+  }).catch((err) => {
+    if (err.code === 11000) {
+      res.status(500).send({ msg: "El usuario ya existe" });
+    } else {
+      res.status(500).send({ msg: "Error al crear el usuario" });
+    }
+  });
 }
 
 async function updateUser(req, res) {
@@ -97,33 +127,37 @@ async function updateUser(req, res) {
     });
 }
 
+// Si el usuario es de tipo artista, cuando éste se elimine tiene que eliminarse todos sus discos, conciertos y merchandising
+// Preguntar al profesor si lo quiere así o si simplemente se elimina el usuario y se deja todo lo demás
+
 async function deleteUser(req, res) {
   const { id } = req.params;
 
   User.findByIdAndDelete({_id: id})
-    .then((user) => {
-      // if (user.role === 'artist') {
-      //   Artist.findOneAndDelete({ownerId: id})
-      //   .then(() => {
-      //     return res.status(200).send({ msg: 'Artista eliminado satisfactoriamente' });
-      //   })
-      //   .catch(() => {
-      //     return res.status(400).send({ msg: 'Error al eliminar el artista' });
-      //   });
-      // }
-      return res.status(200).send({ msg: 'Usuario eliminado satisfactoriamente' });
+    .then((userStorage) => {
+      if(!userStorage) {
+        return res.status(404).send({ msg: 'Usuario no encontrado' });
+      } else {
+        if (userStorage.role === "artist") {
+          Artist.findOneAndDelete({ownerId: userStorage._id})
+          .then((artistStorage) => {
+            if(!artistStorage) {
+              res.status(404).send({ msg: "Error al crear el artista" });
+            }
+            res.status(200).send({ msg: "Usuario y Artista eliminado satisfactoriamente" });
+          }).catch(() => {
+            res.status(500).send({ msg: "Error al eliminar el artista" });
+          });
+        } else {
+          return res.status(200).send({ msg: 'Usuario eliminado satisfactoriamente' });
+        }
+      }
     })
     .catch(() => {
       return res.status(400).send({ msg: 'Error al eliminar el usuario' });
     });
 }
-
-// TODO- Si el usuario es de tipo artista, cuando éste se elimine tiene que eliminarse todos sus discos, conciertos y merchandising
-// evidentemente si que se tiene que eliminar el artista asociado al usuario
-// Preguntar al profesor si lo quiere así o si simplemente se elimina el usuario y se deja todo lo demás
-
-// TODO - crear la funcionalidad que permita al propio usuario a cambiar su ionfo y eliminarse a sí mismo
-
+  
 module.exports = {
   getMe,
   getUsers,

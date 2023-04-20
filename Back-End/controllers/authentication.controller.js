@@ -1,4 +1,5 @@
 const User = require("../models/user.model");
+const Artist = require("../models/artist.model");
 const bcrypt = require("bcryptjs");
 const jwt = require("../utils/jwt.utils");
 
@@ -10,7 +11,8 @@ function signUp(req, res) {
     email, 
     password, 
     birthDate, 
-    role
+    role,
+    musicalGenre,
   } = req.body;
 
   if(!nickName)
@@ -41,26 +43,50 @@ function signUp(req, res) {
     email: email.toLowerCase(),
     password,
     birthDate,
-    role
+    role,
   });
+  
 
   const salt = bcrypt.genSaltSync(10);
   const hashPassword = bcrypt.hashSync(password, salt);
+  console.log(hashPassword);
   user.password = hashPassword;
-
-  //TODO - Crear el artista y asociarlo al usuario
+  
   user.save()
-  .then((userStored) => {
-    if(!userStored) {
+  .then((userStorage) => {
+    if(!userStorage) {
       res.status(404).send({ message: "Error al crear el usuario" });
     } else {
-      res.status(200).send({ user: userStored });
+      if (userStorage.role === "artist") {
+        const artist = new Artist({
+          ownerId: userStorage._id,
+          name: userStorage.nickName,
+          startDate: userStorage.birthDate,
+        });
+        artist.save()
+        .then((artistStorage) => {
+          if(!artistStorage) {
+            res.status(404).send({ message: "Error al crear el artista" });
+          } else {
+            const responseObj = { user: userStorage, artist: artistStorage };
+            res.status(200).send(responseObj);
+          }
+        }).catch((err) => {
+          if (err.code === 11000) {
+            res.status(500).send({ message: "El artista ya existe" });
+          } else {
+            res.status(500).send({ message: "Error al crear el artista" });
+          }
+        });
+      } else {
+        const responseObj = { user: userStorage };
+        res.status(200).send(responseObj);
+      }
     }
   }).catch((err) => {
     if (err.code === 11000) {
       res.status(500).send({ message: "El usuario ya existe" });
     } else {
-      console.log(err);
       res.status(500).send({ message: "Error al crear el usuario" });
     }
   });
