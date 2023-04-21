@@ -263,7 +263,16 @@ async function buyDisc(req, res) {
           //Actualizacion del dinero acumulado
           const newRaisedMoney = discStorage.price + discStorage.raisedMoney
           discStorage.raisedMoney = newRaisedMoney
-          discStorage.save()
+
+          //Actualizacion de los generos musicales en el usuario
+          const genresToAdd = discStorage.musicalGenre;
+          const commonUserStorageGenres = new Set(commonUserStorage.musicalGenre);
+          genresToAdd.forEach((genre) => {
+            commonUserStorageGenres.add(genre)
+          });
+          commonUserStorage.musicalGenre = Array.from(commonUserStorageGenres);
+
+          discStorage.save();
 
           commonUserStorage.discs.push(id)
           commonUserStorage.save()
@@ -307,6 +316,7 @@ async function returnDisc(req, res) {
         //Actualizacion del dinero acumulado
         const newRaisedMoney = discStorage.raisedMoney - discStorage.price
         discStorage.raisedMoney = newRaisedMoney
+
         discStorage.save()
 
         commonUserStorage.discs.pull(id)
