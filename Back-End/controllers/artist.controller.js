@@ -53,10 +53,10 @@ async function createArtist(req, res) {
 }
 
 async function updateArtist(req, res) {
-  const { id } = req.params
-  const artistData = req.body
+  const { user_id } = req.user;
+  const artistData = req.body;
 
-  Artist.findByIdAndUpdate({ _id: id }, artistData)
+  Artist.findOneAndUpdate({ ownerId: user_id }, artistData)
     .then((artistStorage) => {
       if (!artistStorage) {
         return res.status(404).send({ msg: 'Artista no encontrado' })
@@ -71,9 +71,9 @@ async function updateArtist(req, res) {
 }
 
 async function deleteArtist(req, res) {
-  const { id } = req.params
+  const { user_id } = req.user;
 
-  Artist.findByIdAndDelete({ _id: id })
+  Artist.findOneAndDelete({ ownerId: user_id })
     .then((artistStorage) => {
       if (!artistStorage) {
         return res.status(404).send({ msg: 'Artista no encontrado' })
