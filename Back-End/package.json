@@ -10,7 +10,8 @@
     "format": "prettier --write \"**/*.{js,jsx}\"",
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "jest --runInBand --detectOpenHandles --forceExit --coverage --verbose"
+    "test": "jest",
+    "test01": "jest --runInBand --detectOpenHandles --forceExit --coverage --verbose"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

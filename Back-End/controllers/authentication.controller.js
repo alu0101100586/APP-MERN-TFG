@@ -11,8 +11,7 @@ function signUp(req, res) {
     email,
     password,
     birthDate,
-    role,
-    musicalGenre,
+    role
   } = req.body
 
   if (!nickName)
