@@ -12,4 +12,4 @@ api.post(
   authenticationController.refreshAccessToken
 )
 
-module.exports = api;
+module.exports = api

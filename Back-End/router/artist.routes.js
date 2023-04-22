@@ -2,7 +2,7 @@ const express = require('express')
 const multiparty = require('connect-multiparty')
 const artistController = require('../controllers/artist.controller')
 const mwAuth = require('../middlewares/authentication.middleware')
-const mwNotCommon = require('../middlewares/notCommon.middleware')
+const mwIsArtist = require('../middlewares/IsArtist.middleware')
 const mwUpload = multiparty({ uploadDir: './uploads/artist' })
 
 const api = express.Router()
@@ -13,19 +13,19 @@ api.get('/artist/:id', artistController.getArtist)
 
 api.post(
   '/artist',
-  [mwAuth.asureAuthenticated, mwUpload, mwNotCommon.asureNotCommon],
+  [mwAuth.asureAuthenticated, mwUpload, mwIsArtist.asureIsArtist],
   artistController.createArtist
 )
 
 api.patch(
   '/artist/:id',
-  [mwAuth.asureAuthenticated, mwUpload, mwNotCommon.asureNotCommon],
+  [mwAuth.asureAuthenticated, mwUpload, mwIsArtist.asureIsArtist],
   artistController.updateArtist
 )
 
 api.delete(
   '/artist/:id',
-  [mwAuth.asureAuthenticated, mwNotCommon.asureNotCommon],
+  [mwAuth.asureAuthenticated, mwIsArtist.asureIsArtist],
   artistController.deleteArtist
 )
 

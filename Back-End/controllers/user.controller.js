@@ -92,7 +92,7 @@ async function createUser(req, res) {
 }
 
 async function updateUser(req, res) {
-  const { id } = req.params
+  const { user_id } = req.user
   const userData = req.body
 
   // Controlando la actualización de la contraseña
@@ -120,7 +120,7 @@ async function updateUser(req, res) {
   }
   delete userData.role
 
-  User.findByIdAndUpdate({ _id: id }, userData)
+  User.findByIdAndUpdate({ _id: user_id }, userData)
     .then((userStorage) => {
       if (!userStorage) {
         return res.status(404).send({ msg: 'Usuario no encontrado' })
@@ -138,9 +138,9 @@ async function updateUser(req, res) {
 // Preguntar al profesor si lo quiere así o si simplemente se elimina el usuario y se deja todo lo demás
 
 async function deleteUser(req, res) {
-  const { id } = req.params
+  const { user_id } = req.user
 
-  User.findByIdAndDelete({ _id: id })
+  User.findByIdAndDelete({ _id: user_id })
     .then((userStorage) => {
       if (!userStorage) {
         return res.status(404).send({ msg: 'Usuario no encontrado' })
