@@ -10,18 +10,18 @@ api.get('/user/me', [mwAuth.asureAuthenticated], userController.getMe)
 
 api.get('/users', [mwAuth.asureAuthenticated], userController.getUsers)
 
-api.post(
-  '/user',
-  [mwAuth.asureAuthenticated, mw_upload],
-  userController.createUser
-)
-
+// api.post(
+//   '/user',
+//   [mwAuth.asureAuthenticated, mw_upload],
+//   userController.createUser
+// )
+4
 api.patch(
-  '/user/:id',
+  '/user/me',
   [mwAuth.asureAuthenticated, mw_upload],
   userController.updateUser
 )
 
-api.delete('/user/:id', [mwAuth.asureAuthenticated], userController.deleteUser)
+api.delete('/user/me', [mwAuth.asureAuthenticated], userController.deleteUser)
 
 module.exports = api

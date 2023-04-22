@@ -8,7 +8,6 @@ const app = express()
 //Importación de las Rutas
 const authRoutes = require('./router/authentication.routes')
 const userRoutes = require('./router/user.routes')
-const menuRoutes = require('./router/menu.routes')
 const newsletterRoutes = require('./router/newsletter.routes')
 const artistRoutes = require('./router/artist.routes')
 const discRoutes = require('./router/disc.routes')
@@ -28,7 +27,6 @@ app.use(cors()) // Allow all domains
 // Configuración de las rutas
 app.use(`/api/${API_VERSION}`, authRoutes)
 app.use(`/api/${API_VERSION}`, userRoutes)
-app.use(`/api/${API_VERSION}`, menuRoutes)
 app.use(`/api/${API_VERSION}`, newsletterRoutes)
 app.use(`/api/${API_VERSION}`, artistRoutes)
 app.use(`/api/${API_VERSION}`, discRoutes)

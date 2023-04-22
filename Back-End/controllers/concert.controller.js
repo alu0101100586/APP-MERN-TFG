@@ -302,12 +302,14 @@ async function buyTicket(req, res) {
           concertStorage.raisedMoney = newRaisedMoney
 
           //Actualizacion de los generos musicales en el usuario
-          const genresToAdd = concertStorage.musicalGenre;
-          const commonUserStorageGenres = new Set(commonUserStorage.musicalGenre);
+          const genresToAdd = concertStorage.musicalGenre
+          const commonUserStorageGenres = new Set(
+            commonUserStorage.musicalGenre
+          )
           genresToAdd.forEach((genre) => {
             commonUserStorageGenres.add(genre)
-          });
-          commonUserStorage.musicalGenre = Array.from(commonUserStorageGenres);
+          })
+          commonUserStorage.musicalGenre = Array.from(commonUserStorageGenres)
 
           concertStorage.save()
 

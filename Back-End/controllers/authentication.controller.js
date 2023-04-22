@@ -4,16 +4,8 @@ const bcrypt = require('bcryptjs')
 const jwt = require('../utils/jwt.utils')
 
 function signUp(req, res) {
-  const {
-    nickName,
-    firstName,
-    lastName,
-    email,
-    password,
-    birthDate,
-    role,
-    musicalGenre,
-  } = req.body
+  const { nickName, firstName, lastName, email, password, birthDate, role } =
+    req.body
 
   if (!nickName)
     res.status(400).send({ message: 'El nombre de usuario es obligatorio' })
@@ -44,7 +36,6 @@ function signUp(req, res) {
 
   const salt = bcrypt.genSaltSync(10)
   const hashPassword = bcrypt.hashSync(password, salt)
-  console.log(hashPassword)
   user.password = hashPassword
 
   user

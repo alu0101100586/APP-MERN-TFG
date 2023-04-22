@@ -64,7 +64,6 @@ async function createDisc(req, res) {
   disc
     .save()
     .then((discStorage) => {
-      console.log(discStorage)
       User.findOne({ _id: ownerId })
         .then((userStorage) => {
           userStorage.discs.push(disc._id)
@@ -265,14 +264,16 @@ async function buyDisc(req, res) {
           discStorage.raisedMoney = newRaisedMoney
 
           //Actualizacion de los generos musicales en el usuario
-          const genresToAdd = discStorage.musicalGenre;
-          const commonUserStorageGenres = new Set(commonUserStorage.musicalGenre);
+          const genresToAdd = discStorage.musicalGenre
+          const commonUserStorageGenres = new Set(
+            commonUserStorage.musicalGenre
+          )
           genresToAdd.forEach((genre) => {
             commonUserStorageGenres.add(genre)
-          });
-          commonUserStorage.musicalGenre = Array.from(commonUserStorageGenres);
+          })
+          commonUserStorage.musicalGenre = Array.from(commonUserStorageGenres)
 
-          discStorage.save();
+          discStorage.save()
 
           commonUserStorage.discs.push(id)
           commonUserStorage.save()

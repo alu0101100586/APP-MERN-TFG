@@ -1,6 +1,6 @@
 const jwt = require('../utils/jwt.utils')
 
-function asureNotCommon(req, res, next) {
+function asureIsCommon(req, res, next) {
   const token = req.headers.authorization
 
   if (!token) {
@@ -13,7 +13,7 @@ function asureNotCommon(req, res, next) {
     const payload = jwt.decodeToken(tokenParts)
     const { role } = payload
 
-    if (role === 'common') {
+    if (role === 'artist') {
       return res
         .status(403)
         .send({ msg: 'No tienes permisos para realizar esta acción' })
@@ -27,5 +27,5 @@ function asureNotCommon(req, res, next) {
 }
 
 module.exports = {
-  asureNotCommon,
+  asureIsCommon,
 }
