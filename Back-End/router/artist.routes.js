@@ -18,13 +18,13 @@ api.post(
 )
 
 api.patch(
-  '/artist/:id',
+  '/artist/me',
   [mwAuth.asureAuthenticated, mwUpload, mwIsArtist.asureIsArtist],
   artistController.updateArtist
 )
 
 api.delete(
-  '/artist/:id',
+  '/artist/me',
   [mwAuth.asureAuthenticated, mwIsArtist.asureIsArtist],
   artistController.deleteArtist
 )

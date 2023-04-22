@@ -7,6 +7,7 @@ const ArtistSchema = mongoose.Schema(
     ownerId: {
       type: String,
       required: true,
+      unique: true,
     },
     name: {
       type: String,
