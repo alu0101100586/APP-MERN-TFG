@@ -1,10 +1,10 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { Auth, User, Menu, Newsletters, PaymentGateway } from '../pages/Admin';
-import { AdminLayout } from '../layouts';
+import { Auth, User, Newsletters, PaymentGateway } from '../pages/Authentication';
+import { LogInLayout } from '../layouts';
 import { useAuth } from '../hooks';
 
-export function AdminRouter() {
+export function AuthRouter() {
   const { user } = useAuth();
 
   const loadLayout = (Layout, Page) => {
@@ -21,20 +21,19 @@ export function AdminRouter() {
         <Route path="/auth/*" element={<Auth />} />
       ): (
         <>
-          {["/auth", "/auth/my-profile"].map((path) => (
+          {["/auth/my-profile", "/auth", "/auth/me"].map((path) => (
             <Route 
               key={path}
               path={path} 
-              element={loadLayout(AdminLayout, User)} 
+              element={loadLayout(LogInLayout, User)} 
             />
           ))}
-          <Route path="/auth/menu" element={loadLayout(AdminLayout, Menu)} />
           <Route 
             path="/auth/newsletters" 
-            element={loadLayout(AdminLayout, Newsletters)} />
+            element={loadLayout(LogInLayout, Newsletters)} />
           <Route
             path="/auth/payment"
-            element={loadLayout(AdminLayout, PaymentGateway)} />
+            element={loadLayout(LogInLayout, PaymentGateway)} />
         </>
       )}
     </Routes>

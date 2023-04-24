@@ -36,8 +36,8 @@ export function WebRouter() {
       <Route path="/contact" element={loadLayout(ClientLayout, Contact)} />
       <Route path="/disc/:id" element={loadLayout(ClientLayout, Disc)} />
       <Route path="/discs" element={loadLayout(ClientLayout, DiscList)} />
-      <Route path="/merchandising" element={loadLayout(ClientLayout, Merchandising)} />
-      <Route path="/merchandising-list" element={loadLayout(ClientLayout, MerchandisingList)} />
+      <Route path="/merchandise/:id" element={loadLayout(ClientLayout, Merchandising)} />
+      <Route path="/merchandising" element={loadLayout(ClientLayout, MerchandisingList)} />
       <Route path="/web-data" element={loadLayout(ClientLayout, WebData)} />
       <Route path="/web-map" element={loadLayout(ClientLayout, WebMap)} /> 
     </Routes>

@@ -2,7 +2,7 @@
 
 $withLeftMenu: 200px;
 
-.admin-layout {
+.auth-layout {
   display: flex;
   min-height: 100vh;
   max-height: 100%;
@@ -43,40 +43,3 @@ $withLeftMenu: 200px;
   background-position: left, right;
   background-repeat: no-repeat;
 }
-
-
-// .admin-layout {
-//   display: flex;
-//   min-height: 100vh;
-//   max-height: 100vh;
-//   background-color: $background-light;
-
-//   &__left {
-//     background-image: linear-gradient(to bottom right, $background-aqua, $background-yellow);
-//     width: $withLeftMenu;
-
-//     .logo {
-//       height: 30px;
-//       width: 100%;
-//       margin: 20px 0;
-//     }
-//   }
-
-//   &__right {
-//     width: calc(100% - #{$withLeftMenu});
-    
-//     &-body {
-//       background-image: linear-gradient(to bottom right, $background-aqua, $background-yellow);
-//       height: 50px;
-//       display: flex;
-//       align-items: center;
-//       justify-content: flex-end;
-//       padding: 0 10px;
-//     }
-
-//     &-content {
-//       position: relative;
-//       margin: 20px;
-//     }
-//   }
-// }
