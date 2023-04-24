@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import { AdminRouter, WebRouter} from './router';
+import { AuthRouter, WebRouter} from './router';
 import { AuthProvider } from './context';
 
 export default function App() {
@@ -8,7 +8,7 @@ export default function App() {
     <AuthProvider>
       <BrowserRouter>
         <WebRouter />
-        <AdminRouter />
+        <AuthRouter />
       </BrowserRouter>
     </AuthProvider>
   )

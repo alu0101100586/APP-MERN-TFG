@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Tab } from 'semantic-ui-react'
 import { Icon } from "../../../assets";
-import { RegisterForm, LoginForm } from "../../../components/Admin/Auth";
+import { RegisterForm, LoginForm } from "../../../components/Authentication/Auth";
 import './authentication.scss';
 
 export function Auth() {
