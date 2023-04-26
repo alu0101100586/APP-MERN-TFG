@@ -1,0 +1,27 @@
+@import "~/src/scss/index.scss";
+
+.ui.menu.artist-menu {
+  > .item {
+    padding: 15px, 20px !important;
+    margin-top: 10% !important;
+    border: none !important;
+
+    > .header {
+      color: $text-dark !important;
+      font-size: medium !important;
+      font-weight: 600 !important;
+      border-bottom: 1px solid black;
+      ;
+    }
+
+    > .menu {
+      > .item {
+        font-size: small !important;
+
+        &:hover {
+          background-color: $primary-hover !important;
+        }
+      }
+    }
+  }
+}

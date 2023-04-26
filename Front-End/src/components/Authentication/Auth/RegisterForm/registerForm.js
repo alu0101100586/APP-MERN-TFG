@@ -1,88 +1,86 @@
-import React, { useState } from 'react';
-import DatePicker from 'react-datepicker';
-import { Form } from 'semantic-ui-react';
-import { useFormik } from 'formik';
-import { initialValues, validationSchema } from './registerForm.form';
-import { Auth } from '../../../../service';
-import 'react-datepicker/dist/react-datepicker.css';
-import "./registerForm.scss";
+import React, { useState } from 'react'
+import DatePicker from 'react-datepicker'
+import { Form } from 'semantic-ui-react'
+import { useFormik } from 'formik'
+import { initialValues, validationSchema } from './registerForm.form'
+import { Auth } from '../../../../service'
+import 'react-datepicker/dist/react-datepicker.css'
+import './registerForm.scss'
 
 const options = [
   { key: 'common', text: 'Común', value: 'common' },
-  { key: 'artist', text: 'Artista/Grupo', value: 'artist'},
-];
+  { key: 'artist', text: 'Artista/Grupo', value: 'artist' },
+]
 
-const authController = new Auth();
+const authController = new Auth()
 
 export function RegisterForm(props) {
-  const { openLogin } = props;
-  const [selectedOption, setSelectedOption] = React.useState('');
-  const [startDate, setStartDate] = useState('');
-  const [error, setError] = useState('');
+  const { openLogin } = props
+  const [selectedOption, setSelectedOption] = React.useState('')
+  const [startDate, setStartDate] = useState('')
+  const [error, setError] = useState('')
 
   const formik = useFormik({
     validationSchema: validationSchema(),
     initialValues: initialValues(),
     onSubmit: async (formData) => {
       try {
-        setError('');
-        await authController.signUpApi(formData);
-        openLogin();
+        setError('')
+        await authController.signUpApi(formData)
+        openLogin()
       } catch (error) {
-        setError('Error al registrar el usuario');
+        setError('Error al registrar el usuario')
       }
-    }, 
+    },
     validateOnChange: false,
-  });
-
+  })
 
   const handleOptionChange = (event, { value }) => {
-    setSelectedOption(value);
-    formik.setFieldValue('role', value);
-  };
+    setSelectedOption(value)
+    formik.setFieldValue('role', value)
+  }
 
   const handleDateChange = (date) => {
-    setStartDate(date);
-    formik.setFieldValue('birthDate', date);
-  };
+    setStartDate(date)
+    formik.setFieldValue('birthDate', date)
+  }
 
   return (
-    <Form className='register-form' onSubmit={formik.handleSubmit}>
-
-      <Form.Input 
-        name="email" 
-        placeholder="Correo Electrónico" 
+    <Form className="register-form" onSubmit={formik.handleSubmit}>
+      <Form.Input
+        name="email"
+        placeholder="Correo Electrónico"
         onChange={formik.handleChange}
-        value = {formik.values.email}
+        value={formik.values.email}
         error={formik.errors.email}
       />
 
-      <Form.Input 
-        name="nickName" 
+      <Form.Input
+        name="nickName"
         placeholder="Nombre de Usuario"
         onChange={formik.handleChange}
-        value = {formik.values.nickName}
+        value={formik.values.nickName}
         error={formik.errors.nickName}
       />
 
-      <Form.Input 
-        name="firstName" 
+      <Form.Input
+        name="firstName"
         placeholder="Nombre"
         onChange={formik.handleChange}
-        value = {formik.values.firstName}
+        value={formik.values.firstName}
         error={formik.errors.firstName}
       />
 
-      <Form.Input 
-        name="lastName" 
+      <Form.Input
+        name="lastName"
         placeholder=" Apellidos"
         onChange={formik.handleChange}
-        value = {formik.values.lastName}
+        value={formik.values.lastName}
         error={formik.errors.lastName}
       />
 
-      <Form.Select 
-        name="role" 
+      <Form.Select
+        name="role"
         placeholder="Seleccina tu tipo de usuario"
         options={options}
         value={selectedOption}
@@ -94,7 +92,7 @@ export function RegisterForm(props) {
         <DatePicker
           selected={startDate}
           onChange={handleDateChange}
-          dateFormat={"dd/MM/yyyy"}
+          dateFormat={'dd/MM/yyyy'}
           placeholderText="Fecha de Nacimiento"
         />
         {formik.touched.birthDate && formik.errors.birthDate ? (
@@ -102,29 +100,29 @@ export function RegisterForm(props) {
         ) : null}
       </Form.Field>
 
-      <Form.Input 
-        type='password'
-        name="password" 
+      <Form.Input
+        type="password"
+        name="password"
         placeholder="Contraseña"
         onChange={formik.handleChange}
-        value = {formik.values.password}
+        value={formik.values.password}
         error={formik.errors.password}
       />
 
-      <Form.Input 
-        name="repeatPassword" 
-        type='password'
+      <Form.Input
+        name="repeatPassword"
+        type="password"
         placeholder="Repetir Contraseña"
         onChange={formik.handleChange}
-        value = {formik.values.repeatPassword}
+        value={formik.values.repeatPassword}
         error={formik.errors.repeatPassword}
       />
 
-      <Form.Checkbox 
-        name="conditionsAccepted" 
+      <Form.Checkbox
+        name="conditionsAccepted"
         label=" He leído y acepto las políticas de privacidad"
-        onChange={(_, data) => 
-          formik.setFieldValue("conditionsAccepted", data.checked)
+        onChange={(_, data) =>
+          formik.setFieldValue('conditionsAccepted', data.checked)
         }
         checked={formik.values.conditionsAccepted}
         error={formik.errors.conditionsAccepted}
@@ -134,7 +132,7 @@ export function RegisterForm(props) {
         Registrarse
       </Form.Button>
 
-      <p className='register-form__error'>{error}</p>
+      <p className="register-form__error">{error}</p>
     </Form>
   )
 }
