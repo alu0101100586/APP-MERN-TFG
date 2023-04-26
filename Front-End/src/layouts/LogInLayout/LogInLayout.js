@@ -1,25 +1,22 @@
-import React from 'react';
+import React from 'react'
 import { Icon } from '../../assets'
-import { AuthMenu } from '../../components/Authentication/LogInLayout';
-import './LogInLayout.scss';
+import { Logout } from '../../components/Authentication/Session';
+import './LogInLayout.scss'
 
 export function LogInLayout(props) {
-  const { children } = props;
+  const { children } = props
   return (
-    <div className='auth-layout'>
-      <div className='auth-layout__left'>
-        <Icon.LogoBlack className='logo'/>
-        <AuthMenu />
+    <div className="login-layout">
+      <div className="login-layout__left">
+        <Icon.LogoBlack className="logo" />
       </div>
-
-      <div className='auth-layout__right'>
-        <div className='auth-layout__right-body'>
-          <span>LOGOUT</span>
+      <div className="login-layout__content">
+        <div className="login-layout__content__header">
+          <Logout />
         </div>
-        <div className='auth-layout__right-content'>
-          {children}
-        </div>
+        {children}
       </div>
+      <div className="login-layout__right"></div>
     </div>
   )
-};
+}

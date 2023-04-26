@@ -3,7 +3,7 @@ import { ReactComponent as LogoBlack } from './svg/logo/default-monochrome-black
 
 const Icon = {
   LogoWhite,
-  LogoBlack
-};
+  LogoBlack,
+}
 
-export { Icon };
+export { Icon }

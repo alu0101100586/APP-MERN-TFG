@@ -5,5 +5,5 @@ export function Disc() {
     <div>
       <h1>Estamos en Disc</h1>
     </div>
-  );
+  )
 }

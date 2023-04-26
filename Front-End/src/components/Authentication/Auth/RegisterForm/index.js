@@ -1,1 +1,1 @@
-export * from './registerForm';
+export * from './registerForm'

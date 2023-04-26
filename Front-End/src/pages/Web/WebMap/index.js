@@ -1,1 +1,1 @@
-export * from './webMap';
+export * from './webMap'

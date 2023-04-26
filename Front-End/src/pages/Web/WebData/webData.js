@@ -5,5 +5,5 @@ export function WebData() {
     <div>
       <h1>Estamos en WebData</h1>
     </div>
-  );
+  )
 }

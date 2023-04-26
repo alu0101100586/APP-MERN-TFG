@@ -1,1 +1,1 @@
-export * from './newsletters';
+export * from './newsletters'

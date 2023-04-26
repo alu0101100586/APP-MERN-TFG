@@ -1,4 +1,4 @@
-const SERVER_IP = 'localhost:3977';
+const SERVER_IP = 'localhost:3977'
 
 export const ENV = {
   BASE_PATH: `http://${SERVER_IP}`,
@@ -18,4 +18,4 @@ export const ENV = {
     ACCESS: 'accessToken',
     REFRESH: 'refreshToken',
   },
-};
+}

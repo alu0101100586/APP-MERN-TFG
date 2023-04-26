@@ -5,5 +5,5 @@ export function Contact() {
     <div>
       <h1>Estamos en Contact</h1>
     </div>
-  );
+  )
 }

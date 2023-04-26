@@ -5,5 +5,5 @@ export function Concert() {
     <div>
       <h1>Estamos en Concert</h1>
     </div>
-  );
+  )
 }

@@ -5,5 +5,5 @@ export function ConcertsList() {
     <div>
       <h1>Estamos en ConcertsList</h1>
     </div>
-  );
+  )
 }
