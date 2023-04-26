@@ -5,5 +5,5 @@ export function MerchandisingList() {
     <div>
       <h1>Estamos en MerchandisingList</h1>
     </div>
-  );
+  )
 }

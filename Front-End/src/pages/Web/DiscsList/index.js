@@ -1,1 +1,1 @@
-export * from './discsList';
+export * from './discsList'

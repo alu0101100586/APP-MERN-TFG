@@ -5,5 +5,5 @@ export function DiscList() {
     <div>
       <h1>Estamos en DiscList</h1>
     </div>
-  );
+  )
 }

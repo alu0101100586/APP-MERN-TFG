@@ -1,9 +1,9 @@
 import React from 'react'
 
-export function Concert() {
+export function UserCommon() {
   return (
     <div>
-      <h1>Estamos en Concert</h1>
+      <h2>User Common en uso</h2>
     </div>
   )
 }

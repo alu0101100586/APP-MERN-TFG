@@ -5,5 +5,5 @@ export function Artist() {
     <div>
       <h1>Estamos en Artist</h1>
     </div>
-  );
+  )
 }

@@ -1,9 +1,9 @@
 import React from 'react'
 
-export function User() {
+export function UserArtist() {
   return (
     <div>
-      <h2>User en uso</h2>
+      <h2>User Artist en uso</h2>
     </div>
   )
 }

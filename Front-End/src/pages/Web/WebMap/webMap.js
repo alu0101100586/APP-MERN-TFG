@@ -5,5 +5,5 @@ export function WebMap() {
     <div>
       <h1>Estamos en WebMap</h1>
     </div>
-  );
+  )
 }

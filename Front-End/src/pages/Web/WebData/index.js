@@ -1,1 +1,1 @@
-export * from './webData';
+export * from './webData'

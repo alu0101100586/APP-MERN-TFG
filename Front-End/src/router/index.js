@@ -1,2 +1,2 @@
-export * from "./WebRouter";
-export * from "./AuthRouter";
+export * from './WebRouter'
+export * from './AuthRouter'
