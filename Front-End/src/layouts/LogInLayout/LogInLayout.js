@@ -1,10 +1,11 @@
-import React from 'react'
-import { Icon } from '../../assets'
+import React from 'react';
+import { Icon } from '../../assets';
 import { Logout } from '../../components/Authentication/Session';
-import './LogInLayout.scss'
+import './LogInLayout.scss';
 
 export function LogInLayout(props) {
-  const { children } = props
+  const { children } = props;
+
   return (
     <div className="login-layout">
       <div className="login-layout__left">
@@ -16,7 +17,7 @@ export function LogInLayout(props) {
         </div>
         {children}
       </div>
-      <div className="login-layout__right"></div>
+      <div className="login-layout__right" />
     </div>
   )
 }

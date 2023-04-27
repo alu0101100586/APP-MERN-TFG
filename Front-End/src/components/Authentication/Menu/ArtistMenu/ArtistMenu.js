@@ -1,10 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Menu, Icon } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
+import { BasicModal } from '../../../Shared/BasicModal';
 import './ArtistMenu.scss';
 
-//TODO - Add the links to the menu items
 export function ArtistMenu() {
+  const [showModal, setShowModal] = useState(false);
+  const [selectedModal, setSelectedModal] = useState(null);
+
+  const openModal = (modal) => {
+    setSelectedModal(modal);
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
   return (
     <Menu vertical tabular className='artist-menu'>
       <Menu.Item>
@@ -19,13 +31,14 @@ export function ArtistMenu() {
           </Menu.Item>
         </Menu.Menu>
       </Menu.Item>
+
       <Menu.Item>
         <Menu.Header>
           <Icon name="user" />
           Perfil
         </Menu.Header>
         <Menu.Menu>
-          <Menu.Item>
+          <Menu.Item onClick={() => openModal('editProfile')}>
             <Icon name="edit " />
             Modificar perfil
           </Menu.Item>
@@ -38,15 +51,15 @@ export function ArtistMenu() {
           Artistas
         </Menu.Header>
         <Menu.Menu>
-          <Menu.Item>
+          <Menu.Item onClick={() => openModal('createArtist')}>
             <Icon name="add" />
             Crear artista
           </Menu.Item>
-          <Menu.Item>
+          <Menu.Item onClick={() => openModal('editArtist')}>
             <Icon name="edit" />
             Editar artista
           </Menu.Item>
-          <Menu.Item>
+          <Menu.Item onClick={() => openModal('deleteArtist')}>
             <Icon name="delete" />
             Eliminar artista
           </Menu.Item>
@@ -59,15 +72,15 @@ export function ArtistMenu() {
           Discos
         </Menu.Header>
         <Menu.Menu>
-          <Menu.Item>
+          <Menu.Item onClick={() => openModal('createDisc')}>
             <Icon name="add" />
             Crear disco
           </Menu.Item>
-          <Menu.Item>
+          <Menu.Item onClick={() => openModal('editDisc')}>
             <Icon name="edit" />
             Editar disco
           </Menu.Item>
-          <Menu.Item>
+          <Menu.Item onClick={() => openModal('deleteDisc')}>
             <Icon name="delete" />
             Eliminar disco
           </Menu.Item>
@@ -80,15 +93,15 @@ export function ArtistMenu() {
           Conciertos
         </Menu.Header>
         <Menu.Menu>
-          <Menu.Item>
+          <Menu.Item onClick={() => openModal('createConcert')}>
             <Icon name="add" />
             Crear concierto
           </Menu.Item>
-          <Menu.Item>
+          <Menu.Item onClick={() => openModal('editConcert')}>
             <Icon name="edit" />
             Editar concierto
           </Menu.Item>
-          <Menu.Item>
+          <Menu.Item onClick={() => openModal('deleteConcert')}>
             <Icon name="delete" />
             Eliminar concierto
           </Menu.Item>
@@ -101,15 +114,15 @@ export function ArtistMenu() {
           Merchandise
         </Menu.Header>
         <Menu.Menu>
-          <Menu.Item>
+          <Menu.Item onClick={() => openModal('createMerch')}>
             <Icon name="add" />
             Crear merchandise
           </Menu.Item>
-          <Menu.Item>
+          <Menu.Item onClick={() => openModal('editMerch')}>
             <Icon name="edit" />
             Editar merchandise
           </Menu.Item>
-          <Menu.Item>
+          <Menu.Item onClick={() => openModal('deleteMerch')}>
             <Icon name="delete" />
             Eliminar merchandise
           </Menu.Item>
@@ -122,16 +135,101 @@ export function ArtistMenu() {
           Cuenta
         </Menu.Header>
         <Menu.Menu>
-          <Menu.Item>
-            <Icon name="user delete" />
-            Eliminar cuenta
+        <Menu.Item onClick={() => openModal('changePasswd')}>
+            <Icon name="edit" />
+            Cambiar Contraseña
           </Menu.Item>
-          <Menu.Item>
+          <Menu.Item onClick={() => openModal('newsletter')}>
             <Icon name="mail" />
             Newsletter
           </Menu.Item>
+          <Menu.Item onClick={() => openModal('deleteAccount')}>
+            <Icon name="user delete" />
+            Eliminar cuenta
+          </Menu.Item>
         </Menu.Menu>
       </Menu.Item>
+
+      {selectedModal === 'editProfile' && (
+        <BasicModal show={showModal} close={closeModal} title="Editar perfil">
+          <h1>Formulario de edición de perfil</h1>
+        </BasicModal>
+      )}
+      {selectedModal === 'createArtist' && (
+        <BasicModal show={showModal} close={closeModal} title="Crear artista">
+          <h1>Formulario de creación de artista</h1>
+        </BasicModal>
+      )}
+      {selectedModal === 'editArtist' && (
+        <BasicModal show={showModal} close={closeModal} title="Editar artista">
+          <h1>Formulario de edición de artista</h1>
+        </BasicModal>
+      )}
+      {selectedModal === 'deleteArtist' && (
+        <BasicModal show={showModal} close={closeModal} title="Eliminar artista">
+          <h1>Formulario de eliminación de artista</h1>
+        </BasicModal>
+      )}
+      {selectedModal === 'createDisc' && (
+        <BasicModal show={showModal} close={closeModal} title="Crear disco">
+          <h1>Formulario de creación de disco</h1>
+        </BasicModal>
+      )}
+      {selectedModal === 'editDisc' && (
+        <BasicModal show={showModal} close={closeModal} title="Editar disco">
+          <h1>Formulario de edición de disco</h1>
+        </BasicModal>
+      )}
+      {selectedModal === 'deleteDisc' && (
+        <BasicModal show={showModal} close={closeModal} title="Eliminar disco">
+          <h1>Formulario de eliminación de disco</h1>
+        </BasicModal>
+      )}
+      {selectedModal === 'createConcert' && (
+        <BasicModal show={showModal} close={closeModal} title="Crear concierto">
+          <h1>Formulario de creación de concierto</h1>
+        </BasicModal>
+      )}
+      {selectedModal === 'editConcert' && (
+        <BasicModal show={showModal} close={closeModal} title="Editar concierto">
+          <h1>Formulario de edición de concierto</h1>
+        </BasicModal>
+      )}
+      {selectedModal === 'deleteConcert' && (
+        <BasicModal show={showModal} close={closeModal} title="Eliminar concierto">
+          <h1>Formulario de eliminación de concierto</h1>
+        </BasicModal>
+      )}
+      {selectedModal === 'createMerch' && (
+        <BasicModal show={showModal} close={closeModal} title="Crear merchandise">
+          <h1>Formulario de creación de merchandise</h1>
+        </BasicModal>
+      )}
+      {selectedModal === 'editMerch' && (
+        <BasicModal show={showModal} close={closeModal} title="Editar merchandise">
+          <h1>Formulario de edición de merchandise</h1>
+        </BasicModal>
+      )}
+      {selectedModal === 'deleteMerch' && (
+        <BasicModal show={showModal} close={closeModal} title="Eliminar merchandise">
+          <h1>Formulario de eliminación de merchandise</h1>
+        </BasicModal>
+      )}
+      {selectedModal === 'changePasswd' && (
+        <BasicModal show={showModal} close={closeModal} title="Cambiar contraseña">
+          <h1>Formulario de cambio de contraseña</h1>
+        </BasicModal>
+      )}
+      {selectedModal === 'newsletter' && (
+        <BasicModal show={showModal} close={closeModal} title="Newsletter">
+          <h1>Formulario de newsletter</h1>
+        </BasicModal>
+      )}
+      {selectedModal === 'deleteAccount' && (
+        <BasicModal show={showModal} close={closeModal} title="Eliminar cuenta">
+          <h1>Formulario de eliminación de cuenta</h1>
+        </BasicModal>
+      )}
     </Menu>
-  )
+  );
 }
