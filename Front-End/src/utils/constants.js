@@ -12,6 +12,8 @@ export const ENV = {
     USER: {
       GET_USERS: '/users',
       GET_USER: '/user/me',
+      UPDATE_USER: '/user/me',
+      DELETE_USER: '/user/me',
     },
   },
   JWT: {

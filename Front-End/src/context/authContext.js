@@ -40,13 +40,13 @@ export function AuthProvider(props) {
     })()
   }, [])
 
-  const login = async (accesToken) => {
+  const login = async (accessToken) => {
     try {
-      const response = await userService.getMeApi(accesToken)
+      const response = await userService.getMeApi(accessToken)
       delete response.password
 
       setUser(response)
-      setToken(accesToken)
+      setToken(accessToken)
     } catch (error) {
       console.error(error)
     }
@@ -55,9 +55,9 @@ export function AuthProvider(props) {
   const reLogin = async (refreshToken) => {
     try {
       const response = await authService.refreshTokenApi(refreshToken)
-      const { accesToken } = response
-      authService.setAccessToken(accesToken)
-      await login(accesToken)
+      const { accessToken } = response
+      authService.setAccessToken(accessToken)
+      await login(accessToken)
     } catch (error) {
       console.error(error)
     }
@@ -70,7 +70,7 @@ export function AuthProvider(props) {
   }
 
   const data = {
-    accesToken: token,
+    accessToken: token,
     user,
     login,
     logout,
