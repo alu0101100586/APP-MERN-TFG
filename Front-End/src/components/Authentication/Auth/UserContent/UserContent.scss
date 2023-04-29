@@ -1,0 +1,117 @@
+@import "~/src/scss/index.scss";
+
+.user-content{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: $background-light;
+  position: relative;
+
+  &__info {
+    display: flex;
+    width: 100%;
+    height: 250px;
+    flex-direction: row;
+    margin-bottom: 10%;
+    align-items: center;
+
+    > .ui.image {
+      width: 300px;
+      height: 300px;
+      margin-right: 10px;
+      margin-bottom: 10px;
+      background-color: $background-grey;
+    }
+
+    &__data {
+      width: 40%;
+      display: flex;
+      align-items: center;
+      margin-left: auto;
+      flex-direction: column;
+
+      &__nickname{
+        width: 100%;
+        height: 50px;
+        background-color: $background-grey;
+        flex-direction: column-reverse;
+
+        h3 {
+          margin: 0;
+        }
+      
+        span {
+          margin: 0;
+        }
+
+      }
+
+      &__email{
+        width: 100%;
+        height: 50px;
+        background-color: $background-grey;
+        flex-direction: column-reverse;
+
+        h3 {
+          margin: 0;
+        }
+      
+        span {
+          margin: 0;
+        }
+      }
+  
+      &__name{
+        width: 100%;
+        height: 50px;
+        background-color: $background-grey;
+        flex-direction: column-reverse;
+
+        h3 {
+          margin: 0;
+        }
+      
+        span {
+          margin: 0;
+        }
+      }
+  
+      &__date{
+        width: 100%;
+        height: 50px;
+        background-color: $background-grey;
+        flex-direction: column-reverse;
+
+        h3 {
+          margin: 0;
+        }
+      
+        span {
+          margin: 0;
+        }
+      }
+    }
+  }
+
+  &__discs {
+    margin-bottom: 5%;
+    width: 100%;
+    height: 150px;
+    background-color: $background-grey;
+  }
+
+  &__concerts {
+    margin-bottom: 5%;
+    width: 100%;
+    height: 150px;
+    background-color: $background-grey;
+  }
+
+  &__merchandise {
+    margin-bottom: 5%;
+    width: 100%;
+    height: 150px;
+    background-color: $background-grey;
+  }
+}

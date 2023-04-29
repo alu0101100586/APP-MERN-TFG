@@ -1,2 +1,11 @@
-export * from './RegisterForm'
-export * from './LoginForm'
+export * from './RegisterForm';
+export * from './LoginForm';
+// export * from './Artist';
+// export * from './Concerts';
+// export * from './Discs';
+// export * from './Merchandise';
+// export * from './NewsletterForm';
+export * from './UpdateUserForm';
+// export * from './PasswordForm';
+// export * from './DeleteUserForm';
+export * from './UserContent';

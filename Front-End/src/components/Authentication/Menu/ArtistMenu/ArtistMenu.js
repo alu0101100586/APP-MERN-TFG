@@ -1,12 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Menu, Icon } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { BasicModal } from '../../../Shared/BasicModal';
+import { UpdateUserForm } from '../../Auth';
 import './ArtistMenu.scss';
+import { UserService } from '../../../../service';
+import { useAuth } from '../../../../hooks';
 
-export function ArtistMenu() {
+export function ArtistMenu(props) {
+  const { onReload, user, reload } = props;
   const [showModal, setShowModal] = useState(false);
   const [selectedModal, setSelectedModal] = useState(null);
+  const { accessToken } = useAuth();
+  const userService = new UserService();
 
   const openModal = (modal) => {
     setSelectedModal(modal);
@@ -16,6 +22,19 @@ export function ArtistMenu() {
   const closeModal = () => {
     setShowModal(false);
   };
+
+  const [profile, setProfile] = useState(user);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await userService.getMeApi(accessToken);
+        setProfile(response);
+      } catch (error) {
+        console.error(error);
+      }
+    })()
+  }, [reload]);
 
   return (
     <Menu vertical tabular className='artist-menu'>
@@ -152,7 +171,11 @@ export function ArtistMenu() {
 
       {selectedModal === 'editProfile' && (
         <BasicModal show={showModal} close={closeModal} title="Editar perfil">
-          <h1>Formulario de edición de perfil</h1>
+          <UpdateUserForm 
+            close={closeModal} 
+            onReload={onReload} 
+            user={profile} 
+          />
         </BasicModal>
       )}
       {selectedModal === 'createArtist' && (
