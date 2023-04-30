@@ -6,5 +6,5 @@ export * from './LoginForm';
 // export * from './Merchandise';
 export * from './UpdateUserForm';
 export * from './PasswordForm';
-// export * from './DeleteUserForm';
+export * from './DeleteUserTransaction';
 export * from './UserContent';

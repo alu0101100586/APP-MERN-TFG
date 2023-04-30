@@ -2,7 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Menu, Icon } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { BasicModal } from '../../../Shared/BasicModal';
-import { UpdateUserForm, PasswordForm, RegisterForm } from '../../Auth';
+import { 
+  UpdateUserForm, 
+  PasswordForm, 
+  DeleteUserTransaction 
+} from '../../Auth';
 import { UserService } from '../../../../service';
 import { useAuth } from '../../../../hooks';
 import './ArtistMenu.scss';
@@ -154,7 +158,7 @@ export function ArtistMenu(props) {
           Cuenta
         </Menu.Header>
         <Menu.Menu>
-        <Menu.Item onClick={() => openModal('changePasswd')}>
+          <Menu.Item onClick={() => openModal('changePasswd')}>
             <Icon name="edit" />
             Cambiar Contraseña
           </Menu.Item>
@@ -250,7 +254,7 @@ export function ArtistMenu(props) {
       )}
       {selectedModal === 'deleteAccount' && (
         <BasicModal show={showModal} close={closeModal} title="Eliminar cuenta">
-          <h1>Formulario de eliminación de cuenta</h1>
+          <DeleteUserTransaction close={closeModal} />
         </BasicModal>
       )}
     </Menu>

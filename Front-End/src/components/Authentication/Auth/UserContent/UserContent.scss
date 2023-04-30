@@ -94,6 +94,13 @@
     }
   }
 
+  &__genres {
+    margin-bottom: 2%;
+    width: 100%;
+    height: 100px;
+    background-color: $background-grey;
+  }
+
   &__discs {
     margin-bottom: 5%;
     width: 100%;

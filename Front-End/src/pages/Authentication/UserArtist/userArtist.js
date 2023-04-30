@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { ArtistMenu } from '../../../components/Authentication/Menu';
 import { UserContect } from '../../../components/Authentication/Auth';
-import './userArtist.scss';
 import { useAuth } from '../../../hooks';
+import './userArtist.scss';
 
 export function UserArtist() {
   const { user } = useAuth();

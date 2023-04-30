@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Image, Button, Icon, Confirm } from 'semantic-ui-react';
 import { ENV } from '../../../../utils'; 
 import { image } from '../../../../assets';
-import './UserContent.scss';
 import { UserService } from '../../../../service';
 import { useAuth } from '../../../../hooks';
+import './UserContent.scss';
 
-//TODO - Mostrar los géneros musicales que tiene el usuario
+//TODO - Mostrar los discos, conciertos y merchandise que ha subido el usuario
 
 export function UserContect(props) {
   const { user, reload } = props;
@@ -17,15 +17,18 @@ export function UserContect(props) {
   let DiscHeader;
   let ConcertHeader;
   let MerchHeader;
+  let GenresHeader;
 
   if (role === 'artist') {
     DiscHeader = 'Discos que has subido';
     ConcertHeader = 'Conciertos que has subido';
     MerchHeader = 'Merchandise que has subido';
+    GenresHeader = 'Géneros musicales que tocas';
   } else {
     DiscHeader = 'Discos en los que has participado';
     ConcertHeader = 'Conciertos en los que has participado';
     MerchHeader = 'Merchandise en los que has participado';
+    GenresHeader = 'Géneros musicales que te gustan';
   }
 
   const [profile, setProfile] = useState(user);
@@ -41,7 +44,6 @@ export function UserContect(props) {
     })()
   }, [reload]);
 
-  //TODO - hacer todos los componentes de los discos, conciertos y merchandise para poder paginarlos y mostrarlos en el perfil del usuario
   return (
     <div className='user-content'>
       <div className='user-content__info'>
@@ -67,6 +69,14 @@ export function UserContect(props) {
             <span>Fecha de Inicio: {profile.birthDate}</span>
           </div>
         </div>
+      </div>
+      <div className='user-content__genres'>
+        <h1>{GenresHeader}</h1>
+        <span>
+          {profile.musicalGenre.length > 0
+            ? profile.musicalGenre.join(", ")
+            : "No te has decantado por ningún género"}
+        </span>
       </div>
       <div className='user-content__discs'>
         <h1>{DiscHeader}</h1>

@@ -57,4 +57,26 @@ export class UserService {
       throw error;
     }
   }
+
+  async deleteMeApi(accesstoken) {
+    try {
+      const url = `${ENV.API_PATH}/${ENV.API_ROUTES.USER.DELETE_USER}`;
+      const params = {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${accesstoken}`,
+        },
+      };
+
+      const response = await fetch(url, params);
+      const result = await response.json();
+
+      if (response.status !== 200) {
+        throw result;
+      }
+      return result;      
+    } catch (error) {
+      throw error;
+    }
+  }
 }

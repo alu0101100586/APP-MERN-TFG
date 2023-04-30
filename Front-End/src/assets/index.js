@@ -3,7 +3,7 @@ import { ReactComponent as LogoBlack } from './svg/logo/default-monochrome-black
 
 import Default_Avatar from './jpg/Default_avatar.jpg';
 
-const Icon = {
+const WebIcon = {
   LogoWhite,
   LogoBlack,
 }
@@ -12,4 +12,4 @@ const image = {
   Default_Avatar
 }
 
-export { Icon, image }
+export { WebIcon, image }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon } from '../../assets';
+import { WebIcon } from '../../assets';
 import { Logout } from '../../components/Authentication/Session';
 import './LogInLayout.scss';
 
@@ -9,7 +9,7 @@ export function LogInLayout(props) {
   return (
     <div className="login-layout">
       <div className="login-layout__left">
-        <Icon.LogoBlack className="logo" />
+        <WebIcon.LogoBlack className="logo" />
       </div>
       <div className="login-layout__content">
         <div className="login-layout__content__header">
