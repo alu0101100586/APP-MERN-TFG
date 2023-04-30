@@ -6,6 +6,8 @@ import './UserContent.scss';
 import { UserService } from '../../../../service';
 import { useAuth } from '../../../../hooks';
 
+//TODO - Mostrar los géneros musicales que tiene el usuario
+
 export function UserContect(props) {
   const { user, reload } = props;
   const role = user.role;

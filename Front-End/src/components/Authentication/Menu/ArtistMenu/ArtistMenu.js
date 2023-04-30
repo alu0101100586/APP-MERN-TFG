@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Menu, Icon } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { BasicModal } from '../../../Shared/BasicModal';
-import { UpdateUserForm } from '../../Auth';
-import './ArtistMenu.scss';
+import { UpdateUserForm, PasswordForm, RegisterForm } from '../../Auth';
 import { UserService } from '../../../../service';
 import { useAuth } from '../../../../hooks';
+import './ArtistMenu.scss';
 
 export function ArtistMenu(props) {
   const { onReload, user, reload } = props;
@@ -46,7 +46,7 @@ export function ArtistMenu(props) {
         <Menu.Menu>
           <Menu.Item as={Link} to="/">
             <Icon name="arrow left" />
-            Volver atras
+            Volver al inicio
           </Menu.Item>
         </Menu.Menu>
       </Menu.Item>
@@ -158,7 +158,7 @@ export function ArtistMenu(props) {
             <Icon name="edit" />
             Cambiar Contraseña
           </Menu.Item>
-          <Menu.Item onClick={() => openModal('newsletter')}>
+          <Menu.Item as={Link} to="/auth/newsletters">
             <Icon name="mail" />
             Newsletter
           </Menu.Item>
@@ -240,7 +240,7 @@ export function ArtistMenu(props) {
       )}
       {selectedModal === 'changePasswd' && (
         <BasicModal show={showModal} close={closeModal} title="Cambiar contraseña">
-          <h1>Formulario de cambio de contraseña</h1>
+          <PasswordForm close={closeModal} />
         </BasicModal>
       )}
       {selectedModal === 'newsletter' && (
