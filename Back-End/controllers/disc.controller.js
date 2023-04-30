@@ -20,6 +20,23 @@ async function getDiscs(req, res) {
     })
 }
 
+async function getDiscsByOwner(req, res) {
+  const { page = 1, pageItems = 10 } = req.query
+  const { id } = req.params
+  const options = {
+    page: parseInt(page),
+    pageItems: parseInt(pageItems),
+  }
+
+  Disc.paginate({ ownerId: id }, options)
+    .then((discsStorage) => {
+      return res.status(200).send(discsStorage)
+    })
+    .catch(() => {
+      return res.status(500).send({ msg: 'Error al obtener los discos' })
+    })
+}
+
 async function getDisc(req, res) {
   const { id } = req.params
   Disc.findById({ _id: id })
@@ -335,6 +352,7 @@ async function returnDisc(req, res) {
 
 module.exports = {
   getDiscs,
+  getDiscsByOwner,
   getDisc,
   createDisc,
   updateDisc,

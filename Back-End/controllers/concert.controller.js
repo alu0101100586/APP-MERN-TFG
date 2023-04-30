@@ -20,6 +20,23 @@ async function getConcerts(req, res) {
     })
 }
 
+async function getConcertsByOwner(req, res) {
+  const { page = 1, pageItems = 10 } = req.query
+  const { id } = req.params
+  const options = {
+    page: parseInt(page),
+    pageItems: parseInt(pageItems),
+  }
+
+  Concert.paginate({ ownerId: id }, options)
+    .then((concertStorage) => {
+      return res.status(200).send(concertStorage)
+    })
+    .catch(() => {
+      return res.status(500).send({ msg: 'Error al obtener los conciertos' })
+    })
+}
+
 async function getConcert(req, res) {
   const { id } = req.params
   Concert.findById({ _id: id })
@@ -372,6 +389,7 @@ async function returnTicket(req, res) {
 
 module.exports = {
   getConcerts,
+  getConcertsByOwner,
   getConcert,
   createConcert,
   updateConcert,
