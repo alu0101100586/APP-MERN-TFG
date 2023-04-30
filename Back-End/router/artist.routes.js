@@ -11,6 +11,8 @@ api.get('/artists', artistController.getArtists)
 
 api.get('/artist/:id', artistController.getArtist)
 
+api.get('/artist/owner/:id', artistController.getOwnerArtist)
+
 api.post(
   '/artist',
   [mwAuth.asureAuthenticated, mwUpload, mwIsArtist.asureIsArtist],

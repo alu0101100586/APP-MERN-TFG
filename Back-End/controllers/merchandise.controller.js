@@ -20,6 +20,23 @@ async function getMerchandises(req, res) {
     })
 }
 
+async function getMerchandiseByOwner(req, res) {
+  const { page = 1, pageItems = 10 } = req.query
+  const { id } = req.params
+  const options = {
+    page: parseInt(page),
+    pageItems: parseInt(pageItems),
+  }
+
+  Merchandise.paginate({ ownerId: id }, options)
+    .then((merchStorage) => {
+      return res.status(200).send(merchStorage)
+    })
+    .catch(() => {
+      return res.status(500).send({ msg: 'Error al obtener los merchandises' })
+    })
+}
+
 async function getMerchandise(req, res) {
   const { id } = req.params
   Merchandise.findById({ _id: id })
@@ -315,6 +332,7 @@ async function returnMerchandise(req, res) {
 module.exports = {
   getMerchandises,
   getMerchandise,
+  getMerchandiseByOwner,
   createMerchandise,
   updateMerchandise,
   deleteMerchandise,

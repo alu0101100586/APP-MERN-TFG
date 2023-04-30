@@ -18,6 +18,20 @@ async function getArtists(req, res) {
     })
 }
 
+async function getOwnerArtist(req, res) {
+  const { id } = req.params
+  Artist.findOne({ ownerId: id })
+    .then((artistStorage) => {
+      if (!artistStorage) {
+        return res.status(404).send({ msg: 'Artista no encontrado' })
+      }
+      return res.status(200).send(artistStorage)
+    })
+    .catch(() => {
+      return res.status(500).send({ msg: 'Error al obtener el artista' })
+    })
+}
+
 async function getArtist(req, res) {
   const { id } = req.params
   Artist.findById({ _id: id })
@@ -90,6 +104,7 @@ async function deleteArtist(req, res) {
 module.exports = {
   getArtists,
   getArtist,
+  getOwnerArtist,
   createArtist,
   updateArtist,
   deleteArtist,

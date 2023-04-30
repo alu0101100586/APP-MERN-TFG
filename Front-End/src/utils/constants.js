@@ -8,6 +8,7 @@ export const ENV = {
       SING_IN: '/auth/sign-in',
       SING_UP: '/auth/sign-up',
       REFRESH_TOKEN: '/auth/refresh-access-token',
+      CHANGE_PASSWD: '/auth/change-password',
     },
     USER: {
       GET_USERS: '/users',

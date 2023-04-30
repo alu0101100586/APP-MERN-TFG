@@ -1,8 +1,14 @@
 @import "~/src/scss/index.scss";
 
 .ui.menu.common-menu {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border-right: none !important;
+
   > .item {
-    padding: 15px, 20px !important;
+    flex-grow: 1;
+    padding: 15px 20px !important;
     margin-top: 10% !important;
     border: none !important;
 
@@ -11,7 +17,6 @@
       font-size: medium !important;
       font-weight: 600 !important;
       border-bottom: 1px solid black;
-      ;
     }
 
     > .menu {

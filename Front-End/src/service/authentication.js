@@ -75,6 +75,30 @@ export class Auth {
     }
   }
 
+  async changePasswordApi(accessToken, formData) {
+    try {
+      const url = `${this.api}${ENV.API_ROUTES.AUTH.CHANGE_PASSWD}`
+      const params = {
+        method: 'PATCH',
+        body: JSON.stringify({
+          currentPassword: formData.currentPassword,
+          newPassword: formData.newPassword,
+          repeatNewPassword: formData.repeatNewPassword,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+      const response = await fetch(url, params)
+      const result = await response.json()
+      if (response.status !== 200) throw result
+      return result
+    } catch (error) {
+      throw error;
+    }
+  }
+
   setAccessToken(token) {
     localStorage.setItem(ENV.JWT.ACCESS, token)
   }

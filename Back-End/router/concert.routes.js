@@ -10,6 +10,8 @@ const api = express.Router()
 
 api.get('/concerts', concertController.getConcerts)
 
+api.get('/concerts/owner/:id', concertController.getConcertsByOwner)
+
 api.get('/concert/:id', concertController.getConcert)
 
 api.post(
