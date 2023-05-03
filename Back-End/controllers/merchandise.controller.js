@@ -20,21 +20,31 @@ async function getMerchandises(req, res) {
     })
 }
 
-async function getMerchandiseByOwner(req, res) {
-  const { page = 1, pageItems = 10 } = req.query
-  const { id } = req.params
+async function getMerchandiseByUser(req, res) {
+  const { page = 1, limit = 3 } = req.query
   const options = {
     page: parseInt(page),
-    pageItems: parseInt(pageItems),
+    limit: parseInt(limit),
   }
+  const userId = GetId.getUserId(req);
 
-  Merchandise.paginate({ ownerId: id }, options)
-    .then((merchStorage) => {
-      return res.status(200).send(merchStorage)
-    })
-    .catch(() => {
-      return res.status(500).send({ msg: 'Error al obtener los merchandises' })
-    })
+  try {
+    const userStorage = await User.findById({ _id: userId })
+    if (!userStorage) {
+      return res.status(404).send({ msg: 'Usuario no encontrado' })
+    }
+    const merchsIds = userStorage.concerts;
+
+    Merchandise.paginate({ _id: { $in: merchsIds } }, options)
+      .then((merchsStorage) => {
+        return res.status(200).send(merchsStorage)
+      })
+      .catch(() => {
+        return res.status(500).send({ msg: 'Error al obtener los merchandises' })
+      })
+  } catch (error) {
+    return res.status(500).send({ msg: 'Error al obtener los merchandises' })
+  }
 }
 
 async function getMerchandise(req, res) {
@@ -332,7 +342,7 @@ async function returnMerchandise(req, res) {
 module.exports = {
   getMerchandises,
   getMerchandise,
-  getMerchandiseByOwner,
+  getMerchandiseByUser,
   createMerchandise,
   updateMerchandise,
   deleteMerchandise,

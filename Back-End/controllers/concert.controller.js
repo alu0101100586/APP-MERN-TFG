@@ -20,23 +20,6 @@ async function getConcerts(req, res) {
     })
 }
 
-async function getConcertsByOwner(req, res) {
-  const { page = 1, pageItems = 10 } = req.query
-  const { id } = req.params
-  const options = {
-    page: parseInt(page),
-    pageItems: parseInt(pageItems),
-  }
-
-  Concert.paginate({ ownerId: id }, options)
-    .then((concertStorage) => {
-      return res.status(200).send(concertStorage)
-    })
-    .catch(() => {
-      return res.status(500).send({ msg: 'Error al obtener los conciertos' })
-    })
-}
-
 async function getConcert(req, res) {
   const { id } = req.params
   Concert.findById({ _id: id })
@@ -49,6 +32,33 @@ async function getConcert(req, res) {
     .catch(() => {
       return res.status(500).send({ msg: 'Error al obtener el concierto' })
     })
+}
+
+async function getConcertsByUser(req, res) {
+  const { page = 1, limit = 3 } = req.query
+  const options = {
+    page: parseInt(page),
+    limit: parseInt(limit),
+  }
+  const userId = GetId.getUserId(req);
+
+  try {
+    const userStorage = await User.findById({ _id: userId })
+    if (!userStorage) {
+      return res.status(404).send({ msg: 'Usuario no encontrado' })
+    }
+    const concertsIds = userStorage.concerts;
+
+    Concert.paginate({ _id: { $in: concertsIds } }, options)
+      .then((concertsStorage) => {
+        return res.status(200).send(concertsStorage)
+      })
+      .catch(() => {
+        return res.status(500).send({ msg: 'Error al obtener los conciertos' })
+      })
+  } catch (error) {
+    return res.status(500).send({ msg: 'Error al obtener los conciertos' })
+  }
 }
 
 async function createConcert(req, res) {
@@ -389,8 +399,8 @@ async function returnTicket(req, res) {
 
 module.exports = {
   getConcerts,
-  getConcertsByOwner,
   getConcert,
+  getConcertsByUser,
   createConcert,
   updateConcert,
   deleteConcert,

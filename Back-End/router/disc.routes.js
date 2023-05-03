@@ -10,9 +10,13 @@ const api = express.Router()
 
 api.get('/discs', discController.getDiscs)
 
-api.get('/discs/owner/:id', discController.getDiscsByOwner)
-
 api.get('/disc/:id', discController.getDisc)
+
+api.get(
+  '/discs/user',
+  [mwAuth.asureAuthenticated], 
+  discController.getDiscsByUser
+)
 
 api.post(
   '/disc',

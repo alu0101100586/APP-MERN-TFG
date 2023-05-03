@@ -10,9 +10,13 @@ const api = express.Router()
 
 api.get('/merchandise', merchController.getMerchandises)
 
-api.get('/merchandise/owner/:id', merchController.getMerchandiseByOwner)
-
 api.get('/merchandise/:id', merchController.getMerchandise)
+
+api.get(
+  '/merchandises/user',
+  [mwAuth.asureAuthenticated], 
+  merchController.getMerchandiseByUser
+)
 
 api.post(
   '/merchandise',
