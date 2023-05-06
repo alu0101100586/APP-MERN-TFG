@@ -14,7 +14,7 @@ api.get('/concert/:id', concertController.getConcert)
 
 api.get(
   '/concerts/user',
-  [mwAuth.asureAuthenticated], 
+  [mwAuth.asureAuthenticated],
   concertController.getConcertsByUser
 )
 
@@ -37,13 +37,13 @@ api.delete(
 )
 
 api.post(
-  '/concert/:id/participant',
+  '/concert/participant/:id',
   [mwAuth.asureAuthenticated, mwIsArtist.asureIsArtist],
   concertController.addParticipant
 )
 
 api.delete(
-  '/concert/:id/participant',
+  '/concert/participant/:id',
   [mwAuth.asureAuthenticated, mwIsArtist.asureIsArtist],
   concertController.deleteParticipant
 )

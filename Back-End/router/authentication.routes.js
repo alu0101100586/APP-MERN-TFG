@@ -12,9 +12,6 @@ api.post(
   authenticationController.refreshAccessToken
 )
 
-api.patch(
-  '/auth/change-password',
-  authenticationController.changePassword
-)
+api.patch('/auth/change-password', authenticationController.changePassword)
 
 module.exports = api

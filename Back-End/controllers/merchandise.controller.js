@@ -26,21 +26,23 @@ async function getMerchandiseByUser(req, res) {
     page: parseInt(page),
     limit: parseInt(limit),
   }
-  const userId = GetId.getUserId(req);
+  const userId = GetId.getUserId(req)
 
   try {
     const userStorage = await User.findById({ _id: userId })
     if (!userStorage) {
       return res.status(404).send({ msg: 'Usuario no encontrado' })
     }
-    const merchsIds = userStorage.concerts;
+    const merchsIds = userStorage.concerts
 
     Merchandise.paginate({ _id: { $in: merchsIds } }, options)
       .then((merchsStorage) => {
         return res.status(200).send(merchsStorage)
       })
       .catch(() => {
-        return res.status(500).send({ msg: 'Error al obtener los merchandises' })
+        return res
+          .status(500)
+          .send({ msg: 'Error al obtener los merchandises' })
       })
   } catch (error) {
     return res.status(500).send({ msg: 'Error al obtener los merchandises' })

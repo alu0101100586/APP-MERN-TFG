@@ -13,8 +13,8 @@ api.get('/merchandise', merchController.getMerchandises)
 api.get('/merchandise/:id', merchController.getMerchandise)
 
 api.get(
-  '/merchandises/user',
-  [mwAuth.asureAuthenticated], 
+  '/merchandise/user',
+  [mwAuth.asureAuthenticated],
   merchController.getMerchandiseByUser
 )
 
@@ -37,13 +37,13 @@ api.delete(
 )
 
 api.post(
-  '/merchandise/:id/size',
+  '/merchandise/size/:id',
   [mwAuth.asureAuthenticated, mwIsArtist.asureIsArtist],
   merchController.addSize
 )
 
 api.delete(
-  '/merchandise/:id/size',
+  '/merchandise/size/:id',
   [mwAuth.asureAuthenticated, mwIsArtist.asureIsArtist],
   merchController.deleteSize
 )

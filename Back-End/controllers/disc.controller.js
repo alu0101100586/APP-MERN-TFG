@@ -40,14 +40,14 @@ async function getDiscsByUser(req, res) {
     page: parseInt(page),
     limit: parseInt(limit),
   }
-  const userId = GetId.getUserId(req);
+  const userId = GetId.getUserId(req)
 
   try {
     const userStorage = await User.findById({ _id: userId })
     if (!userStorage) {
       return res.status(404).send({ msg: 'Usuario no encontrado' })
     }
-    const discsIds = userStorage.discs;
+    const discsIds = userStorage.discs
 
     Disc.paginate({ _id: { $in: discsIds } }, options)
       .then((discsStorage) => {

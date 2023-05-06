@@ -14,7 +14,7 @@ api.get('/disc/:id', discController.getDisc)
 
 api.get(
   '/discs/user',
-  [mwAuth.asureAuthenticated], 
+  [mwAuth.asureAuthenticated],
   discController.getDiscsByUser
 )
 
@@ -37,13 +37,13 @@ api.delete(
 )
 
 api.post(
-  '/disc/:id/song',
+  '/disc/song/:id',
   [mwAuth.asureAuthenticated, mwIsArtist.asureIsArtist],
   discController.addSong
 )
 
 api.delete(
-  '/disc/:id/song',
+  '/disc/song/:id',
   [mwAuth.asureAuthenticated, mwIsArtist.asureIsArtist],
   discController.deleteSong
 )
