@@ -149,10 +149,6 @@ export class DiscService {
       const formData = new FormData()
       Object.keys(data).forEach((key) => formData.append(key, data[key]))
 
-      if (data.fileSong) {
-        formData.append('song', data.fileSong)
-      }
-
       const url = `${this.api}${ENV.API_ROUTES.DISC.ADD_SONG}/${discId}`
       const params = {
         method: 'POST',
@@ -179,10 +175,6 @@ export class DiscService {
       const data = discData
       const formData = new FormData()
       Object.keys(data).forEach((key) => formData.append(key, data[key]))
-
-      if (data.fileSong) {
-        formData.append('song', data.fileSong)
-      }
 
       const url = `${this.api}${ENV.API_ROUTES.DISC.DELETE_SONG}/${discId}`
       const params = {
