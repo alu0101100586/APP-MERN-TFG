@@ -15,8 +15,8 @@ export function BasicItem(props) {
     imagepath = `${ENV.BASE_PATH}/${item.cover}`
   } else if (item.image) {
     imagepath = `${ENV.BASE_PATH}/${item.image}`
-  } else if (item.poster) {
-    imagepath = `${ENV.BASE_PATH}/${item.poster}`
+  } else if (item.concertPoster) {
+    imagepath = `${ENV.BASE_PATH}/${item.concertPoster}`
   }
 
   let property

@@ -2,14 +2,18 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { Loader, Pagination } from 'semantic-ui-react'
 import { map } from 'lodash'
-import { DiscService } from '../../../../service'
+import { 
+  DiscService, 
+  ConcertService, 
+  MerchandiseService 
+} from '../../../../service'
 import { useAuth } from '../../../../hooks'
 import { BasicItem } from '../BasicItem'
 import './ItemList.scss'
 
-const discController = new DiscService()
-// const concertController = new ConcertService();
-// const merchandiseController = new MerchandiseService();
+const discController = new DiscService();
+const concertController = new ConcertService();
+const merchController = new MerchandiseService();
 
 export function ItemList(props) {
   const { accessToken } = useAuth()
@@ -37,28 +41,34 @@ export function ItemList(props) {
             total: response.total,
           })
         } else if (type === 'concert') {
-          console.log('concert')
-          // const response = await concertController.getConcertsUserApi(accessToken, page, 3);
-          // setItems(response.docs);
-          // setPagination({
-          //   page: response.page,
-          //   limit: response.limit,
-          //   pages: response.pages,
-          //   total: response.total,
-          // })
+          const response = await concertController.getConcertsUserApi(
+            accessToken,
+            page,
+            3
+          );
+          setItems(response.docs);
+          setPagination({
+            page: response.page,
+            limit: response.limit,
+            pages: response.pages,
+            total: response.total,
+          })
         } else if (type === 'merchandise') {
-          console.log('merchandise')
-          // const response = await merchController.getMerchandisesUserApi(accessToken, page, 3);
-          // setItems(response.docs);
-          // setPagination({
-          //   page: response.page,
-          //   limit: response.limit,
-          //   pages: response.pages,
-          //   total: response.total,
-          // })
+          const response = await merchController.getMerchandiseUserApi(
+            accessToken, 
+            page, 
+            3
+          );
+          setItems(response.docs);
+          setPagination({
+            page: response.page,
+            limit: response.limit,
+            pages: response.pages,
+            total: response.total,
+          })
         }
       } catch (error) {
-        console.error(error)
+        throw error;
       }
     })()
   }, [reload, page])

@@ -41,9 +41,9 @@ export const ENV = {
       RETURN_TICKET: '/return/concert-ticket',
     },
     MERCHANDISE: {
-      GET_MERCHANDISES: '/merchandise',
+      GET_MERCHANDISES: '/merchandises',
       GET_MERCHANDISE: '/merchandise',
-      GET_MERCHANDISES_USER: '/merchandise/user',
+      GET_MERCHANDISES_USER: '/merchandises/user',
       CREATE_MERCHANDISE: '/merchandise',
       UPDATE_MERCHANDISE: '/merchandise',
       DELETE_MERCHANDISE: '/merchandise',
