@@ -8,12 +8,12 @@ const mwUpload = multiparty({ uploadDir: './uploads/image' })
 
 const api = express.Router()
 
-api.get('/merchandise', merchController.getMerchandises)
+api.get('/merchandises', merchController.getMerchandises)
 
 api.get('/merchandise/:id', merchController.getMerchandise)
 
 api.get(
-  '/merchandise/user',
+  '/merchandises/user',
   [mwAuth.asureAuthenticated],
   merchController.getMerchandiseByUser
 )

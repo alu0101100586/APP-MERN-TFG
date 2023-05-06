@@ -67,6 +67,7 @@ async function createConcert(req, res) {
     date,
     location,
     moneyLimit,
+    price,
     raisedMoney,
     musicalGenre,
     participants,
@@ -78,6 +79,7 @@ async function createConcert(req, res) {
     date,
     location,
     moneyLimit,
+    price,
     raisedMoney,
     musicalGenre,
     participants,
@@ -116,6 +118,8 @@ async function createConcert(req, res) {
           genresToAdd.forEach((genre) => {
             artistStorageGenres.add(genre)
           })
+          concertStorage.participants.push(artistStorage.name)
+          concertStorage.save()
           artistStorage.musicalGenre = Array.from(artistStorageGenres)
           artistStorage.save()
         })
@@ -126,7 +130,7 @@ async function createConcert(req, res) {
         })
       return res.status(201).send(concertStorage)
     })
-    .catch(() => {
+    .catch((error) => {
       return res.status(500).send({ msg: 'Error al crear el concierto' })
     })
 }
@@ -223,6 +227,7 @@ async function addParticipant(req, res) {
       const artistExists = concertStorage.participants.find(
         (artistName) => artistName === artist
       )
+      
       if (artistExists) {
         return res
           .status(400)
@@ -246,43 +251,28 @@ async function deleteParticipant(req, res) {
   const ownerId = GetId.getUserId(req)
 
   Concert.findById({ _id: id, ownerId: ownerId })
-    .then((concertStorage) => {
-      if (!concertStorage) {
-        return res.status(404).send({ msg: 'Concierto no encontrado' })
-      }
+  .then((concertStogare) => {
+    if (!concertStogare) {
+      return res.status(404).send({ msg: 'Concierto no encontrado' })
+    }
 
-      Artist.findOne({ name: artistName })
-        .then((artistStorage) => {
-          if (!artistStorage) {
-            return res.status(404).send({ msg: 'Artista no encontrado' })
-          }
+    //Controlando que el artista a eliminar existe
+    const artistExists = concertStogare.participants.find(
+      (artist) => artist === artistName
+    )
+    if (!artistExists) {
+      return res.status(400).send({ msg: 'La canción no existe' })
+    }
 
-          //Controlando que el artista no esté ya en el array de participantes
-          if (!concertStorage.participants.includes(artistStorage._id)) {
-            return res
-              .status(400)
-              .send({ msg: 'El artista no está en el concierto' })
-          }
-
-          concertStorage.participants.pull(artistStorage._id)
-          concertStorage
-            .save()
-            .then(() => {
-              return res.status(200).send(concertStorage)
-            })
-            .catch(() => {
-              return res
-                .status(500)
-                .send({ msg: 'Error al añadir participante' })
-            })
-        })
-        .catch(() => {
-          return res.status(500).send({ msg: 'Error al añadir participante' })
-        })
-    })
-    .catch(() => {
-      return res.status(500).send({ msg: 'Error al añadir participante' })
-    })
+    concertStogare.participants.pull(artistName)
+    concertStogare.save()
+    return res
+      .status(200)
+      .send({ msg: 'Canción eliminada satisfactoriamente' })
+  })
+  .catch(() => {
+    return res.status(500).send({ msg: 'Error al añadir participante' })
+  })
 }
 
 async function buyTicket(req, res) {

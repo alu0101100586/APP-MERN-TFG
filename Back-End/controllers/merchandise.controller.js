@@ -33,7 +33,7 @@ async function getMerchandiseByUser(req, res) {
     if (!userStorage) {
       return res.status(404).send({ msg: 'Usuario no encontrado' })
     }
-    const merchsIds = userStorage.concerts
+    const merchsIds = userStorage.merchandise
 
     Merchandise.paginate({ _id: { $in: merchsIds } }, options)
       .then((merchsStorage) => {
