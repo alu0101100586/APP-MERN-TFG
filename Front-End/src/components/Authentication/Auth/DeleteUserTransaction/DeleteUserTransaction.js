@@ -1,26 +1,25 @@
-import React from 'react';
-import { Button } from 'semantic-ui-react';
-import { useAuth } from '../../../../hooks';
-import { useNavigate } from 'react-router-dom';
-import { Auth, UserService } from '../../../../service';
+import React from 'react'
+import { Button } from 'semantic-ui-react'
+import { useAuth } from '../../../../hooks'
+import { useNavigate } from 'react-router-dom'
+import { Auth, UserService } from '../../../../service'
 import './DeleteUserTransaction.scss'
 
-const userService = new UserService();
-const authService = new Auth();
-
+const userService = new UserService()
+const authService = new Auth()
 
 export function DeleteUserTransaction(props) {
-  const { close } = props;
-  const { accessToken } = useAuth();
-  const navigate = useNavigate();
+  const { close } = props
+  const { accessToken } = useAuth()
+  const navigate = useNavigate()
 
   const handleDelete = async (accessToken) => {
     try {
-      await userService.deleteMeApi(accessToken);
-      authService.removeTokens();
-      navigate('/');
+      await userService.deleteMeApi(accessToken)
+      authService.removeTokens()
+      navigate('/')
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
   }
 
@@ -28,7 +27,11 @@ export function DeleteUserTransaction(props) {
     <div className="delete-user-transaction">
       <h1>¿Seguro de que quieres seguir adelante?</h1>
       <div className="delete-user-transaction__content">
-        <p >No podrás acceder de nuevo con este usuario y toda tu información será borrada, además la página de artista/grupo asignada a esta cuenta se borrará para siempre.</p>
+        <p>
+          No podrás acceder de nuevo con este usuario y toda tu información será
+          borrada, además la página de artista/grupo asignada a esta cuenta se
+          borrará para siempre.
+        </p>
       </div>
 
       <div className="delete-user-transaction__buttons">

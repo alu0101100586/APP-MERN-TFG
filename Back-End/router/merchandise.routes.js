@@ -10,9 +10,13 @@ const api = express.Router()
 
 api.get('/merchandise', merchController.getMerchandises)
 
-api.get('/merchandise/owner/:id', merchController.getMerchandiseByOwner)
-
 api.get('/merchandise/:id', merchController.getMerchandise)
+
+api.get(
+  '/merchandise/user',
+  [mwAuth.asureAuthenticated],
+  merchController.getMerchandiseByUser
+)
 
 api.post(
   '/merchandise',
@@ -33,13 +37,13 @@ api.delete(
 )
 
 api.post(
-  '/merchandise/:id/size',
+  '/merchandise/size/:id',
   [mwAuth.asureAuthenticated, mwIsArtist.asureIsArtist],
   merchController.addSize
 )
 
 api.delete(
-  '/merchandise/:id/size',
+  '/merchandise/size/:id',
   [mwAuth.asureAuthenticated, mwIsArtist.asureIsArtist],
   merchController.deleteSize
 )

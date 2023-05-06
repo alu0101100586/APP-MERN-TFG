@@ -5,30 +5,13 @@ const Image = require('../utils/processImage.utils')
 const GetId = require('../utils/getUserId.utils')
 
 async function getDiscs(req, res) {
-  const { page = 1, pageItems = 10 } = req.query
+  const { page = 1, limit = 10 } = req.query
   const options = {
     page: parseInt(page),
-    pageItems: parseInt(pageItems),
+    limit: parseInt(limit),
   }
 
   Disc.paginate({}, options)
-    .then((discsStorage) => {
-      return res.status(200).send(discsStorage)
-    })
-    .catch(() => {
-      return res.status(500).send({ msg: 'Error al obtener los discos' })
-    })
-}
-
-async function getDiscsByOwner(req, res) {
-  const { page = 1, pageItems = 10 } = req.query
-  const { id } = req.params
-  const options = {
-    page: parseInt(page),
-    pageItems: parseInt(pageItems),
-  }
-
-  Disc.paginate({ ownerId: id }, options)
     .then((discsStorage) => {
       return res.status(200).send(discsStorage)
     })
@@ -49,6 +32,33 @@ async function getDisc(req, res) {
     .catch(() => {
       return res.status(500).send({ msg: 'Error al obtener el disco' })
     })
+}
+
+async function getDiscsByUser(req, res) {
+  const { page = 1, limit = 3 } = req.query
+  const options = {
+    page: parseInt(page),
+    limit: parseInt(limit),
+  }
+  const userId = GetId.getUserId(req)
+
+  try {
+    const userStorage = await User.findById({ _id: userId })
+    if (!userStorage) {
+      return res.status(404).send({ msg: 'Usuario no encontrado' })
+    }
+    const discsIds = userStorage.discs
+
+    Disc.paginate({ _id: { $in: discsIds } }, options)
+      .then((discsStorage) => {
+        return res.status(200).send(discsStorage)
+      })
+      .catch(() => {
+        return res.status(500).send({ msg: 'Error al obtener los discos' })
+      })
+  } catch (error) {
+    return res.status(500).send({ msg: 'Error al obtener los discos' })
+  }
 }
 
 async function createDisc(req, res) {
@@ -352,8 +362,8 @@ async function returnDisc(req, res) {
 
 module.exports = {
   getDiscs,
-  getDiscsByOwner,
   getDisc,
+  getDiscsByUser,
   createDisc,
   updateDisc,
   deleteDisc,

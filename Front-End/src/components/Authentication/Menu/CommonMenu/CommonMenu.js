@@ -1,50 +1,46 @@
-import React, { useState, useEffect } from 'react';
-import { Menu, Icon } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
-import { BasicModal } from '../../../Shared/BasicModal';
-import { 
-  UpdateUserForm, 
-  PasswordForm, 
-  DeleteUserTransaction 
-} from '../../Auth';
-import { UserService } from '../../../../service';
-import { useAuth } from '../../../../hooks';
-import './CommonMenu.scss';
+import React, { useState, useEffect } from 'react'
+import { Menu, Icon } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
+import { BasicModal } from '../../../Shared/BasicModal'
+import { UpdateUserForm, PasswordForm, DeleteUserTransaction } from '../../Auth'
+import { UserService } from '../../../../service'
+import { useAuth } from '../../../../hooks'
+import './CommonMenu.scss'
 
 export function CommonMenu(props) {
-  const { onReload, user, reload } = props;
-  const [showModal, setShowModal] = useState(false);
-  const [selectedModal, setSelectedModal] = useState(null);
-  const { accessToken } = useAuth();
-  const userService = new UserService();
+  const { onReload, user, reload } = props
+  const [showModal, setShowModal] = useState(false)
+  const [selectedModal, setSelectedModal] = useState(null)
+  const { accessToken } = useAuth()
+  const userService = new UserService()
 
   const openModal = (modal) => {
-    setSelectedModal(modal);
-    setShowModal(true);
-  };
+    setSelectedModal(modal)
+    setShowModal(true)
+  }
 
   const closeModal = () => {
-    setShowModal(false);
-  };
+    setShowModal(false)
+  }
 
-  const [profile, setProfile] = useState(user);
+  const [profile, setProfile] = useState(user)
 
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       try {
-        const response = await userService.getMeApi(accessToken);
-        setProfile(response);
+        const response = await userService.getMeApi(accessToken)
+        setProfile(response)
       } catch (error) {
-        console.error(error);
+        console.error(error)
       }
     })()
-  }, [reload]);
+  }, [reload])
 
   return (
-    <Menu vertical tabular className='common-menu'>
+    <Menu vertical tabular className="common-menu">
       <Menu.Item>
         <Menu.Header>
-        <Icon name="home" />
+          <Icon name="home" />
           Inicio
         </Menu.Header>
         <Menu.Menu>
@@ -112,10 +108,10 @@ export function CommonMenu(props) {
 
       {selectedModal === 'editProfile' && (
         <BasicModal show={showModal} close={closeModal} title="Editar perfil">
-          <UpdateUserForm 
-            close={closeModal} 
-            onReload={onReload} 
-            user={profile} 
+          <UpdateUserForm
+            close={closeModal}
+            onReload={onReload}
+            user={profile}
           />
         </BasicModal>
       )}
@@ -125,17 +121,29 @@ export function CommonMenu(props) {
         </BasicModal>
       )}
       {selectedModal === 'exchangeConcert' && (
-        <BasicModal show={showModal} close={closeModal} title="Devolver Concierto">
+        <BasicModal
+          show={showModal}
+          close={closeModal}
+          title="Devolver Concierto"
+        >
           <h1>Formulario devolución de concierto</h1>
         </BasicModal>
       )}
       {selectedModal === 'exchangeMerch' && (
-        <BasicModal show={showModal} close={closeModal} title="Devolver Merchandise">
+        <BasicModal
+          show={showModal}
+          close={closeModal}
+          title="Devolver Merchandise"
+        >
           <h1>Formulario devolución de merchandise</h1>
         </BasicModal>
       )}
       {selectedModal === 'changePasswd' && (
-        <BasicModal show={showModal} close={closeModal} title="Cambiar contraseña">
+        <BasicModal
+          show={showModal}
+          close={closeModal}
+          title="Cambiar contraseña"
+        >
           <PasswordForm close={closeModal} />
         </BasicModal>
       )}
@@ -150,5 +158,5 @@ export function CommonMenu(props) {
         </BasicModal>
       )}
     </Menu>
-  );
+  )
 }

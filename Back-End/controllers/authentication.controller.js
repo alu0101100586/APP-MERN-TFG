@@ -143,11 +143,11 @@ function refreshAccessToken(req, res) {
 
 async function changePassword(req, res) {
   const { currentPassword, newPassword, repeatNewPassword } = req.body
-  const user_id = GetId.getUserId(req);
+  const user_id = GetId.getUserId(req)
 
   if (!currentPassword || !newPassword || !repeatNewPassword) {
     res.status(400).send({ msg: 'Los campos son obligatorios' })
-  } else if (newPassword !== repeatNewPassword ){
+  } else if (newPassword !== repeatNewPassword) {
     res.status(400).send({ msg: 'Los campos de nueva contraseña no coinciden' })
   } else {
     User.findById({ _id: user_id })
@@ -160,11 +160,11 @@ async function changePassword(req, res) {
               .status(404)
               .send({ message: 'El usuario no se ha podido autenticar' })
           } else {
-            const salt = bcrypt.genSaltSync(10);
-            const hashPassword = bcrypt.hashSync(newPassword, salt);
-            userStorage.password = hashPassword;
-            userStorage.save();
-            res.status(200).send({ message: 'Contraseña actualizada'})
+            const salt = bcrypt.genSaltSync(10)
+            const hashPassword = bcrypt.hashSync(newPassword, salt)
+            userStorage.password = hashPassword
+            userStorage.save()
+            res.status(200).send({ message: 'Contraseña actualizada' })
           }
         })
       })

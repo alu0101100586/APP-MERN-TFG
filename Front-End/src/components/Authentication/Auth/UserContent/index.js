@@ -1,1 +1,1 @@
-export * from './UserContect';
+export * from './UserContect'

@@ -20,23 +20,6 @@ async function getConcerts(req, res) {
     })
 }
 
-async function getConcertsByOwner(req, res) {
-  const { page = 1, pageItems = 10 } = req.query
-  const { id } = req.params
-  const options = {
-    page: parseInt(page),
-    pageItems: parseInt(pageItems),
-  }
-
-  Concert.paginate({ ownerId: id }, options)
-    .then((concertStorage) => {
-      return res.status(200).send(concertStorage)
-    })
-    .catch(() => {
-      return res.status(500).send({ msg: 'Error al obtener los conciertos' })
-    })
-}
-
 async function getConcert(req, res) {
   const { id } = req.params
   Concert.findById({ _id: id })
@@ -49,6 +32,33 @@ async function getConcert(req, res) {
     .catch(() => {
       return res.status(500).send({ msg: 'Error al obtener el concierto' })
     })
+}
+
+async function getConcertsByUser(req, res) {
+  const { page = 1, limit = 3 } = req.query
+  const options = {
+    page: parseInt(page),
+    limit: parseInt(limit),
+  }
+  const userId = GetId.getUserId(req)
+
+  try {
+    const userStorage = await User.findById({ _id: userId })
+    if (!userStorage) {
+      return res.status(404).send({ msg: 'Usuario no encontrado' })
+    }
+    const concertsIds = userStorage.concerts
+
+    Concert.paginate({ _id: { $in: concertsIds } }, options)
+      .then((concertsStorage) => {
+        return res.status(200).send(concertsStorage)
+      })
+      .catch(() => {
+        return res.status(500).send({ msg: 'Error al obtener los conciertos' })
+      })
+  } catch (error) {
+    return res.status(500).send({ msg: 'Error al obtener los conciertos' })
+  }
 }
 
 async function createConcert(req, res) {
@@ -201,7 +211,7 @@ async function deleteConcert(req, res) {
 
 async function addParticipant(req, res) {
   const { id } = req.params
-  const { artistName } = req.body
+  const { artist } = req.body
   const ownerId = GetId.getUserId(req)
 
   Concert.findById({ _id: id, ownerId: ownerId })
@@ -210,34 +220,20 @@ async function addParticipant(req, res) {
         return res.status(404).send({ msg: 'Concierto no encontrado' })
       }
 
-      Artist.findOne({ name: artistName })
-        .then((artistStorage) => {
-          if (!artistStorage) {
-            return res.status(404).send({ msg: 'Artista no encontrado' })
-          }
+      const artistExists = concertStorage.participants.find(
+        (artistName) => artistName === artist
+      )
+      if (artistExists) {
+        return res
+          .status(400)
+          .send({ msg: 'El artista ya está en el concierto' })
+      }
 
-          //Controlando que el artista no esté ya en el array de participantes
-          if (concertStorage.participants.includes(artistStorage._id)) {
-            return res
-              .status(400)
-              .send({ msg: 'El artista ya está en el concierto' })
-          }
-
-          concertStorage.participants.push(artist._id)
-          concertStorage
-            .save()
-            .then(() => {
-              return res.status(200).send(concertStorage)
-            })
-            .catch(() => {
-              return res
-                .status(500)
-                .send({ msg: 'Error al añadir participante' })
-            })
-        })
-        .catch(() => {
-          return res.status(500).send({ msg: 'Error al añadir participante' })
-        })
+      concertStorage.participants.push(artist)
+      concertStorage.save()
+      return res
+        .status(200)
+        .send({ msg: 'Participante añadido satisfactoriamente' })
     })
     .catch(() => {
       return res.status(500).send({ msg: 'Error al añadir participante' })
@@ -389,8 +385,8 @@ async function returnTicket(req, res) {
 
 module.exports = {
   getConcerts,
-  getConcertsByOwner,
   getConcert,
+  getConcertsByUser,
   createConcert,
   updateConcert,
   deleteConcert,

@@ -1,10 +1,10 @@
-import React from 'react';
-import { WebIcon } from '../../assets';
-import { Logout } from '../../components/Authentication/Session';
-import './LogInLayout.scss';
+import React from 'react'
+import { WebIcon } from '../../assets'
+import { Logout } from '../../components/Authentication/Session'
+import './LogInLayout.scss'
 
 export function LogInLayout(props) {
-  const { children } = props;
+  const { children } = props
 
   return (
     <div className="login-layout">

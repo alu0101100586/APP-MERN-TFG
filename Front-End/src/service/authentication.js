@@ -95,7 +95,7 @@ export class Auth {
       if (response.status !== 200) throw result
       return result
     } catch (error) {
-      throw error;
+      throw error
     }
   }
 

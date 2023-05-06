@@ -67,8 +67,8 @@ async function createArtist(req, res) {
 }
 
 async function updateArtist(req, res) {
-  const { user_id } = req.user;
-  const artistData = req.body;
+  const { user_id } = req.user
+  const artistData = req.body
 
   Artist.findOneAndUpdate({ ownerId: user_id }, artistData)
     .then((artistStorage) => {
@@ -85,7 +85,7 @@ async function updateArtist(req, res) {
 }
 
 async function deleteArtist(req, res) {
-  const { user_id } = req.user;
+  const { user_id } = req.user
 
   Artist.findOneAndDelete({ ownerId: user_id })
     .then((artistStorage) => {

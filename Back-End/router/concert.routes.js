@@ -10,9 +10,13 @@ const api = express.Router()
 
 api.get('/concerts', concertController.getConcerts)
 
-api.get('/concerts/owner/:id', concertController.getConcertsByOwner)
-
 api.get('/concert/:id', concertController.getConcert)
+
+api.get(
+  '/concerts/user',
+  [mwAuth.asureAuthenticated],
+  concertController.getConcertsByUser
+)
 
 api.post(
   '/concert',
@@ -33,13 +37,13 @@ api.delete(
 )
 
 api.post(
-  '/concert/:id/participant',
+  '/concert/participant/:id',
   [mwAuth.asureAuthenticated, mwIsArtist.asureIsArtist],
   concertController.addParticipant
 )
 
 api.delete(
-  '/concert/:id/participant',
+  '/concert/participant/:id',
   [mwAuth.asureAuthenticated, mwIsArtist.asureIsArtist],
   concertController.deleteParticipant
 )
