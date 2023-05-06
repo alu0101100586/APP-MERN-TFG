@@ -1,11 +1,11 @@
-import * as Yup from 'yup';
+import * as Yup from 'yup'
 
 export function initialValues() {
   return {
     currentPassword: '',
     newPassword: '',
     repeatNewPassword: '',
-  };
+  }
 }
 
 export function validationSchema() {
@@ -18,9 +18,6 @@ export function validationSchema() {
 
     repeatNewPassword: Yup.string()
       .required('Repetir la nueva Contraseña')
-      .oneOf(
-        [Yup.ref('newPassword')],
-        'Las contraseñas no coinciden'
-      ),
-  });
+      .oneOf([Yup.ref('newPassword')], 'Las contraseñas no coinciden'),
+  })
 }

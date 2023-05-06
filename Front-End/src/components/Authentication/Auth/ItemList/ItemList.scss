@@ -1,0 +1,16 @@
+@import "~/src/scss/index.scss";
+
+.item-list {
+  margin-top: 20px;
+
+  &__list {
+    align-items: center;
+    width: 90%;
+  }
+
+  &__pagination {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+}

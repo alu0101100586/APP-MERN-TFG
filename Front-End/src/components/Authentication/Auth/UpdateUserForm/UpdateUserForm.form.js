@@ -1,4 +1,4 @@
-import * as Yup from 'yup';
+import * as Yup from 'yup'
 
 export function initialValues(user) {
   return {
@@ -8,7 +8,7 @@ export function initialValues(user) {
     lastName: user?.lastName || '',
     nickName: user?.nickName || '',
     email: user?.email || '',
-  };
+  }
 }
 
 export function validationSchema(user) {
@@ -17,5 +17,5 @@ export function validationSchema(user) {
     lastName: Yup.string().required(true),
     nickName: Yup.string().required(true),
     email: Yup.string().email(true).required(true),
-  });
+  })
 }

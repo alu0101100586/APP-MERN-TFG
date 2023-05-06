@@ -1,21 +1,21 @@
-import React, { useState } from 'react';
-import { CommonMenu } from '../../../components/Authentication/Menu';
-import { UserContect } from '../../../components/Authentication/Auth';
-import { useAuth } from '../../../hooks';
-import './userCommon.scss';
+import React, { useState } from 'react'
+import { CommonMenu } from '../../../components/Authentication/Menu'
+import { UserContect } from '../../../components/Authentication/Auth'
+import { useAuth } from '../../../hooks'
+import './userCommon.scss'
 
 export function UserCommon() {
-  const { user } = useAuth();
-  const [reload, setReload] = useState(false);
+  const { user } = useAuth()
+  const [reload, setReload] = useState(false)
 
-  const onReload = () => setReload((prevState) => !prevState);
+  const onReload = () => setReload((prevState) => !prevState)
 
   return (
-    <div className='user-common'>
-      <div className='user-common__menu'>
+    <div className="user-common">
+      <div className="user-common__menu">
         <CommonMenu onReload={onReload} reload={reload} user={user} />
       </div>
-      <div className='user-common__content'>
+      <div className="user-common__content">
         <UserContect reload={reload} user={user} />
       </div>
     </div>

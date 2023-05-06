@@ -1,8 +1,8 @@
-import React from 'react';
-import { Modal } from 'semantic-ui-react';
+import React from 'react'
+import { Modal } from 'semantic-ui-react'
 
 export function BasicModal(props) {
-  const { show, close, title, size, children } = props;
+  const { show, close, title, size, children } = props
 
   return (
     <Modal closeIcon open={show} onClose={close} size={size}>

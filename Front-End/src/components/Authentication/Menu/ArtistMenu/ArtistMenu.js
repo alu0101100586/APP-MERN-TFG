@@ -1,50 +1,46 @@
-import React, { useState, useEffect } from 'react';
-import { Menu, Icon } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
-import { BasicModal } from '../../../Shared/BasicModal';
-import { 
-  UpdateUserForm, 
-  PasswordForm, 
-  DeleteUserTransaction 
-} from '../../Auth';
-import { UserService } from '../../../../service';
-import { useAuth } from '../../../../hooks';
-import './ArtistMenu.scss';
+import React, { useState, useEffect } from 'react'
+import { Menu, Icon } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
+import { BasicModal } from '../../../Shared/BasicModal'
+import { UpdateUserForm, PasswordForm, DeleteUserTransaction } from '../../Auth'
+import { UserService } from '../../../../service'
+import { useAuth } from '../../../../hooks'
+import './ArtistMenu.scss'
 
 export function ArtistMenu(props) {
-  const { onReload, user, reload } = props;
-  const [showModal, setShowModal] = useState(false);
-  const [selectedModal, setSelectedModal] = useState(null);
-  const { accessToken } = useAuth();
-  const userService = new UserService();
+  const { onReload, user, reload } = props
+  const [showModal, setShowModal] = useState(false)
+  const [selectedModal, setSelectedModal] = useState(null)
+  const { accessToken } = useAuth()
+  const userService = new UserService()
 
   const openModal = (modal) => {
-    setSelectedModal(modal);
-    setShowModal(true);
-  };
+    setSelectedModal(modal)
+    setShowModal(true)
+  }
 
   const closeModal = () => {
-    setShowModal(false);
-  };
+    setShowModal(false)
+  }
 
-  const [profile, setProfile] = useState(user);
+  const [profile, setProfile] = useState(user)
 
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       try {
-        const response = await userService.getMeApi(accessToken);
-        setProfile(response);
+        const response = await userService.getMeApi(accessToken)
+        setProfile(response)
       } catch (error) {
-        console.error(error);
+        console.error(error)
       }
     })()
-  }, [reload]);
+  }, [reload])
 
   return (
-    <Menu vertical tabular className='artist-menu'>
+    <Menu vertical tabular className="artist-menu">
       <Menu.Item>
         <Menu.Header>
-        <Icon name="home" />
+          <Icon name="home" />
           Inicio
         </Menu.Header>
         <Menu.Menu>
@@ -175,10 +171,10 @@ export function ArtistMenu(props) {
 
       {selectedModal === 'editProfile' && (
         <BasicModal show={showModal} close={closeModal} title="Editar perfil">
-          <UpdateUserForm 
-            close={closeModal} 
-            onReload={onReload} 
-            user={profile} 
+          <UpdateUserForm
+            close={closeModal}
+            onReload={onReload}
+            user={profile}
           />
         </BasicModal>
       )}
@@ -193,7 +189,11 @@ export function ArtistMenu(props) {
         </BasicModal>
       )}
       {selectedModal === 'deleteArtist' && (
-        <BasicModal show={showModal} close={closeModal} title="Eliminar artista">
+        <BasicModal
+          show={showModal}
+          close={closeModal}
+          title="Eliminar artista"
+        >
           <h1>Formulario de eliminación de artista</h1>
         </BasicModal>
       )}
@@ -218,32 +218,56 @@ export function ArtistMenu(props) {
         </BasicModal>
       )}
       {selectedModal === 'editConcert' && (
-        <BasicModal show={showModal} close={closeModal} title="Editar concierto">
+        <BasicModal
+          show={showModal}
+          close={closeModal}
+          title="Editar concierto"
+        >
           <h1>Formulario de edición de concierto</h1>
         </BasicModal>
       )}
       {selectedModal === 'deleteConcert' && (
-        <BasicModal show={showModal} close={closeModal} title="Eliminar concierto">
+        <BasicModal
+          show={showModal}
+          close={closeModal}
+          title="Eliminar concierto"
+        >
           <h1>Formulario de eliminación de concierto</h1>
         </BasicModal>
       )}
       {selectedModal === 'createMerch' && (
-        <BasicModal show={showModal} close={closeModal} title="Crear merchandise">
+        <BasicModal
+          show={showModal}
+          close={closeModal}
+          title="Crear merchandise"
+        >
           <h1>Formulario de creación de merchandise</h1>
         </BasicModal>
       )}
       {selectedModal === 'editMerch' && (
-        <BasicModal show={showModal} close={closeModal} title="Editar merchandise">
+        <BasicModal
+          show={showModal}
+          close={closeModal}
+          title="Editar merchandise"
+        >
           <h1>Formulario de edición de merchandise</h1>
         </BasicModal>
       )}
       {selectedModal === 'deleteMerch' && (
-        <BasicModal show={showModal} close={closeModal} title="Eliminar merchandise">
+        <BasicModal
+          show={showModal}
+          close={closeModal}
+          title="Eliminar merchandise"
+        >
           <h1>Formulario de eliminación de merchandise</h1>
         </BasicModal>
       )}
       {selectedModal === 'changePasswd' && (
-        <BasicModal show={showModal} close={closeModal} title="Cambiar contraseña">
+        <BasicModal
+          show={showModal}
+          close={closeModal}
+          title="Cambiar contraseña"
+        >
           <PasswordForm close={closeModal} />
         </BasicModal>
       )}
@@ -258,5 +282,5 @@ export function ArtistMenu(props) {
         </BasicModal>
       )}
     </Menu>
-  );
+  )
 }

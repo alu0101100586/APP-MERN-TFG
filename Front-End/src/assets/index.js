@@ -1,7 +1,7 @@
-import { ReactComponent as LogoWhite } from './svg/logo/default-monochrome-white.svg';
-import { ReactComponent as LogoBlack } from './svg/logo/default-monochrome-black.svg';
+import { ReactComponent as LogoWhite } from './svg/logo/default-monochrome-white.svg'
+import { ReactComponent as LogoBlack } from './svg/logo/default-monochrome-black.svg'
 
-import Default_Avatar from './jpg/Default_avatar.jpg';
+import Default_Avatar from './jpg/Default_avatar.jpg'
 
 const WebIcon = {
   LogoWhite,
@@ -9,7 +9,7 @@ const WebIcon = {
 }
 
 const image = {
-  Default_Avatar
+  Default_Avatar,
 }
 
 export { WebIcon, image }
