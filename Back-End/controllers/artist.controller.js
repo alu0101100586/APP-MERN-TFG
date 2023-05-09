@@ -20,7 +20,7 @@ async function getArtists(req, res) {
 }
 
 async function getOwnerArtist(req, res) {
-  const { id } = req.params
+  const id = GetId.getUserId(req)
   Artist.findOne({ ownerId: id })
     .then((artistStorage) => {
       if (!artistStorage) {
@@ -47,7 +47,6 @@ async function getArtist(req, res) {
     })
 }
 
-//TODO - hay que modificar ésta función para que solo haya que ingresar el nombre, fecha inicio e imagen y el resto se pone del usuario que lo crea
 async function createArtist(req, res) {
   const { name, startDate } = req.body
   const ownerId = GetId.getUserId(req)

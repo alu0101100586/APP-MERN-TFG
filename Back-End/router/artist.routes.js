@@ -3,7 +3,7 @@ const multiparty = require('connect-multiparty')
 const artistController = require('../controllers/artist.controller')
 const mwAuth = require('../middlewares/authentication.middleware')
 const mwIsArtist = require('../middlewares/IsArtist.middleware')
-const mwUpload = multiparty({ uploadDir: './uploads/artist' })
+const mwUpload = multiparty({ uploadDir: './uploads/avatar' })
 
 const api = express.Router()
 
@@ -11,7 +11,11 @@ api.get('/artists', artistController.getArtists)
 
 api.get('/artist/:id', artistController.getArtist)
 
-api.get('/artist/owner/:id', artistController.getOwnerArtist)
+api.get(
+  '/owned/artist', 
+  [mwAuth.asureAuthenticated], 
+  artistController.getOwnerArtist
+)
 
 api.post(
   '/artist',
