@@ -118,7 +118,9 @@ export class DiscService {
         throw new Error('UnExpected Error')
       }
       return result
-    } catch (error) {}
+    } catch (error) {
+      throw error;
+    }
   }
 
   async deleteDiscApi(accessToken, discId) {

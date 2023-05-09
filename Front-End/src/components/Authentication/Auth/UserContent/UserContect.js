@@ -7,7 +7,7 @@ import { useAuth } from '../../../../hooks'
 import { ItemList } from '../ItemList'
 import './UserContent.scss'
 
-//TODO - Mostrar los discos, conciertos y merchandise que ha subido el usuario
+// TODO - Imprimir la fecha de una manera más legible
 
 export function UserContect(props) {
   const { user, reload } = props

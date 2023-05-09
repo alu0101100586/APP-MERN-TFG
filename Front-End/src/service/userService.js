@@ -26,7 +26,7 @@ export class UserService {
   async updateMeApi(accesstoken, userData) {
     try {
       const data = userData
-      if (!data.bitrhDate) {
+      if (data.bitrhDate) {
         delete data.birthDate
       }
 
@@ -37,7 +37,7 @@ export class UserService {
         formData.append('avatar', data.fileAvatar)
       }
 
-      const url = `${ENV.API_PATH}/${ENV.API_ROUTES.USER.UPDATE_USER}`
+      const url = `${ENV.API_PATH}${ENV.API_ROUTES.USER.UPDATE_USER}`
       const params = {
         method: 'PATCH',
         headers: {
