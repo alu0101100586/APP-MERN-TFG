@@ -25,7 +25,7 @@ const ArtistSchema = mongoose.Schema(
         enum: Object.values(musicGenreEnum),
       },
     ],
-    avatar: { type: String },
+    avatar: { type: String, required: true },
     successfulDiscs: { type: Number },
     successfulConcerts: { type: Number },
     successfulMerchandise: { type: Number },

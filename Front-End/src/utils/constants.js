@@ -52,6 +52,14 @@ export const ENV = {
       BUY_MERCHANDISE: '/buy/merchandise',
       RETURN_MERCHANDISE: '/return/merchandise',
     },
+    ARTIST: {
+      GET_ARTISTS: '/artists',
+      GET_ARTIST: '/artist',
+      GET_ARTISTS_USER: '/owned/artist',
+      CREATE_ARTIST: '/artist',
+      UPDATE_ARTIST: '/artist/me',
+      DELETE_ARTIST: '/artist/me',
+    },
   },
   JWT: {
     ACCESS: 'accessToken',

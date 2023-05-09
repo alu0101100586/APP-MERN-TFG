@@ -2,8 +2,15 @@ import React, { useState, useEffect } from 'react'
 import { Menu, Icon } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import { BasicModal } from '../../../Shared/BasicModal'
-import { UpdateUserForm, PasswordForm, DeleteUserTransaction } from '../../Auth'
-import { UserService } from '../../../../service'
+import { 
+  UpdateUserForm, 
+  PasswordForm, 
+  DeleteUserTransaction,
+  CreateArtistForm,
+  DeleteArtist,
+  UpdateArtistForm,
+} from '../../Auth'
+import { ArtistService, UserService } from '../../../../service'
 import { useAuth } from '../../../../hooks'
 import './ArtistMenu.scss'
 
@@ -12,7 +19,9 @@ export function ArtistMenu(props) {
   const [showModal, setShowModal] = useState(false)
   const [selectedModal, setSelectedModal] = useState(null)
   const { accessToken } = useAuth()
-  const userService = new UserService()
+
+  const userService = new UserService();
+  const artistService = new ArtistService();
 
   const openModal = (modal) => {
     setSelectedModal(modal)
@@ -24,12 +33,15 @@ export function ArtistMenu(props) {
   }
 
   const [profile, setProfile] = useState(user)
+  const [artist, setArtist] = useState(null);
 
   useEffect(() => {
     ;(async () => {
       try {
-        const response = await userService.getMeApi(accessToken)
-        setProfile(response)
+        const userResponse = await userService.getMeApi(accessToken)
+        setProfile(userResponse)
+        const artistResponse = await artistService.getArtistUserApi(accessToken);
+        setArtist(artistResponse);
       } catch (error) {
         console.error(error)
       }
@@ -58,7 +70,7 @@ export function ArtistMenu(props) {
         </Menu.Header>
         <Menu.Menu>
           <Menu.Item onClick={() => openModal('editProfile')}>
-            <Icon name="edit " />
+            <Icon name="edit" />
             Modificar perfil
           </Menu.Item>
         </Menu.Menu>
@@ -180,12 +192,27 @@ export function ArtistMenu(props) {
       )}
       {selectedModal === 'createArtist' && (
         <BasicModal show={showModal} close={closeModal} title="Crear artista">
-          <h1>Formulario de creación de artista</h1>
+          {artist ? (
+            <h3>Ya tienes un usuario asociado a tu cuenta</h3>
+          ) : (
+            <CreateArtistForm 
+              close={closeModal}
+              onReload={onReload}
+            />
+          )}
         </BasicModal>
       )}
       {selectedModal === 'editArtist' && (
         <BasicModal show={showModal} close={closeModal} title="Editar artista">
-          <h1>Formulario de edición de artista</h1>
+          {artist ? (
+            <UpdateArtistForm 
+              close={closeModal} 
+              onReload={onReload}
+              artist={artist} 
+            />
+          ) : (
+            <h3>No tienes ningún artista asociado a tu cuenta</h3>
+          )}
         </BasicModal>
       )}
       {selectedModal === 'deleteArtist' && (
@@ -194,7 +221,14 @@ export function ArtistMenu(props) {
           close={closeModal}
           title="Eliminar artista"
         >
-          <h1>Formulario de eliminación de artista</h1>
+          {artist ? (
+            <DeleteArtist 
+              close={closeModal}
+              onReload={onReload}
+            />
+          ) : (
+            <h3>No tienes ningún artista asociado a tu cuenta</h3>
+          )}
         </BasicModal>
       )}
       {selectedModal === 'createDisc' && (

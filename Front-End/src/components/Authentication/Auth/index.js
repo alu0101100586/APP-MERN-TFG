@@ -1,6 +1,6 @@
 export * from './RegisterForm'
 export * from './LoginForm'
-// export * from './Artist';
+export * from './Artist';
 // export * from './Concerts';
 // export * from './Discs';
 // export * from './Merchandise';

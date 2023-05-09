@@ -1,4 +1,5 @@
 const Artist = require('../models/artist.model')
+const User = require('../models/user.model')
 const Image = require('../utils/processImage.utils')
 const GetId = require('../utils/getUserId.utils')
 
@@ -19,7 +20,7 @@ async function getArtists(req, res) {
 }
 
 async function getOwnerArtist(req, res) {
-  const { id } = req.params
+  const id = GetId.getUserId(req)
   Artist.findOne({ ownerId: id })
     .then((artistStorage) => {
       if (!artistStorage) {
@@ -47,9 +48,12 @@ async function getArtist(req, res) {
 }
 
 async function createArtist(req, res) {
-  const { name, startDate, musicalGenre } = req.body
+  const { name, startDate } = req.body
   const ownerId = GetId.getUserId(req)
-  const artist = new Artist({ ownerId, name, startDate, musicalGenre })
+
+  const userStorage = await User.findById({ _id: ownerId})
+  const { musicalGenre, discs, concerts, merchandise} = userStorage;
+  const artist = new Artist({ ownerId, name, startDate, musicalGenre, discs, concerts, merchandise })
 
   if (req.files.avatar) {
     const imagePath = Image.getFilePath(req.files.avatar)
