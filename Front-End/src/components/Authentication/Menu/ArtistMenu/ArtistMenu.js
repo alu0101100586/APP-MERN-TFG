@@ -208,7 +208,7 @@ export function ArtistMenu(props) {
             <UpdateArtistForm 
               close={closeModal} 
               onReload={onReload}
-              artist={artist} 
+              artist={artist}
             />
           ) : (
             <h3>No tienes ningún artista asociado a tu cuenta</h3>

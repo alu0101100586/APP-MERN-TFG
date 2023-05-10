@@ -95,6 +95,8 @@ export class ArtistService {
       const data = artistData;
       const formData = new FormData();
       Object.keys(data).forEach((key) => formData.append(key, data[key]));
+      formData.delete('avatar');
+      formData.delete('fileAvatar');
 
       if (data.fileAvatar) {
         formData.append('avatar', data.fileAvatar);

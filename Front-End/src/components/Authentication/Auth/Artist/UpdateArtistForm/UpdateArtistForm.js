@@ -3,44 +3,48 @@ import { Form, Image } from 'semantic-ui-react';
 import DatePicker from 'react-datepicker';
 import { useFormik } from 'formik';
 import { useDropzone } from 'react-dropzone';
+import { ENV } from '../../../../../utils';
 import { initialValues, validationSchema } from './UpdateArtistForm.form';
 import { ArtistService } from '../../../../../service';
 import { useAuth } from '../../../../../hooks';
 import './UpdateArtistForm.scss';
 
 const artistService = new ArtistService();
-// TODO - arreglar lo de la imagen, ya que no se cpone como se tiene que guardar en la bbdd
+
 export function UpdateArtistForm(props) {
-  const { close, onReload } = props;
+  const { close, onReload, artist } = props;
   const [startDate, setStartDate] = useState('');
-  const [error, setError] = useState('');
-  const { accessToken } = useAuth();
+  const { accessToken } = useAuth()
+
+  const handleDateChange = (date) => {
+    setStartDate(date)
+    formik.setFieldValue('startDate', date)
+  }
 
   const formik = useFormik({
-    initialValues: initialValues(),
-    validationSchema: validationSchema(),
+    initialValues: initialValues(artist),
+    validationSchema: validationSchema(artist),
     onSubmit: async (formData) => {
       try {
-        setError('')
-        console.log(formData)
-        // await artistService.createArtistApi(accessToken, formData)
+        await artistService.updateArtistApi(accessToken, formData)
         onReload();
         close();
       } catch (error) {
-        setError('Error en el registro ya que es posible que tenga ya un artista asociado')
+        console.error(error)
       }
     },
     validateOnChange: false,
-  });
+  })
 
   const onDrop = useCallback((acceptedFiles) => {
     const file = acceptedFiles[0]
     formik.setFieldValue('avatar', URL.createObjectURL(file))
     formik.setFieldValue('fileAvatar', file)
-  });
+
+  })
 
   const { getRootProps, getInputProps } = useDropzone({
-    accept: 'image/jpeg, image/jpg, image/png',
+    accept: 'image/jpeg, image/png',
     onDrop,
   })
 
@@ -53,26 +57,17 @@ export function UpdateArtistForm(props) {
     return null;
   }
 
-  const handleDateChange = (date) => {
-    setStartDate(date)
-    formik.setFieldValue('startDate', date)
-  }
-
   return (
-    <Form className="create-artist-form" onSubmit={formik.handleSubmit}>
-
-      <div className="create-artist-form__avatar" {...getRootProps()}>
+    <Form className='update-artist-form' onSubmit={formik.handleSubmit}>
+      <div className='update-artist-form__avatar' {...getRootProps()}>
         <input {...getInputProps()} />
-        <span className="title"> Avatar Artista: </span>
+        <span className='title'> Avatar: </span>
         <Image avatar size="small" src={getAvatar()} />
       </div>
-      {formik.errors.artist && formik.touched.artist ? (
-        <div className="create-artist-form__error">{formik.errors.artist}</div>
-      ) : null}
 
       <Form.Input
-        name="name"
-        placeholder="Nombre de Artista"
+        name='name'
+        placeholder='Nombre Artista'
         onChange={formik.handleChange}
         value={formik.values.name}
         error={formik.errors.name}
@@ -80,21 +75,19 @@ export function UpdateArtistForm(props) {
 
       <Form.Field>
         <DatePicker
-          selected={startDate}
+          selected={formik.values.startDate ? new Date(formik.values.startDate) : startDate}
           onChange={handleDateChange}
           dateFormat={'dd/MM/yyyy'}
-          placeholderText="Fecha de Inicio"
+          placeholderText='Fecha de Inicio'
         />
         {formik.touched.startDate && formik.errors.startDate ? (
-          <div className="create-artist-form__error">Ingresa una fecha</div>
+          <div className='update-artist-form__error'>Ingresa una fecha</div>
         ) : null}
       </Form.Field>
 
-      <Form.Button type="submit" primary fluid loading={formik.isSubmitting}>
-        Crear tu artista
+      <Form.Button type='submit' primary fluid loading={formik.isSubmitting}>
+        Actualizar Artista
       </Form.Button>
-
-      <p className="create-artist-form__error">{error}</p>
     </Form>
   )
 }

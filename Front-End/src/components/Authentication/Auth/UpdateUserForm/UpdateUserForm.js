@@ -20,8 +20,7 @@ export function UpdateUserForm(props) {
     validationSchema: validationSchema(user),
     onSubmit: async (formData) => {
       try {
-        console.log(formData)
-        // await userService.updateMeApi(accessToken, formData)
+        await userService.updateMeApi(accessToken, formData)
         onReload()
         close()
       } catch (error) {
