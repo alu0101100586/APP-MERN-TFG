@@ -74,6 +74,13 @@ async function updateArtist(req, res) {
   const { user_id } = req.user
   const artistData = req.body
 
+  if (req.files.avatar) {
+    const imagePath = Image.getFilePath(req.files.avatar)
+    artistData.avatar = imagePath
+  } else {
+    delete artistData.avatar
+  }
+
   Artist.findOneAndUpdate({ ownerId: user_id }, artistData)
     .then((artistStorage) => {
       if (!artistStorage) {
@@ -83,7 +90,8 @@ async function updateArtist(req, res) {
         .status(200)
         .send({ msg: 'Artista actualizado satisfactoriamente' })
     })
-    .catch(() => {
+    .catch((error) => {
+      console.log(error);
       return res.status(500).send({ msg: 'Error al actualizar el artista' })
     })
 }
