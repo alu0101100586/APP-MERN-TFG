@@ -5,6 +5,7 @@ import { useFormik } from 'formik';
 import { useDropzone } from 'react-dropzone';
 import { initialValues, validationSchema } from './CreateArtistForm.form';
 import { ArtistService } from '../../../../../service';
+import { ENV } from '../../../../../utils';
 import { useAuth } from '../../../../../hooks';
 import './CreateArtistForm.scss';
 
@@ -26,7 +27,7 @@ export function CreateArtistForm(props) {
         onReload();
         close();
       } catch (error) {
-        setError('Error en el registro ya que es posible que tenga ya un artista asociado')
+        setError('Error en el registro, revise si ha subido un avatar a su artista')
       }
     },
     validateOnChange: false,
@@ -65,8 +66,8 @@ export function CreateArtistForm(props) {
         <span className="title"> Avatar Artista: </span>
         <Image avatar size="small" src={getAvatar()} />
       </div>
-      {formik.errors.artist && formik.touched.artist ? (
-        <div className="create-artist-form__error">{formik.errors.artist}</div>
+      {formik.errors.avatar && formik.touched.avatar ? (
+        <div className="create-artist-form__error">{formik.errors.avatar}</div>
       ) : null}
 
       <Form.Input
