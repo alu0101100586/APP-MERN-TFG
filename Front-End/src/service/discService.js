@@ -64,11 +64,23 @@ export class DiscService {
   async createDiscApi(accessToken, discData) {
     try {
       const data = discData
+      const genres = data.musicalGenre
+      const songs = data.songs
       const formData = new FormData()
       Object.keys(data).forEach((key) => formData.append(key, data[key]))
 
-      if (data.fileDisc) {
-        formData.append('cover', data.fileDisc)
+      if (data.fileCover) {
+        formData.append('cover', data.fileCover)
+      }
+
+      if (genres) {
+        formData.delete('musicalGenre')
+        genres.forEach((genre) => formData.append('musicalGenre', genre))
+      }
+
+      if (songs) {
+        formData.delete('songs')
+        songs.forEach((song) => formData.append('songs', song))
       }
 
       const url = `${this.api}${ENV.API_ROUTES.DISC.CREATE_DISC}`

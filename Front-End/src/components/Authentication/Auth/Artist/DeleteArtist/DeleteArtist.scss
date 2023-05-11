@@ -1,1 +1,34 @@
 @import "~/src/scss/index.scss";
+
+.delete-artist-transaction {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  h1 {
+    width: 100%;
+  }
+
+  .delete-artist-transaction__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: justify;
+    margin-left: 15%;
+    margin-right: 15%;
+    margin-bottom: 5%;
+    width: 100%;  
+  }
+
+  .delete-artist-transaction__buttons {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+
+    .delete-artist-transaction__buttons-delete,
+    .delete-artist-transaction__buttons-cancel {
+      width: 50%;
+    }
+  }
+}

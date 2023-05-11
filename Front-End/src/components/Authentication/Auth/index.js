@@ -1,8 +1,8 @@
 export * from './RegisterForm'
 export * from './LoginForm'
 export * from './Artist';
+export * from './Discs';
 // export * from './Concerts';
-// export * from './Discs';
 // export * from './Merchandise';
 export * from './UpdateUserForm'
 export * from './PasswordForm'

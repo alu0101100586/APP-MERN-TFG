@@ -23,9 +23,9 @@ export function DeleteArtist(props) {
   }
 
   return (
-    <div className="delete-user-transaction">
+    <div className="delete-artist-transaction">
       <h1>¿Seguro de que quieres seguir adelante?</h1>
-      <div className="delete-user-transaction__content">
+      <div className="delete-artist-transaction__content">
         <p>
           Una vez se elimine el artista, no tendrás acceso a la página de este, 
           ya que se eliminarán todos los datos asociados. Por otro lado, tus 
@@ -35,16 +35,16 @@ export function DeleteArtist(props) {
         </p>
       </div>
 
-      <div className="delete-user-transaction__buttons">
+      <div className="delete-artist-transaction__buttons">
         <Button
-          className="delete-user-transaction__buttons-delete"
+          className="delete-artist-transaction__buttons-delete"
           secondary
           onClick={() => handleDelete(accessToken)}
         >
           Eliminar
         </Button>
         <Button
-          className="delete-user-transaction__buttons-cancel"
+          className="delete-artist-transaction__buttons-cancel"
           primary
           onClick={close}
         >

@@ -9,6 +9,7 @@ import {
   CreateArtistForm,
   DeleteArtist,
   UpdateArtistForm,
+  CreateDiscForm,
 } from '../../Auth'
 import { ArtistService, UserService } from '../../../../service'
 import { useAuth } from '../../../../hooks'
@@ -233,7 +234,7 @@ export function ArtistMenu(props) {
       )}
       {selectedModal === 'createDisc' && (
         <BasicModal show={showModal} close={closeModal} title="Crear disco">
-          <h1>Formulario de creación de disco</h1>
+          <CreateDiscForm close={closeModal} onReload={onReload} />
         </BasicModal>
       )}
       {selectedModal === 'editDisc' && (
