@@ -9,6 +9,8 @@ import {
   CreateArtistForm,
   DeleteArtist,
   UpdateArtistForm,
+  CreateDiscForm,
+  DeleteItem,
 } from '../../Auth'
 import { ArtistService, UserService } from '../../../../service'
 import { useAuth } from '../../../../hooks'
@@ -233,7 +235,7 @@ export function ArtistMenu(props) {
       )}
       {selectedModal === 'createDisc' && (
         <BasicModal show={showModal} close={closeModal} title="Crear disco">
-          <h1>Formulario de creación de disco</h1>
+          <CreateDiscForm close={closeModal} onReload={onReload} />
         </BasicModal>
       )}
       {selectedModal === 'editDisc' && (
@@ -243,7 +245,7 @@ export function ArtistMenu(props) {
       )}
       {selectedModal === 'deleteDisc' && (
         <BasicModal show={showModal} close={closeModal} title="Eliminar disco">
-          <h1>Formulario de eliminación de disco</h1>
+          <DeleteItem close={closeModal} onReload={onReload} type='disc' />
         </BasicModal>
       )}
       {selectedModal === 'createConcert' && (
@@ -266,7 +268,7 @@ export function ArtistMenu(props) {
           close={closeModal}
           title="Eliminar concierto"
         >
-          <h1>Formulario de eliminación de concierto</h1>
+          <DeleteItem close={closeModal} onReload={onReload} type='concert' />
         </BasicModal>
       )}
       {selectedModal === 'createMerch' && (
@@ -293,7 +295,7 @@ export function ArtistMenu(props) {
           close={closeModal}
           title="Eliminar merchandise"
         >
-          <h1>Formulario de eliminación de merchandise</h1>
+          <DeleteItem close={closeModal} onReload={onReload} type='merch' />
         </BasicModal>
       )}
       {selectedModal === 'changePasswd' && (

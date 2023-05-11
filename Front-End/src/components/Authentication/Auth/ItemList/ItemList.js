@@ -25,7 +25,7 @@ export function ItemList(props) {
   const navigate = useNavigate(searchParams.get('page') || 1)
 
   useEffect(() => {
-    ;(async () => {
+    (async () => {
       try {
         if (type === 'disc') {
           const response = await discController.getDiscsUserApi(

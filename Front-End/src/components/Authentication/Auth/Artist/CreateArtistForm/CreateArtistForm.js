@@ -91,7 +91,7 @@ export function CreateArtistForm(props) {
       </Form.Field>
 
       <Form.Button type="submit" primary fluid loading={formik.isSubmitting}>
-        Crear tu artista
+        Crear Artista
       </Form.Button>
 
       <p className="create-artist-form__error">{error}</p>
