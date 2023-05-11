@@ -3,6 +3,7 @@ import { Button } from 'semantic-ui-react';
 import { useAuth } from '../../../../../hooks';
 import { ArtistService } from '../../../../../service';
 import './DeleteArtist.scss';
+
 //TODO - revisar por que create y updated si hacen el onreload y este no
 
 const artistService = new ArtistService();
@@ -39,6 +40,7 @@ export function DeleteArtist(props) {
         <Button
           className="delete-artist-transaction__buttons-delete"
           secondary
+          onReload={onReload}
           onClick={() => handleDelete(accessToken)}
         >
           Eliminar
