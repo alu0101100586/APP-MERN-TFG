@@ -5,9 +5,10 @@ import { image } from '../../../../assets'
 import { UserService } from '../../../../service'
 import { useAuth } from '../../../../hooks'
 import { ItemList } from '../ItemList'
+import { formatDate } from '../../../../utils';
 import './UserContent.scss'
 
-// TODO - Imprimir la fecha de una manera más legible
+// TODO- corregir reload de las listas
 
 export function UserContect(props) {
   const { user, reload } = props
@@ -33,12 +34,14 @@ export function UserContect(props) {
   }
 
   const [profile, setProfile] = useState(user)
+  const [date, setDate] = useState(formatDate(profile.birthDate))
 
   useEffect(() => {
     ;(async () => {
       try {
         const user_response = await userService.getMeApi(accessToken)
         setProfile(user_response)
+        setDate(formatDate(user_response.birthDate))
       } catch (error) {
         console.error(error)
       }
@@ -73,7 +76,7 @@ export function UserContect(props) {
           </div>
           <div className="user-content__info__data__date">
             <h3>Fecha Inicio</h3>
-            <span>Fecha de Inicio: {profile.birthDate}</span>
+            <span>{date}</span>
           </div>
         </div>
       </div>
