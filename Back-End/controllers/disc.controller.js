@@ -127,7 +127,7 @@ async function createDisc(req, res) {
 
       return res.status(201).send(discStorage)
     })
-    .catch(() => {
+    .catch((error) => {
       return res.status(400).send({ msg: 'Error al crear el disco' })
     })
 }
