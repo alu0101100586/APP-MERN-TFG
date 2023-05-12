@@ -64,11 +64,17 @@ export class MerchandiseService {
   async createMerchandiseApi(accessToken, merchandiseData) {
     try {
       const data = merchandiseData;
+      const sizes = data.size;
       const formData = new FormData();
       Object.keys(data).forEach((key) => formData.append(key, data[key]));
 
       if (data.fileImage) {
         formData.append("image", data.fileImage);
+      }
+      
+      if(sizes) {
+        formData.delete('size')
+        sizes.forEach((size) => formData.append('size', size))
       }
 
       const url = `${ENV.API_PATH}/${ENV.API_ROUTES.MERCHANDISE.CREATE_MERCHANDISE}`;
@@ -83,9 +89,11 @@ export class MerchandiseService {
       const response = await fetch(url, params);
       const result = await response.json();
 
-      if (response.status !== 200) {
+      if (response.status !== 201) {
         throw new Error('UnExpected Error')
       }
+      return result;
+      return 0;
     } catch (error) {
       throw error;
     }

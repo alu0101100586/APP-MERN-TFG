@@ -63,7 +63,6 @@ export class ConcertService {
   async createConcertApi(accessToken, concertData) {
     try {
       const data = concertData;
-      console.log(data);
       const genres = data.musicalGenre;
       const participants = data.participants;
       const formData = new FormData();
