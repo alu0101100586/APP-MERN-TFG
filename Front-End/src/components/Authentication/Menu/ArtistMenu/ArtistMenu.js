@@ -10,6 +10,7 @@ import {
   DeleteArtist,
   UpdateArtistForm,
   CreateDiscForm,
+  CreateConcertForm,
   DeleteItem,
 } from '../../Auth'
 import { ArtistService, UserService } from '../../../../service'
@@ -250,7 +251,7 @@ export function ArtistMenu(props) {
       )}
       {selectedModal === 'createConcert' && (
         <BasicModal show={showModal} close={closeModal} title="Crear concierto">
-          <h1>Formulario de creación de concierto</h1>
+          <CreateConcertForm close={closeModal} onReload={onReload} />
         </BasicModal>
       )}
       {selectedModal === 'editConcert' && (
