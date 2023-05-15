@@ -3,6 +3,8 @@ import { Image, Button } from 'semantic-ui-react'
 import { ENV } from '../../../../utils'
 import './BasicItem.scss'
 
+//TODO - hacer que el elemento sea clickeable para ir a la pagina del item
+
 export function BasicItem(props) {
   const { item } = props
 

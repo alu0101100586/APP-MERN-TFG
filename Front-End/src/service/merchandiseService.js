@@ -99,7 +99,7 @@ export class MerchandiseService {
     }
   }
 
-  async updateMerchandiseApi(accessToken, merchandiseId, merchandiseData) {
+  async updateMerchandiseApi(accessToken, merchandiseData, merchandiseId) {
     try {
       const data = merchandiseData;
       const formData = new FormData();
