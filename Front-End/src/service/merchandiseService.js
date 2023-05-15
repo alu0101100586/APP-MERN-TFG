@@ -102,11 +102,17 @@ export class MerchandiseService {
   async updateMerchandiseApi(accessToken, merchandiseData, merchandiseId) {
     try {
       const data = merchandiseData;
+      const sizes = data.size;
       const formData = new FormData();
       Object.keys(data).forEach((key) => formData.append(key, data[key]));
 
       if (data.fileImage) {
         formData.append("image", data.fileImage);
+      }
+
+      if(sizes) {
+        formData.delete('size')
+        sizes.forEach((size) => formData.append('size', size))
       }
 
       const url = `${ENV.API_PATH}/${ENV.API_ROUTES.MERCHANDISE.UPDATE_MERCHANDISE}/${merchandiseId}`;
@@ -212,7 +218,7 @@ export class MerchandiseService {
 
   async buyMerchandiseApi(accessToken, merchandiseId) {
     try {
-      const url = `${ENV.API_PATH}/${ENV.API_ROUTES.MERCHANDISE.BUY_MERCHANDISE}/${merchandiseId}`;
+      const url = `${ENV.API_PATH}${ENV.API_ROUTES.MERCHANDISE.BUY_MERCHANDISE}/${merchandiseId}`;
       const params = {
         method: "PATCH",
         headers: {
@@ -235,7 +241,8 @@ export class MerchandiseService {
 
   async returnMerchandiseApi(accessToken, merchandiseId) {
     try {
-      const url = `${ENV.API_PATH}/${ENV.API_ROUTES.MERCHANDISE.RETURN_MERCHANDISE}/${merchandiseId}`;
+      const url = `${ENV.API_PATH}${ENV.API_ROUTES.MERCHANDISE.RETURN_MERCHANDISE}/${merchandiseId}`;
+      console.log(url)
       const params = {
         method: "PATCH",
         headers: {
@@ -251,6 +258,7 @@ export class MerchandiseService {
       }
 
       return result;
+      return
     } catch (error) {
       throw error;
     }

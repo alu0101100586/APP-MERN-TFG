@@ -108,7 +108,8 @@ export class ConcertService {
   async updateConcertApi(accessToken, concertData, concertId) {
     try {
       const data = concertData;
-
+      const genres = data.musicalGenre;
+      const participants = data.participants;
       const formData = new FormData();
       Object.keys(data).forEach((key) => formData.append(key, data[key]));
 
@@ -118,6 +119,18 @@ export class ConcertService {
 
       if (data.fileConcertPoster) {
         formData.append("concertPoster", data.fileConcertPoster);
+      }
+
+      if (genres) {
+        formData.delete('musicalGenre')
+        genres.forEach((genre) => formData.append('musicalGenre', genre))
+      }
+
+      if (participants) {
+        formData.delete("participants");
+        participants.forEach((participant) =>
+          formData.append("participants", participant)
+        );
       }
 
       const url = `${ENV.API_PATH}/${ENV.API_ROUTES.CONCERT.UPDATE_CONCERT}/${concertId}`;

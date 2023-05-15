@@ -1,3 +1,4 @@
+import { get } from 'lodash'
 import { ENV } from '../utils'
 
 export class DiscService {
@@ -107,6 +108,7 @@ export class DiscService {
   async updateDiscApi(accessToken, discData, discId) {
     try {
       const data = discData
+      const genres = data.musicalGenre
       const songs = data.songs
       const formData = new FormData()
       Object.keys(data).forEach((key) => formData.append(key, data[key]))
@@ -119,12 +121,18 @@ export class DiscService {
         formData.append('cover', data.fileCover)
       }
 
+      if (genres) {
+        formData.delete('musicalGenre')
+        genres.forEach((genre) => formData.append('musicalGenre', genre))
+      }
+
       if (songs) {
         formData.delete('songs')
         songs.forEach((song) => formData.append('songs', song))
       }
 
       const url = `${this.api}${ENV.API_ROUTES.DISC.UPDATE_DISC}/${discId}`
+      console.log(url)
       const params = {
         method: 'PATCH',
         headers: {

@@ -3,6 +3,7 @@ export * from './LoginForm';
 export * from './Artist';
 export * from './Discs';
 export * from './DeleteItem';
+export * from './RefundItem';
 export * from './Concerts';
 export * from './Merchandise';
 export * from './UpdateUserForm';
