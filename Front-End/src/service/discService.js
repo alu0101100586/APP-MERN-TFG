@@ -108,7 +108,6 @@ export class DiscService {
     try {
       const data = discData
       const songs = data.songs
-      console.log(data)
       const formData = new FormData()
       Object.keys(data).forEach((key) => formData.append(key, data[key]))
 

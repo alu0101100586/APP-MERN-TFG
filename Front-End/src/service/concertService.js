@@ -105,14 +105,19 @@ export class ConcertService {
     }
   }
 
-  async updateConcertApi(accessToken, concertId, concertData) {
+  async updateConcertApi(accessToken, concertData, concertId) {
     try {
       const data = concertData;
+
       const formData = new FormData();
       Object.keys(data).forEach((key) => formData.append(key, data[key]));
 
-      if (data.filePoster) {
-        formData.append("poster", data.filePoster);
+      if (data.item) {
+        formData.delete("item");
+      }
+
+      if (data.fileConcertPoster) {
+        formData.append("concertPoster", data.fileConcertPoster);
       }
 
       const url = `${ENV.API_PATH}/${ENV.API_ROUTES.CONCERT.UPDATE_CONCERT}/${concertId}`;
