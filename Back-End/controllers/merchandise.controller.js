@@ -63,6 +63,7 @@ async function getMerchandise(req, res) {
     })
 }
 
+// TODO - corregir la creacion de merchandise cuando no existe el artista
 async function createMerchandise(req, res) {
   const {
     name,
@@ -158,6 +159,7 @@ async function updateMerchandise(req, res) {
     })
 }
 
+// TODO - corregir la eliminación de merchandise cuando no existe el artista
 async function deleteMerchandise(req, res) {
   const { id } = req.params
   const ownerId = GetId.getUserId(req)
@@ -266,7 +268,7 @@ async function buyMerchandise(req, res) {
           }
 
           //Controlando que no se compre un merchandise repetido
-          const merchandiseExists = commonUserStorage.merchandises.find(
+          const merchandiseExists = commonUserStorage.merchandise.find(
             (merchandiseId) => merchandiseId === id
           )
           if (merchandiseExists) {
@@ -279,9 +281,10 @@ async function buyMerchandise(req, res) {
           const newRaisedMoney =
             merchandiseStorage.price + merchandiseStorage.raisedMoney
           merchandiseStorage.raisedMoney = newRaisedMoney
+          
           merchandiseStorage.save()
 
-          commonUserStorage.merchandises.push(id)
+          commonUserStorage.merchandise.push(id)
           commonUserStorage.save()
 
           return res
@@ -315,7 +318,7 @@ async function returnMerchandise(req, res) {
         }
 
         //Controlando que el merchandise a devolver existe
-        const merchandiseExists = commonUserStorage.merchandises.find(
+        const merchandiseExists = commonUserStorage.merchandise.find(
           (merchandiseId) => merchandiseId === id
         )
         if (!merchandiseExists) {
@@ -328,7 +331,7 @@ async function returnMerchandise(req, res) {
         merchandiseStorage.raisedMoney = newRaisedMoney
         merchandiseStorage.save()
 
-        commonUserStorage.merchandises.pull(id)
+        commonUserStorage.merchandise.pull(id)
         commonUserStorage.save()
 
         return res

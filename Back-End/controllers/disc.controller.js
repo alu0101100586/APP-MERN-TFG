@@ -61,6 +61,7 @@ async function getDiscsByUser(req, res) {
   }
 }
 
+//TODO - Corregir la creacion de discos cuando no existe un artista
 async function createDisc(req, res) {
   const {
     name,
@@ -132,6 +133,7 @@ async function createDisc(req, res) {
     })
 }
 
+//TODO - si se actualiza musiaclgenre, modifical musicalgenre del user y del artista
 async function updateDisc(req, res) {
   const { id } = req.params
   const discData = req.body
@@ -169,6 +171,7 @@ async function updateDisc(req, res) {
     })
 }
 
+//TODO - Corregir la eliminacion de discos cuando no existe un artista
 async function deleteDisc(req, res) {
   const { id } = req.params
   const ownerId = GetId.getUserId(req)

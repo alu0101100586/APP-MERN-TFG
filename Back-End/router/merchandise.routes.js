@@ -49,13 +49,13 @@ api.delete(
 )
 
 api.patch(
-  'buy/merchandise/:id',
+  '/buy/merchandise/:id',
   [mwAuth.asureAuthenticated, mwIsCommon.asureIsCommon],
   merchController.buyMerchandise
 )
 
 api.patch(
-  'return/merchandise/:id',
+  '/return/merchandise/:id',
   [mwAuth.asureAuthenticated, mwIsCommon.asureIsCommon],
   merchController.returnMerchandise
 )
