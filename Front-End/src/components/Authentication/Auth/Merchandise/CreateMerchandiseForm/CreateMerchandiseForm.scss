@@ -1,0 +1,29 @@
+@import "~/src/scss/index.scss";
+
+.create-merch-form {
+  &__avatar {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    align-items: center;
+
+    .title {
+      margin: 0;
+      margin-right: 30px;
+      font-size: 20px;
+    }
+
+    > .ui.image {
+      margin: 0;
+      border: 2px dashed $primary-agua;
+      padding: 5px;
+      cursor: pointer;
+    }
+  }
+
+  &__error {
+    color: $error;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+}

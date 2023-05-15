@@ -10,6 +10,11 @@ import {
   DeleteArtist,
   UpdateArtistForm,
   CreateDiscForm,
+  UpdateDiscForm,
+  CreateConcertForm,
+  UpdateConcertForm,
+  CreateMerchandiseForm,
+  UpdateMerchandiseForm,
   DeleteItem,
 } from '../../Auth'
 import { ArtistService, UserService } from '../../../../service'
@@ -240,7 +245,7 @@ export function ArtistMenu(props) {
       )}
       {selectedModal === 'editDisc' && (
         <BasicModal show={showModal} close={closeModal} title="Editar disco">
-          <h1>Formulario de edición de disco</h1>
+          <UpdateDiscForm close={closeModal} onReload={onReload} />
         </BasicModal>
       )}
       {selectedModal === 'deleteDisc' && (
@@ -250,7 +255,7 @@ export function ArtistMenu(props) {
       )}
       {selectedModal === 'createConcert' && (
         <BasicModal show={showModal} close={closeModal} title="Crear concierto">
-          <h1>Formulario de creación de concierto</h1>
+          <CreateConcertForm close={closeModal} onReload={onReload} />
         </BasicModal>
       )}
       {selectedModal === 'editConcert' && (
@@ -259,7 +264,7 @@ export function ArtistMenu(props) {
           close={closeModal}
           title="Editar concierto"
         >
-          <h1>Formulario de edición de concierto</h1>
+          <UpdateConcertForm close={closeModal} onReload={onReload}/>
         </BasicModal>
       )}
       {selectedModal === 'deleteConcert' && (
@@ -277,7 +282,7 @@ export function ArtistMenu(props) {
           close={closeModal}
           title="Crear merchandise"
         >
-          <h1>Formulario de creación de merchandise</h1>
+          <CreateMerchandiseForm close={closeModal} onReload={onReload}/>
         </BasicModal>
       )}
       {selectedModal === 'editMerch' && (
@@ -286,7 +291,7 @@ export function ArtistMenu(props) {
           close={closeModal}
           title="Editar merchandise"
         >
-          <h1>Formulario de edición de merchandise</h1>
+          <UpdateMerchandiseForm close={closeModal} onReload={onReload}/>
         </BasicModal>
       )}
       {selectedModal === 'deleteMerch' && (

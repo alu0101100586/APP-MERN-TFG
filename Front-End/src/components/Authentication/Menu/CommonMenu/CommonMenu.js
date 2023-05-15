@@ -2,7 +2,12 @@ import React, { useState, useEffect } from 'react'
 import { Menu, Icon } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import { BasicModal } from '../../../Shared/BasicModal'
-import { UpdateUserForm, PasswordForm, DeleteUserTransaction } from '../../Auth'
+import { 
+  UpdateUserForm, 
+  RefundItem,
+  PasswordForm, 
+  DeleteUserTransaction 
+} from '../../Auth'
 import { UserService } from '../../../../service'
 import { useAuth } from '../../../../hooks'
 import './CommonMenu.scss'
@@ -117,7 +122,7 @@ export function CommonMenu(props) {
       )}
       {selectedModal === 'exchangeDisc' && (
         <BasicModal show={showModal} close={closeModal} title="Devolver Disco">
-          <h1>Formulario devolución de discos</h1>
+          <RefundItem close={closeModal} onReload={onReload} type='disc'/>
         </BasicModal>
       )}
       {selectedModal === 'exchangeConcert' && (
@@ -126,7 +131,7 @@ export function CommonMenu(props) {
           close={closeModal}
           title="Devolver Concierto"
         >
-          <h1>Formulario devolución de concierto</h1>
+          <RefundItem close={closeModal} onReload={onReload} type='concert'/>
         </BasicModal>
       )}
       {selectedModal === 'exchangeMerch' && (
@@ -135,7 +140,7 @@ export function CommonMenu(props) {
           close={closeModal}
           title="Devolver Merchandise"
         >
-          <h1>Formulario devolución de merchandise</h1>
+          <RefundItem close={closeModal} onReload={onReload} type='merch'/>
         </BasicModal>
       )}
       {selectedModal === 'changePasswd' && (

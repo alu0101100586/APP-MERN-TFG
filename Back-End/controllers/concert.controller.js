@@ -61,6 +61,7 @@ async function getConcertsByUser(req, res) {
   }
 }
 
+// TODO - corregir la creacion de conciertos cuando no existe el artista
 async function createConcert(req, res) {
   const {
     name,
@@ -135,6 +136,7 @@ async function createConcert(req, res) {
     })
 }
 
+//TODO - si se actualiza musiaclgenre, modifical musicalgenre del user y del artista
 async function updateConcert(req, res) {
   const { id } = req.params
   const concertData = req.body
@@ -171,7 +173,7 @@ async function updateConcert(req, res) {
     })
 }
 
-//corregir
+// TODO - corregir la eliminacion de conciertos cuando no existe el artista
 async function deleteConcert(req, res) {
   const { id } = req.params
   const ownerId = GetId.getUserId(req)

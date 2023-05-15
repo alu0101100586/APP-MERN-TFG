@@ -63,11 +63,25 @@ export class ConcertService {
   async createConcertApi(accessToken, concertData) {
     try {
       const data = concertData;
+      const genres = data.musicalGenre;
+      const participants = data.participants;
       const formData = new FormData();
       Object.keys(data).forEach((key) => formData.append(key, data[key]));
 
-      if (data.filePoster) {
-        formData.append("poster", data.filePoster);
+      if (data.fileConcertPoster) {
+        formData.append("concertPoster", data.fileConcertPoster);
+      }
+
+      if (genres) {
+        formData.delete('musicalGenre')
+        genres.forEach((genre) => formData.append('musicalGenre', genre))
+      }
+
+      if (participants) {
+        formData.delete("participants");
+        participants.forEach((participant) =>
+          formData.append("participants", participant)
+        );
       }
 
       const url = `${ENV.API_PATH}/${ENV.API_ROUTES.CONCERT.CREATE_CONCERT}`;
@@ -82,7 +96,7 @@ export class ConcertService {
       const response = await fetch(url, params);
       const result = await response.json();
 
-      if (response.status !== 200) {
+      if (response.status !== 201) {
         throw new Error('UnExpected Error')
       }
       return result;
@@ -91,14 +105,32 @@ export class ConcertService {
     }
   }
 
-  async updateConcertApi(accessToken, concertId, concertData) {
+  async updateConcertApi(accessToken, concertData, concertId) {
     try {
       const data = concertData;
+      const genres = data.musicalGenre;
+      const participants = data.participants;
       const formData = new FormData();
       Object.keys(data).forEach((key) => formData.append(key, data[key]));
 
-      if (data.filePoster) {
-        formData.append("poster", data.filePoster);
+      if (data.item) {
+        formData.delete("item");
+      }
+
+      if (data.fileConcertPoster) {
+        formData.append("concertPoster", data.fileConcertPoster);
+      }
+
+      if (genres) {
+        formData.delete('musicalGenre')
+        genres.forEach((genre) => formData.append('musicalGenre', genre))
+      }
+
+      if (participants) {
+        formData.delete("participants");
+        participants.forEach((participant) =>
+          formData.append("participants", participant)
+        );
       }
 
       const url = `${ENV.API_PATH}/${ENV.API_ROUTES.CONCERT.UPDATE_CONCERT}/${concertId}`;
