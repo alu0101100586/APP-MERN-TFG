@@ -12,6 +12,7 @@ import {
   CreateDiscForm,
   CreateConcertForm,
   CreateMerchandiseForm,
+  UpdateDiscForm,
   DeleteItem,
 } from '../../Auth'
 import { ArtistService, UserService } from '../../../../service'
@@ -242,7 +243,7 @@ export function ArtistMenu(props) {
       )}
       {selectedModal === 'editDisc' && (
         <BasicModal show={showModal} close={closeModal} title="Editar disco">
-          <h1>Formulario de edición de disco</h1>
+          <UpdateDiscForm close={closeModal} onReload={onReload} />
         </BasicModal>
       )}
       {selectedModal === 'deleteDisc' && (

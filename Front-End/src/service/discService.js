@@ -107,11 +107,22 @@ export class DiscService {
   async updateDiscApi(accessToken, discData, discId) {
     try {
       const data = discData
+      const songs = data.songs
+      console.log(data)
       const formData = new FormData()
       Object.keys(data).forEach((key) => formData.append(key, data[key]))
 
-      if (data.fileDisc) {
-        formData.append('cover', data.fileDisc)
+      if (data.item) {
+        formData.delete('item')
+      }
+
+      if (data.fileCover) {
+        formData.append('cover', data.fileCover)
+      }
+
+      if (songs) {
+        formData.delete('songs')
+        songs.forEach((song) => formData.append('songs', song))
       }
 
       const url = `${this.api}${ENV.API_ROUTES.DISC.UPDATE_DISC}/${discId}`

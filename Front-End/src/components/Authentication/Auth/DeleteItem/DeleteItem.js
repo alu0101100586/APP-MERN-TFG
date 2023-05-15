@@ -76,7 +76,7 @@ export function DeleteItem(props) {
   return (
     <Form className="delete-item" onSubmit={formik.handleSubmit}>
       <Form.Select
-        label="Selecciona un elemto"
+        label="Selecciona un elemento"
         name="item"
         placeholder='Elemento'
         options={itemOptions}
