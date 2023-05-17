@@ -61,7 +61,6 @@ async function getConcertsByUser(req, res) {
   }
 }
 
-// TODO - corregir la creacion de conciertos cuando no existe el artista
 async function createConcert(req, res) {
   const {
     name,
@@ -91,52 +90,38 @@ async function createConcert(req, res) {
     concert.concertPoster = imagePath
   }
 
-  concert
-    .save()
-    .then((concertStorage) => {
-      User.findOne({ _id: ownerId })
-        .then((userStorage) => {
-          userStorage.concerts.push(concertStorage._id)
-          const genresToAdd = concertStorage.musicalGenre
-          const userStorageGenres = new Set(userStorage.musicalGenre)
-          genresToAdd.forEach((genre) => {
-            userStorageGenres.add(genre)
-          })
-          userStorage.musicalGenre = Array.from(userStorageGenres)
-          userStorage.save()
-        })
-        .catch(() => {
-          return res.status(500).send({
-            msg: 'Error al actualizar el array de conciertos del usuario',
-          })
-        })
+  try {
+    const concertStorage = await concert.save()
 
-      Artist.findOne({ ownerId: ownerId })
-        .then((artistStorage) => {
-          artistStorage.concerts.push(concertStorage._id)
-          const genresToAdd = concertStorage.musicalGenre
-          const artistStorageGenres = new Set(artistStorage.musicalGenre)
-          genresToAdd.forEach((genre) => {
-            artistStorageGenres.add(genre)
-          })
-          concertStorage.participants.push(artistStorage.name)
-          concertStorage.save()
-          artistStorage.musicalGenre = Array.from(artistStorageGenres)
-          artistStorage.save()
-        })
-        .catch(() => {
-          return res.status(500).send({
-            msg: 'Error al actualizar el array de conciertos del artista',
-          })
-        })
-      return res.status(201).send(concertStorage)
-    })
-    .catch((error) => {
-      return res.status(500).send({ msg: 'Error al crear el concierto' })
-    })
+    const userStorage = await User.findOneAndUpdate(
+      { _id: ownerId },
+      {
+        $push: { concerts: concertStorage._id },
+        $addToSet: { musicalGenre: { $each: concertStorage.musicalGenre } },
+      },
+      { new: true }
+    ).exec()
+
+    let artistStorage
+    if (ownerId) {
+      artistStorage = await Artist.findOneAndUpdate(
+        { ownerId: ownerId },
+        {
+          $push: { concerts: concertStorage._id },
+          $addToSet: { musicalGenre: { $each: concertStorage.musicalGenre } },
+        },
+        { new: true }
+      ).exec()
+    }
+
+    await Promise.all([userStorage, artistStorage])
+
+    return res.status(201).send(concertStorage)
+  } catch (error) {
+    return res.status(500).send({ msg: 'Error al crear el concierto' })
+  }
 }
 
-//TODO - si se actualiza musiaclgenre, modifical musicalgenre del user y del artista
 async function updateConcert(req, res) {
   const { id } = req.params
   const concertData = req.body
@@ -158,61 +143,79 @@ async function updateConcert(req, res) {
   }
   delete concertData.ownerId
 
-  Concert.findByIdAndUpdate({ _id: id, ownerId: ownerId }, concertData)
-    .then((concertStorage) => {
-      if (!concertStorage) {
-        return res.status(404).send({ msg: 'Concierto no encontrado' })
-      }
+  try {
+    const concertStorage = await Concert.findOneAndUpdate(
+      { _id: id, ownerId: ownerId },
+      concertData,
+      { new: true }
+    ).exec()
 
-      return res
-        .status(200)
-        .send({ msg: 'Concierto actualizado satisfactoriamente' })
-    })
-    .catch(() => {
-      return res.status(500).send({ msg: 'Error al actualizar el concierto' })
-    })
+    if (!concertStorage) {
+      return res.status(404).send({ msg: 'Concierto no encontrado' })
+    }
+
+    const userStorage = await User.findOneAndUpdate(
+      { _id: ownerId },
+      { $addToSet: { musicalGenre: { $each: concertStorage.musicalGenre } } },
+      { new: true }
+    ).exec()
+
+    let artistStorage
+    if (ownerId) {
+      artistStorage = await Artist.findOneAndUpdate(
+        { ownerId: ownerId },
+        { $addToSet: { musicalGenre: { $each: concertStorage.musicalGenre } } },
+        { new: true }
+      ).exec()
+    }
+
+    await Promise.all([userStorage, artistStorage])
+
+    return res
+      .status(200)
+      .send({ msg: 'Concierto actualizado satisfactoriamente' })
+  } catch (error) {
+    return res.status(500).send({ msg: 'Error al actualizar el concierto' })
+  }
 }
 
-// TODO - corregir la eliminacion de conciertos cuando no existe el artista
 async function deleteConcert(req, res) {
   const { id } = req.params
   const ownerId = GetId.getUserId(req)
 
-  Concert.findByIdAndDelete({ _id: id, ownerId: ownerId })
-    .then((concertStorage) => {
-      if (!concertStorage) {
-        return res.status(404).send({ msg: 'Concierto no encontrado' })
-      }
+  try {
+    const concertStorage = await Concert.findOneAndDelete({
+      _id: id,
+      ownerId: ownerId,
+    }).exec()
 
-      User.findOne({ _id: ownerId })
-        .then((userStorage) => {
-          userStorage.concerts.pull(id)
-          userStorage.save()
-        })
-        .catch(() => {
-          return res.status(400).send({
-            msg: 'Error al actualizar el array de conciertos del usuario',
-          })
-        })
+    if (!concertStorage) {
+      return res.status(404).send({ msg: 'Concierto no encontrado' })
+    }
 
-      Artist.findOne({ ownerId: ownerId })
-        .then((artistStorage) => {
-          artistStorage.concerts.pull(id)
-          artistStorage.save()
-        })
-        .catch(() => {
-          return res.status(400).send({
-            msg: 'Error al actualizar el array de conciertos del artista',
-          })
-        })
+    const userStorage = await User.findOneAndUpdate(
+      { _id: ownerId },
+      { $pull: { concerts: concertStorage._id } },
+      { new: true }
+    ).exec()
 
-      return res
-        .status(200)
-        .send({ msg: 'Concierto eliminado satisfactoriamente' })
-    })
-    .catch(() => {
-      return res.status(500).send({ msg: 'Error al eliminar el Concierto' })
-    })
+    let artistStorage
+    if (ownerId) {
+      artistStorage = await Artist.findOneAndUpdate(
+        { ownerId: ownerId },
+        { $pull: { concerts: concertStorage._id } },
+        { new: true }
+      ).exec()
+    }
+
+    await Promise.all([userStorage, artistStorage])
+
+    return res
+      .status(200)
+      .send({ msg: 'Concierto eliminado satisfactoriamente' })
+  } catch (error) {
+    return res.status(500).send({ msg: 'Error al eliminar el Concierto' })
+  }
 }
 
 async function addParticipant(req, res) {
@@ -229,7 +232,7 @@ async function addParticipant(req, res) {
       const artistExists = concertStorage.participants.find(
         (artistName) => artistName === artist
       )
-      
+
       if (artistExists) {
         return res
           .status(400)
@@ -253,28 +256,28 @@ async function deleteParticipant(req, res) {
   const ownerId = GetId.getUserId(req)
 
   Concert.findById({ _id: id, ownerId: ownerId })
-  .then((concertStogare) => {
-    if (!concertStogare) {
-      return res.status(404).send({ msg: 'Concierto no encontrado' })
-    }
+    .then((concertStogare) => {
+      if (!concertStogare) {
+        return res.status(404).send({ msg: 'Concierto no encontrado' })
+      }
 
-    //Controlando que el artista a eliminar existe
-    const artistExists = concertStogare.participants.find(
-      (artist) => artist === artistName
-    )
-    if (!artistExists) {
-      return res.status(400).send({ msg: 'La canción no existe' })
-    }
+      //Controlando que el artista a eliminar existe
+      const artistExists = concertStogare.participants.find(
+        (artist) => artist === artistName
+      )
+      if (!artistExists) {
+        return res.status(400).send({ msg: 'La canción no existe' })
+      }
 
-    concertStogare.participants.pull(artistName)
-    concertStogare.save()
-    return res
-      .status(200)
-      .send({ msg: 'Canción eliminada satisfactoriamente' })
-  })
-  .catch(() => {
-    return res.status(500).send({ msg: 'Error al añadir participante' })
-  })
+      concertStogare.participants.pull(artistName)
+      concertStogare.save()
+      return res
+        .status(200)
+        .send({ msg: 'Canción eliminada satisfactoriamente' })
+    })
+    .catch(() => {
+      return res.status(500).send({ msg: 'Error al añadir participante' })
+    })
 }
 
 async function buyTicket(req, res) {

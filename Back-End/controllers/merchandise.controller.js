@@ -63,7 +63,6 @@ async function getMerchandise(req, res) {
     })
 }
 
-// TODO - corregir la creacion de merchandise cuando no existe el artista
 async function createMerchandise(req, res) {
   const {
     name,
@@ -91,36 +90,30 @@ async function createMerchandise(req, res) {
     merchandise.image = imagePath
   }
 
-  merchandise
-    .save()
-    .then((merchStorage) => {
-      User.findOne({ _id: ownerId })
-        .then((user) => {
-          user.merchandise.push(merchandise._id)
-          user.save()
-        })
-        .catch(() => {
-          return res
-            .status(400)
-            .send({ msg: 'Error al actualizar el array de discos del usuario' })
-        })
+  try {
+    const merchStorage = await merchandise.save()
 
-      Artist.findOne({ ownerId: merchandise.ownerId })
-        .then((artist) => {
-          artist.merchandise.push(merchandise._id)
-          artist.save()
-        })
-        .catch(() => {
-          return res
-            .status(400)
-            .send({ msg: 'Error al actualizar el array de discos del artista' })
-        })
+    const userStorage = await User.findOneAndUpdate(
+      { _id: ownerId },
+      { $push: { merchandise: merchStorage._id } },
+      { new: true }
+    ).exec()
 
-      return res.status(201).send(merchStorage)
-    })
-    .catch(() => {
-      return res.status(500).send({ msg: 'Error al crear el merchandise' })
-    })
+    let artistStorage
+    if (ownerId) {
+      artistStorage = await Artist.findOneAndUpdate(
+        { ownerId: ownerId },
+        { $push: { merchandise: merchStorage._id } },
+        { new: true }
+      ).exec()
+    }
+
+    await Promise.all([userStorage, artistStorage])
+
+    return res.status(201).send(merchStorage)
+  } catch (error) {
+    return res.status(500).send({ msg: 'Error al crear el merchandise' })
+  }
 }
 
 async function updateMerchandise(req, res) {
@@ -159,46 +152,43 @@ async function updateMerchandise(req, res) {
     })
 }
 
-// TODO - corregir la eliminación de merchandise cuando no existe el artista
 async function deleteMerchandise(req, res) {
   const { id } = req.params
   const ownerId = GetId.getUserId(req)
 
-  Merchandise.findByIdAndDelete({ _id: id, ownerId: ownerId })
-    .then((merchStorage) => {
-      if (!merchStorage) {
-        return res.status(404).send({ msg: 'Merchandise no encontrado' })
-      }
+  try {
+    const merchStorage = await Merchandise.findByIdAndDelete({
+      _id: id,
+      ownerId: ownerId,
+    }).exec()
 
-      User.findOne({ _id: ownerId })
-        .then((user) => {
-          user.merchandise.pull(id)
-          user.save()
-        })
-        .catch(() => {
-          return res.status(400).send({
-            msg: 'Error al actualizar el array de merchandise del usuario',
-          })
-        })
+    if (!merchStorage) {
+      return res.status(404).send({ msg: 'Merchandise no encontrado' })
+    }
 
-      Artist.findOne({ ownerId: ownerId })
-        .then((artist) => {
-          artist.merchandise.pull(id)
-          artist.save()
-        })
-        .catch(() => {
-          return res.status(400).send({
-            msg: 'Error al actualizar el array de merchandise del artista',
-          })
-        })
+    const userStorage = await User.findOneAndUpdate(
+      { _id: ownerId },
+      { $pull: { merchandise: id } },
+      { new: true }
+    ).exec()
 
-      return res
-        .status(200)
-        .send({ msg: 'Merchandise eliminado satisfactoriamente' })
-    })
-    .catch(() => {
-      return res.status(500).send({ msg: 'Error al eliminar el merchandise' })
-    })
+    let artistStorage
+    if (ownerId) {
+      artistStorage = await Artist.findOneAndUpdate(
+        { ownerId: ownerId },
+        { $pull: { merchandise: id } },
+        { new: true }
+      ).exec()
+    }
+
+    await Promise.all([userStorage, artistStorage])
+
+    return res
+      .status(200)
+      .send({ msg: 'Merchandise eliminado satisfactoriamente' })
+  } catch (error) {
+    return res.status(500).send({ msg: 'Error al eliminar el merchandise' })
+  }
 }
 
 async function addSize(req, res) {
@@ -281,7 +271,7 @@ async function buyMerchandise(req, res) {
           const newRaisedMoney =
             merchandiseStorage.price + merchandiseStorage.raisedMoney
           merchandiseStorage.raisedMoney = newRaisedMoney
-          
+
           merchandiseStorage.save()
 
           commonUserStorage.merchandise.push(id)
