@@ -1,1 +1,1 @@
-export * from './CreateArtistForm';
+export * from './CreateArtistForm'

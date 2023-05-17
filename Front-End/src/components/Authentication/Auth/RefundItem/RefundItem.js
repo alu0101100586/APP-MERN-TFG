@@ -1,40 +1,52 @@
 import React, { useEffect, useState } from 'react'
 import { Form, Loader } from 'semantic-ui-react'
 import { map } from 'lodash'
-import { useFormik } from 'formik';
-import { 
-  DiscService, 
-  ConcertService, 
-  MerchandiseService 
+import { useFormik } from 'formik'
+import {
+  DiscService,
+  ConcertService,
+  MerchandiseService,
 } from '../../../../service'
 import { useAuth } from '../../../../hooks'
 import { initialValues, validationSchema } from './RefundItem.form'
 
-const discController = new DiscService();
-const concertController = new ConcertService();
-const merchController = new MerchandiseService();
+const discController = new DiscService()
+const concertController = new ConcertService()
+const merchController = new MerchandiseService()
 
 export function RefundItem(props) {
-  const { accessToken } = useAuth();
-  const { close, onReload, type } = props;
-  const [selectedItem, setSelectedItem] = useState('');
-  const [items, setItems] = useState(null);
+  const { accessToken } = useAuth()
+  const { close, onReload, type } = props
+  const [selectedItem, setSelectedItem] = useState('')
+  const [items, setItems] = useState(null)
 
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       try {
         if (type === 'disc') {
-          const response = await discController.getDiscsUserApi(accessToken, 1, 1000);
-          setItems(response.docs);
+          const response = await discController.getDiscsUserApi(
+            accessToken,
+            1,
+            1000
+          )
+          setItems(response.docs)
         } else if (type === 'concert') {
-          const response = await concertController.getConcertsUserApi(accessToken, 1, 1000);
-          setItems(response.docs);
+          const response = await concertController.getConcertsUserApi(
+            accessToken,
+            1,
+            1000
+          )
+          setItems(response.docs)
         } else if (type === 'merch') {
-          const response = await merchController.getMerchandiseUserApi(accessToken, 1, 1000);
-          setItems(response.docs);
+          const response = await merchController.getMerchandiseUserApi(
+            accessToken,
+            1,
+            1000
+          )
+          setItems(response.docs)
         }
       } catch (error) {
-        throw(error);
+        throw error
       }
     })()
   }, [])
@@ -54,23 +66,23 @@ export function RefundItem(props) {
         onReload()
         close()
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
     },
     validateOnChange: false,
   })
 
-  if(!items) return <Loader active inline="centered" />;
+  if (!items) return <Loader active inline="centered" />
 
   const itemOptions = map(items, (item) => ({
     key: item._id,
     text: item.name,
     value: item._id,
-  }));
+  }))
 
-  const handleOptionChange = (event,{ value }) => {
-    setSelectedItem(value);
-    formik.setFieldValue('item', value);
+  const handleOptionChange = (event, { value }) => {
+    setSelectedItem(value)
+    formik.setFieldValue('item', value)
   }
 
   return (
@@ -78,7 +90,7 @@ export function RefundItem(props) {
       <Form.Select
         label="Selecciona un elemento"
         name="item"
-        placeholder='Elemento'
+        placeholder="Elemento"
         options={itemOptions}
         value={selectedItem}
         onChange={handleOptionChange}

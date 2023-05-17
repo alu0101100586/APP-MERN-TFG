@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react'
 import { Menu, Icon } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import { BasicModal } from '../../../Shared/BasicModal'
-import { 
-  UpdateUserForm, 
+import {
+  UpdateUserForm,
   RefundItem,
-  PasswordForm, 
-  DeleteUserTransaction 
+  PasswordForm,
+  DeleteUserTransaction,
 } from '../../Auth'
 import { UserService } from '../../../../service'
 import { useAuth } from '../../../../hooks'
@@ -122,7 +122,7 @@ export function CommonMenu(props) {
       )}
       {selectedModal === 'exchangeDisc' && (
         <BasicModal show={showModal} close={closeModal} title="Devolver Disco">
-          <RefundItem close={closeModal} onReload={onReload} type='disc'/>
+          <RefundItem close={closeModal} onReload={onReload} type="disc" />
         </BasicModal>
       )}
       {selectedModal === 'exchangeConcert' && (
@@ -131,7 +131,7 @@ export function CommonMenu(props) {
           close={closeModal}
           title="Devolver Concierto"
         >
-          <RefundItem close={closeModal} onReload={onReload} type='concert'/>
+          <RefundItem close={closeModal} onReload={onReload} type="concert" />
         </BasicModal>
       )}
       {selectedModal === 'exchangeMerch' && (
@@ -140,7 +140,7 @@ export function CommonMenu(props) {
           close={closeModal}
           title="Devolver Merchandise"
         >
-          <RefundItem close={closeModal} onReload={onReload} type='merch'/>
+          <RefundItem close={closeModal} onReload={onReload} type="merch" />
         </BasicModal>
       )}
       {selectedModal === 'changePasswd' && (

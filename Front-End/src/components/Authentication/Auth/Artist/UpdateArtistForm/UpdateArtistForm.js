@@ -1,19 +1,19 @@
-import React, { useState, useCallback } from 'react';
-import { Form, Image } from 'semantic-ui-react';
-import DatePicker from 'react-datepicker';
-import { useFormik } from 'formik';
-import { useDropzone } from 'react-dropzone';
-import { ENV } from '../../../../../utils';
-import { initialValues, validationSchema } from './UpdateArtistForm.form';
-import { ArtistService } from '../../../../../service';
-import { useAuth } from '../../../../../hooks';
-import './UpdateArtistForm.scss';
+import React, { useState, useCallback } from 'react'
+import { Form, Image } from 'semantic-ui-react'
+import DatePicker from 'react-datepicker'
+import { useFormik } from 'formik'
+import { useDropzone } from 'react-dropzone'
+import { ENV } from '../../../../../utils'
+import { initialValues, validationSchema } from './UpdateArtistForm.form'
+import { ArtistService } from '../../../../../service'
+import { useAuth } from '../../../../../hooks'
+import './UpdateArtistForm.scss'
 
-const artistService = new ArtistService();
+const artistService = new ArtistService()
 
 export function UpdateArtistForm(props) {
-  const { close, onReload, artist } = props;
-  const [startDate, setStartDate] = useState('');
+  const { close, onReload, artist } = props
+  const [startDate, setStartDate] = useState('')
   const { accessToken } = useAuth()
 
   const handleDateChange = (date) => {
@@ -27,8 +27,8 @@ export function UpdateArtistForm(props) {
     onSubmit: async (formData) => {
       try {
         await artistService.updateArtistApi(accessToken, formData)
-        onReload();
-        close();
+        onReload()
+        close()
       } catch (error) {
         console.error(error)
       }
@@ -40,7 +40,6 @@ export function UpdateArtistForm(props) {
     const file = acceptedFiles[0]
     formik.setFieldValue('avatar', URL.createObjectURL(file))
     formik.setFieldValue('fileAvatar', file)
-
   })
 
   const { getRootProps, getInputProps } = useDropzone({
@@ -54,20 +53,20 @@ export function UpdateArtistForm(props) {
     } else if (formik.values.avatar) {
       return `${ENV.BASE_PATH}/${formik.values.avatar}`
     }
-    return null;
+    return null
   }
 
   return (
-    <Form className='update-artist-form' onSubmit={formik.handleSubmit}>
-      <div className='update-artist-form__avatar' {...getRootProps()}>
+    <Form className="update-artist-form" onSubmit={formik.handleSubmit}>
+      <div className="update-artist-form__avatar" {...getRootProps()}>
         <input {...getInputProps()} />
-        <span className='title'> Avatar: </span>
+        <span className="title"> Avatar: </span>
         <Image avatar size="small" src={getAvatar()} />
       </div>
 
       <Form.Input
-        name='name'
-        placeholder='Nombre Artista'
+        name="name"
+        placeholder="Nombre Artista"
         onChange={formik.handleChange}
         value={formik.values.name}
         error={formik.errors.name}
@@ -75,17 +74,21 @@ export function UpdateArtistForm(props) {
 
       <Form.Field>
         <DatePicker
-          selected={formik.values.startDate ? new Date(formik.values.startDate) : startDate}
+          selected={
+            formik.values.startDate
+              ? new Date(formik.values.startDate)
+              : startDate
+          }
           onChange={handleDateChange}
           dateFormat={'dd/MM/yyyy'}
-          placeholderText='Fecha de Inicio'
+          placeholderText="Fecha de Inicio"
         />
         {formik.touched.startDate && formik.errors.startDate ? (
-          <div className='update-artist-form__error'>Ingresa una fecha</div>
+          <div className="update-artist-form__error">Ingresa una fecha</div>
         ) : null}
       </Form.Field>
 
-      <Form.Button type='submit' primary fluid loading={formik.isSubmitting}>
+      <Form.Button type="submit" primary fluid loading={formik.isSubmitting}>
         Actualizar Artista
       </Form.Button>
     </Form>

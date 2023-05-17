@@ -2,18 +2,18 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { Loader, Pagination } from 'semantic-ui-react'
 import { map } from 'lodash'
-import { 
-  DiscService, 
-  ConcertService, 
-  MerchandiseService 
+import {
+  DiscService,
+  ConcertService,
+  MerchandiseService,
 } from '../../../../service'
 import { useAuth } from '../../../../hooks'
 import { BasicItem } from '../BasicItem'
 import './ItemList.scss'
 
-const discController = new DiscService();
-const concertController = new ConcertService();
-const merchController = new MerchandiseService();
+const discController = new DiscService()
+const concertController = new ConcertService()
+const merchController = new MerchandiseService()
 
 export function ItemList(props) {
   const { accessToken } = useAuth()
@@ -25,7 +25,7 @@ export function ItemList(props) {
   const navigate = useNavigate(searchParams.get('page') || 1)
 
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       try {
         if (type === 'disc') {
           const response = await discController.getDiscsUserApi(
@@ -45,8 +45,8 @@ export function ItemList(props) {
             accessToken,
             page,
             3
-          );
-          setItems(response.docs);
+          )
+          setItems(response.docs)
           setPagination({
             page: response.page,
             limit: response.limit,
@@ -55,11 +55,11 @@ export function ItemList(props) {
           })
         } else if (type === 'merchandise') {
           const response = await merchController.getMerchandiseUserApi(
-            accessToken, 
-            page, 
+            accessToken,
+            page,
             3
-          );
-          setItems(response.docs);
+          )
+          setItems(response.docs)
           setPagination({
             page: response.page,
             limit: response.limit,
@@ -68,7 +68,7 @@ export function ItemList(props) {
           })
         }
       } catch (error) {
-        throw error;
+        throw error
       }
     })()
   }, [reload, page])

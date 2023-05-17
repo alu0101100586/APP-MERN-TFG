@@ -1,25 +1,25 @@
-import React, { useCallback, useState, useEffect } from 'react';
-import { Form, Image } from 'semantic-ui-react';
-import DatePicker from 'react-datepicker';
-import { useDropzone } from 'react-dropzone';
-import { useFormik } from 'formik';
-import { initialValues, validationSchema } from './CreateDiscForm.form';
-import { ENV } from '../../../../../utils';
-import { useAuth } from '../../../../../hooks';
-import { DiscService } from '../../../../../service';
-import './CreateDiscForm.scss';
+import React, { useCallback, useState, useEffect } from 'react'
+import { Form, Image } from 'semantic-ui-react'
+import DatePicker from 'react-datepicker'
+import { useDropzone } from 'react-dropzone'
+import { useFormik } from 'formik'
+import { initialValues, validationSchema } from './CreateDiscForm.form'
+import { ENV } from '../../../../../utils'
+import { useAuth } from '../../../../../hooks'
+import { DiscService } from '../../../../../service'
+import './CreateDiscForm.scss'
 
-const discService = new DiscService();
+const discService = new DiscService()
 
 export function CreateDiscForm(props) {
-  const { close, onReload } = props;
-  const [ releaseDate, setReleaseDate ] = useState('');
-  const [ error, setError ] = useState('');
-  const { accessToken } = useAuth();
+  const { close, onReload } = props
+  const [releaseDate, setReleaseDate] = useState('')
+  const [error, setError] = useState('')
+  const { accessToken } = useAuth()
 
   const handleDateChange = (date) => {
-    setReleaseDate(date);
-    formik.setFieldValue('releaseDate', date);
+    setReleaseDate(date)
+    formik.setFieldValue('releaseDate', date)
   }
 
   const formik = useFormik({
@@ -27,8 +27,8 @@ export function CreateDiscForm(props) {
     validationSchema: validationSchema(),
     onSubmit: async (formData) => {
       try {
-        setError('');
-        formData.songs = formData.songs.split(',');
+        setError('')
+        formData.songs = formData.songs.split(',')
         await discService.createDiscApi(accessToken, formData)
         onReload()
         close()
@@ -40,9 +40,9 @@ export function CreateDiscForm(props) {
   })
 
   const onDrop = useCallback((acceptedFiles) => {
-    const file = acceptedFiles[0];
-    formik.setFieldValue('cover', URL.createObjectURL(file));
-    formik.setFieldValue('fileCover', file);
+    const file = acceptedFiles[0]
+    formik.setFieldValue('cover', URL.createObjectURL(file))
+    formik.setFieldValue('fileCover', file)
   })
 
   const { getRootProps, getInputProps } = useDropzone({
@@ -56,7 +56,7 @@ export function CreateDiscForm(props) {
     } else if (formik.values.cover) {
       return `${ENV.BASE_PATH}/${formik.values.cover}`
     }
-    return null;
+    return null
   }
 
   const musicGenre = [
@@ -97,11 +97,11 @@ export function CreateDiscForm(props) {
   ]
 
   const handleGenreSelected = (event, data) => {
-    const selectedGenres = data.value;
-    formik.setFieldValue('musicalGenre', selectedGenres);
-  };
-  
-  const options = musicGenre.map(genre => {
+    const selectedGenres = data.value
+    formik.setFieldValue('musicalGenre', selectedGenres)
+  }
+
+  const options = musicGenre.map((genre) => {
     return { key: genre.key, text: genre.text, value: genre.value }
   })
 
@@ -110,20 +110,19 @@ export function CreateDiscForm(props) {
   }, [formik.values.musicalGenre])
 
   return (
-    <Form className='create-disc-form' onSubmit={formik.handleSubmit}>
-
-      <div className='create-disc-form__avatar' {...getRootProps()}>
+    <Form className="create-disc-form" onSubmit={formik.handleSubmit}>
+      <div className="create-disc-form__avatar" {...getRootProps()}>
         <input {...getInputProps()} />
-        <span className='title'> Portada: </span>
-        <Image size='small' src={getCover()} />
+        <span className="title"> Portada: </span>
+        <Image size="small" src={getCover()} />
         {formik.errors.cover && formik.touched.cover ? (
-        <div className="create-disc-form__error">{formik.errors.cover}</div>
-      ) : null}
+          <div className="create-disc-form__error">{formik.errors.cover}</div>
+        ) : null}
       </div>
 
       <Form.Input
-        name='name'
-        placeholder='Nombre del Disco'
+        name="name"
+        placeholder="Nombre del Disco"
         onChange={formik.handleChange}
         value={formik.values.name}
         error={formik.errors.name}
@@ -141,26 +140,26 @@ export function CreateDiscForm(props) {
         ) : null}
       </Form.Field>
 
-      <Form.Group widths='three'>
-        <Form.Input 
-          name='moneyLimit'
-          placeholder='Meta de Dinero'
+      <Form.Group widths="three">
+        <Form.Input
+          name="moneyLimit"
+          placeholder="Meta de Dinero"
           onChange={formik.handleChange}
           value={formik.values.moneyLimit}
           error={formik.errors.moneyLimit}
         />
 
-        <Form.Input 
-          name='price'
-          placeholder='Precio de venta'
+        <Form.Input
+          name="price"
+          placeholder="Precio de venta"
           onChange={formik.handleChange}
           value={formik.values.price}
           error={formik.errors.price}
         />
 
-        <Form.Input 
-          name='raisedMoney'
-          placeholder='Dinero Recaudado'
+        <Form.Input
+          name="raisedMoney"
+          placeholder="Dinero Recaudado"
           onChange={formik.handleChange}
           value={formik.values.raisedMoney}
           error={formik.errors.raisedMoney}
@@ -168,8 +167,8 @@ export function CreateDiscForm(props) {
       </Form.Group>
 
       <Form.Dropdown
-        name='musicalGenre'
-        placeholder='Seleccione los géneros musicales'
+        name="musicalGenre"
+        placeholder="Seleccione los géneros musicales"
         fluid
         multiple
         search
@@ -180,10 +179,10 @@ export function CreateDiscForm(props) {
         error={formik.touched.musicalGenre && formik.errors.musicalGenre}
       />
 
-      <Form.Input 
-        label='Separe las canciones con comas (,)'
-        name='songs'
-        placeholder='Canciones'
+      <Form.Input
+        label="Separe las canciones con comas (,)"
+        name="songs"
+        placeholder="Canciones"
         value={formik.values.songs}
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}

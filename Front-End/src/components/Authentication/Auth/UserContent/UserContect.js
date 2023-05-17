@@ -5,7 +5,7 @@ import { image } from '../../../../assets'
 import { UserService } from '../../../../service'
 import { useAuth } from '../../../../hooks'
 import { ItemList } from '../ItemList'
-import { formatDate } from '../../../../utils';
+import { formatDate } from '../../../../utils'
 import './UserContent.scss'
 
 // TODO- corregir reload de las listas

@@ -1,29 +1,29 @@
-import React, { useCallback, useState, useEffect } from 'react';
-import { Form, Image } from 'semantic-ui-react';
-import DatePicker from 'react-datepicker';
-import { useDropzone } from 'react-dropzone';
-import { useFormik } from 'formik';
-import { initialValues, validationSchema } from './CreateConcertForm.form';
-import { ENV } from '../../../../../utils';
-import { useAuth } from '../../../../../hooks';
-import { ConcertService } from '../../../../../service';
-import './CreateConcertForm.scss';
+import React, { useCallback, useState, useEffect } from 'react'
+import { Form, Image } from 'semantic-ui-react'
+import DatePicker from 'react-datepicker'
+import { useDropzone } from 'react-dropzone'
+import { useFormik } from 'formik'
+import { initialValues, validationSchema } from './CreateConcertForm.form'
+import { ENV } from '../../../../../utils'
+import { useAuth } from '../../../../../hooks'
+import { ConcertService } from '../../../../../service'
+import './CreateConcertForm.scss'
 
-const concertService = new ConcertService();;
+const concertService = new ConcertService()
 
 export function CreateConcertForm(props) {
-  const { close, onReload } = props;
-  const [releaseDate, setReleaseDate] = useState('');
-  const [error, setError] = useState('');
-  const { accessToken } = useAuth();
+  const { close, onReload } = props
+  const [releaseDate, setReleaseDate] = useState('')
+  const [error, setError] = useState('')
+  const { accessToken } = useAuth()
 
   const formik = useFormik({
     initialValues: initialValues(),
     validationSchema: validationSchema(),
     onSubmit: async (formData) => {
       try {
-        setError('');
-        formData.participants = formData.participants.split(',');
+        setError('')
+        formData.participants = formData.participants.split(',')
         await concertService.createConcertApi(accessToken, formData)
         onReload()
         close()
@@ -32,17 +32,17 @@ export function CreateConcertForm(props) {
       }
     },
     validateOnChange: false,
-  });
+  })
 
   const handleDateChange = (date) => {
-    setReleaseDate(date);
-    formik.setFieldValue('date', date);
+    setReleaseDate(date)
+    formik.setFieldValue('date', date)
   }
 
   const onDrop = useCallback((acceptedFiles) => {
-    const file = acceptedFiles[0];
-    formik.setFieldValue('concertPoster', URL.createObjectURL(file));
-    formik.setFieldValue('fileConcertPoster', file);
+    const file = acceptedFiles[0]
+    formik.setFieldValue('concertPoster', URL.createObjectURL(file))
+    formik.setFieldValue('fileConcertPoster', file)
   })
 
   const { getRootProps, getInputProps } = useDropzone({
@@ -56,7 +56,7 @@ export function CreateConcertForm(props) {
     } else if (formik.values.concertPoster) {
       return `${ENV.BASE_PATH}/${formik.values.concertPoster}`
     }
-    return null;
+    return null
   }
 
   const musicGenre = [
@@ -97,8 +97,8 @@ export function CreateConcertForm(props) {
   ]
 
   const handleGenreSelected = (event, data) => {
-    const selected = data.value;
-    formik.setFieldValue('musicalGenre', selected);
+    const selected = data.value
+    formik.setFieldValue('musicalGenre', selected)
   }
 
   const options = musicGenre.map((genre) => {
@@ -110,27 +110,29 @@ export function CreateConcertForm(props) {
   }, [formik.values.musicalGenre])
 
   return (
-    <Form className='create-concert-form' onSubmit={formik.handleSubmit}>
-      <div className='create-concert-form__avatar' {...getRootProps()}>
+    <Form className="create-concert-form" onSubmit={formik.handleSubmit}>
+      <div className="create-concert-form__avatar" {...getRootProps()}>
         <input {...getInputProps()} />
-        <span className='title'> Cartel del concierto: </span>
-        <Image size='small' src={getConcertPoster()} />
+        <span className="title"> Cartel del concierto: </span>
+        <Image size="small" src={getConcertPoster()} />
         {formik.errors.concertPoster && formik.touched.concertPoster ? (
-          <div className="create-concert-form__error">{formik.errors.concertPoster}</div>
+          <div className="create-concert-form__error">
+            {formik.errors.concertPoster}
+          </div>
         ) : null}
       </div>
 
       <Form.Input
-        name='name'
-        placeholder='Nombre del concierto'
+        name="name"
+        placeholder="Nombre del concierto"
         onChange={formik.handleChange}
         value={formik.values.name}
         error={formik.errors.name}
       />
 
       <Form.Input
-        name='location'
-        placeholder='Lugar del concierto (Calle, número, ciudad, país)'
+        name="location"
+        placeholder="Lugar del concierto (Calle, número, ciudad, país)"
         onChange={formik.handleChange}
         value={formik.values.location}
         error={formik.errors.location}
@@ -148,26 +150,26 @@ export function CreateConcertForm(props) {
         ) : null}
       </Form.Field>
 
-      <Form.Group widths='three'>
-        <Form.Input 
-          name='moneyLimit'
-          placeholder='Meta de Dinero'
+      <Form.Group widths="three">
+        <Form.Input
+          name="moneyLimit"
+          placeholder="Meta de Dinero"
           onChange={formik.handleChange}
           value={formik.values.moneyLimit}
           error={formik.errors.moneyLimit}
         />
 
-        <Form.Input 
-          name='price'
-          placeholder='Precio de venta'
+        <Form.Input
+          name="price"
+          placeholder="Precio de venta"
           onChange={formik.handleChange}
           value={formik.values.price}
           error={formik.errors.price}
         />
 
-        <Form.Input 
-          name='raisedMoney'
-          placeholder='Dinero Recaudado'
+        <Form.Input
+          name="raisedMoney"
+          placeholder="Dinero Recaudado"
           onChange={formik.handleChange}
           value={formik.values.raisedMoney}
           error={formik.errors.raisedMoney}
@@ -175,8 +177,8 @@ export function CreateConcertForm(props) {
       </Form.Group>
 
       <Form.Dropdown
-        name='musicalGenre'
-        placeholder='Seleccione los géneros musicales'
+        name="musicalGenre"
+        placeholder="Seleccione los géneros musicales"
         fluid
         multiple
         search
@@ -187,17 +189,17 @@ export function CreateConcertForm(props) {
         error={formik.touched.musicalGenre && formik.errors.musicalGenre}
       />
 
-      <Form.Input 
-        label='Separe los participantes con comas (,)'
-        name='participants'
-        placeholder='Participantes'
+      <Form.Input
+        label="Separe los participantes con comas (,)"
+        name="participants"
+        placeholder="Participantes"
         value={formik.values.participants}
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
         error={formik.touched.participants && formik.errors.participants}
       />
 
-      <Form.Button type='submit' primary fluid loading={formik.isSubmitting}>
+      <Form.Button type="submit" primary fluid loading={formik.isSubmitting}>
         Crear Concierto
       </Form.Button>
 
