@@ -15,6 +15,7 @@ export const ENV = {
       GET_USER: '/user/me',
       UPDATE_USER: '/user/me',
       DELETE_USER: '/user/me',
+      UPDATE_MUSICAL_GENRES: '/user/musical-genre',
     },
     DISC: {
       GET_DISCS: '/discs',
@@ -59,6 +60,11 @@ export const ENV = {
       CREATE_ARTIST: '/artist',
       UPDATE_ARTIST: '/artist/me',
       DELETE_ARTIST: '/artist/me',
+    },
+    NEWSLETTERS: {
+      GET_EMAILS: '/get-emails',
+      NEW_SUBSCRIPTION: '/new-subscription',
+      CANCEL_SUBSCRIPTION: '/cancel-subscription',
     },
   },
   JWT: {

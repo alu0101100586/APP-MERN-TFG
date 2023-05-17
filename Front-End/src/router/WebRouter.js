@@ -12,7 +12,6 @@ import {
   Merchandising,
   MerchandisingList,
   WebData,
-  WebMap,
 } from '../pages/Web'
 import { ClientLayout } from '../layouts'
 
@@ -47,7 +46,6 @@ export function WebRouter() {
         element={loadLayout(ClientLayout, MerchandisingList)}
       />
       <Route path="/web-data" element={loadLayout(ClientLayout, WebData)} />
-      <Route path="/web-map" element={loadLayout(ClientLayout, WebMap)} />
     </Routes>
   )
 }

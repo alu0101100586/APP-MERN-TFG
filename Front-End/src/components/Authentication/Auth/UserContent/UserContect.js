@@ -39,6 +39,7 @@ export function UserContect(props) {
   useEffect(() => {
     ;(async () => {
       try {
+        await userService.updateMusicalGenresApi(accessToken)
         const user_response = await userService.getMeApi(accessToken)
         setProfile(user_response)
         setDate(formatDate(user_response.birthDate))

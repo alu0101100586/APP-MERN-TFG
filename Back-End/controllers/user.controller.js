@@ -182,9 +182,6 @@ async function updateUserMusicalGenre(req, res) {
     const  discMusicalGenre = discs.flatMap((disc) => disc.musicalGenre)
     const  concertMusicalGenre = concerts.flatMap((concert) => concert.musicalGenre)
 
-    console.log(discMusicalGenre)
-    console.log(concertMusicalGenre)
-
     const musicalGenre = Array.from(new Set([...discMusicalGenre, ...concertMusicalGenre]))
 
     userStorage.musicalGenre = musicalGenre

@@ -10,7 +10,7 @@ $columWidth: 15%;
 
   &__left {
     display: flex;
-    width: $columWidth;
+    min-width: $columWidth;
 
     .logo {
       height: 40px;
@@ -38,6 +38,6 @@ $columWidth: 15%;
 
   &__right {
     display: flex;
-    width: $columWidth;
+    min-width: $columWidth;
   }
 }

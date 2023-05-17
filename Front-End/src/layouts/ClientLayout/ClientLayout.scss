@@ -1,0 +1,35 @@
+@import "~/src/scss/index.scss";
+
+//TODO - una vez terminado todos los contenidos, revisar el tamaño de content
+.client-layout {
+  background-color: $background-light;
+  min-height: 100vh;
+
+  &__header {
+    min-height: 10%;
+  }
+
+  &__content {
+    min-height: 100%;
+  }
+
+  &__footer {
+    min-height: 10%;
+    margin-top: 50px;
+    padding: 20px 0 10px 0;
+    border-top: 5px solid $primary-agua;
+    background-color: $background-dark;
+
+    > .ui.container {
+      color: $text-light;
+      display: flex;
+
+      &:last-of-type{
+        justify-content: space-between;
+        margin-top: 50px;
+        font-size: 12px;
+        opacity: 0.5;
+      }
+    }
+  }
+}

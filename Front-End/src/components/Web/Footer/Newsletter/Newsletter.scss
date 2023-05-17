@@ -1,0 +1,17 @@
+@import "~/src/scss/index.scss";
+
+.footer-newsletter {
+  width: 33.33%;
+  color: $text-light;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  h4 {
+    font-weight: bold;
+    color: $text-light;
+    display: flex;
+    justify-content: center;
+  }
+}
