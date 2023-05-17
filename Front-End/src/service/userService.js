@@ -79,4 +79,26 @@ export class UserService {
       throw error
     }
   }
+
+  async updateMusicalGenresApi(accesstoken) {
+    try {
+      const url = `${ENV.API_PATH}/${ENV.API_ROUTES.USER.UPDATE_MUSICAL_GENRES}`
+      const params = {
+        method: 'PATCH',
+        headers: {
+          Authorization: `Bearer ${accesstoken}`,
+        },
+      }
+
+      const response = await fetch(url, params)
+      const result = await response.json()
+
+      if (response.status !== 200) {
+        throw result
+      }
+      return result
+    } catch (error) {
+      throw error
+    }
+  }
 }

@@ -15,6 +15,7 @@ export const ENV = {
       GET_USER: '/user/me',
       UPDATE_USER: '/user/me',
       DELETE_USER: '/user/me',
+      UPDATE_MUSICAL_GENRES: '/user/musical-genre',
     },
     DISC: {
       GET_DISCS: '/discs',
