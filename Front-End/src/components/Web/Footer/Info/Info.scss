@@ -1,0 +1,17 @@
+@import "~/src/scss/index.scss";
+
+.footer-info {
+  width: 33.33%;
+  color: $text-light;
+
+  .logo {
+    width: 100px;
+    margin-bottom: 20px;
+  }
+
+  p {
+    text-align: justify;
+    opacity: 0.4,
+    margin 20px;
+  }
+}

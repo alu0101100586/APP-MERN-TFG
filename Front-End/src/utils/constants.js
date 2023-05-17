@@ -61,6 +61,11 @@ export const ENV = {
       UPDATE_ARTIST: '/artist/me',
       DELETE_ARTIST: '/artist/me',
     },
+    NEWSLETTERS: {
+      GET_EMAILS: '/get-emails',
+      NEW_SUBSCRIPTION: '/new-subscription',
+      CANCEL_SUBSCRIPTION: '/cancel-subscription',
+    },
   },
   JWT: {
     ACCESS: 'accessToken',

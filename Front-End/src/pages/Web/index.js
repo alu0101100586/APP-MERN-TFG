@@ -1,4 +1,3 @@
-export * from './WebMap'
 export * from './WebData'
 export * from './Artist'
 export * from './ArtistsList'
