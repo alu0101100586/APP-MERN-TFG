@@ -1,7 +1,9 @@
-import * as Yup from 'yup';
+import * as Yup from 'yup'
 
 export function initialValues(disc) {
-  const discReleaseDate = disc?.releaseDate ? new Date(disc.releaseDate).toISOString() : ''
+  const discReleaseDate = disc?.releaseDate
+    ? new Date(disc.releaseDate).toISOString()
+    : ''
   const discSongs = disc?.songs ? disc.songs.join(', ') : ''
 
   return {

@@ -1,1 +1,1 @@
-export * from './UpdateConcertForm';
+export * from './UpdateConcertForm'

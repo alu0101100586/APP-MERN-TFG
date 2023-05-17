@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { Menu, Icon } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import { BasicModal } from '../../../Shared/BasicModal'
-import { 
-  UpdateUserForm, 
-  PasswordForm, 
+import {
+  UpdateUserForm,
+  PasswordForm,
   DeleteUserTransaction,
   CreateArtistForm,
   DeleteArtist,
@@ -27,8 +27,8 @@ export function ArtistMenu(props) {
   const [selectedModal, setSelectedModal] = useState(null)
   const { accessToken } = useAuth()
 
-  const userService = new UserService();
-  const artistService = new ArtistService();
+  const userService = new UserService()
+  const artistService = new ArtistService()
 
   const openModal = (modal) => {
     setSelectedModal(modal)
@@ -40,15 +40,15 @@ export function ArtistMenu(props) {
   }
 
   const [profile, setProfile] = useState(user)
-  const [artist, setArtist] = useState(null);
+  const [artist, setArtist] = useState(null)
 
   useEffect(() => {
     ;(async () => {
       try {
         const userResponse = await userService.getMeApi(accessToken)
         setProfile(userResponse)
-        const artistResponse = await artistService.getArtistUserApi(accessToken);
-        setArtist(artistResponse);
+        const artistResponse = await artistService.getArtistUserApi(accessToken)
+        setArtist(artistResponse)
       } catch (error) {
         console.error(error)
       }
@@ -202,18 +202,15 @@ export function ArtistMenu(props) {
           {artist ? (
             <h3>Ya tienes un usuario asociado a tu cuenta</h3>
           ) : (
-            <CreateArtistForm 
-              close={closeModal}
-              onReload={onReload}
-            />
+            <CreateArtistForm close={closeModal} onReload={onReload} />
           )}
         </BasicModal>
       )}
       {selectedModal === 'editArtist' && (
         <BasicModal show={showModal} close={closeModal} title="Editar artista">
           {artist ? (
-            <UpdateArtistForm 
-              close={closeModal} 
+            <UpdateArtistForm
+              close={closeModal}
               onReload={onReload}
               artist={artist}
             />
@@ -229,10 +226,7 @@ export function ArtistMenu(props) {
           title="Eliminar artista"
         >
           {artist ? (
-            <DeleteArtist 
-              close={closeModal}
-              onReload={onReload}
-            />
+            <DeleteArtist close={closeModal} onReload={onReload} />
           ) : (
             <h3>No tienes ningún artista asociado a tu cuenta</h3>
           )}
@@ -250,7 +244,7 @@ export function ArtistMenu(props) {
       )}
       {selectedModal === 'deleteDisc' && (
         <BasicModal show={showModal} close={closeModal} title="Eliminar disco">
-          <DeleteItem close={closeModal} onReload={onReload} type='disc' />
+          <DeleteItem close={closeModal} onReload={onReload} type="disc" />
         </BasicModal>
       )}
       {selectedModal === 'createConcert' && (
@@ -264,7 +258,7 @@ export function ArtistMenu(props) {
           close={closeModal}
           title="Editar concierto"
         >
-          <UpdateConcertForm close={closeModal} onReload={onReload}/>
+          <UpdateConcertForm close={closeModal} onReload={onReload} />
         </BasicModal>
       )}
       {selectedModal === 'deleteConcert' && (
@@ -273,7 +267,7 @@ export function ArtistMenu(props) {
           close={closeModal}
           title="Eliminar concierto"
         >
-          <DeleteItem close={closeModal} onReload={onReload} type='concert' />
+          <DeleteItem close={closeModal} onReload={onReload} type="concert" />
         </BasicModal>
       )}
       {selectedModal === 'createMerch' && (
@@ -282,7 +276,7 @@ export function ArtistMenu(props) {
           close={closeModal}
           title="Crear merchandise"
         >
-          <CreateMerchandiseForm close={closeModal} onReload={onReload}/>
+          <CreateMerchandiseForm close={closeModal} onReload={onReload} />
         </BasicModal>
       )}
       {selectedModal === 'editMerch' && (
@@ -291,7 +285,7 @@ export function ArtistMenu(props) {
           close={closeModal}
           title="Editar merchandise"
         >
-          <UpdateMerchandiseForm close={closeModal} onReload={onReload}/>
+          <UpdateMerchandiseForm close={closeModal} onReload={onReload} />
         </BasicModal>
       )}
       {selectedModal === 'deleteMerch' && (
@@ -300,7 +294,7 @@ export function ArtistMenu(props) {
           close={closeModal}
           title="Eliminar merchandise"
         >
-          <DeleteItem close={closeModal} onReload={onReload} type='merch' />
+          <DeleteItem close={closeModal} onReload={onReload} type="merch" />
         </BasicModal>
       )}
       {selectedModal === 'changePasswd' && (

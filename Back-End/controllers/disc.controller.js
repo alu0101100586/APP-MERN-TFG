@@ -61,7 +61,6 @@ async function getDiscsByUser(req, res) {
   }
 }
 
-//TODO - Corregir la creacion de discos cuando no existe un artista
 async function createDisc(req, res) {
   const {
     name,
@@ -89,57 +88,44 @@ async function createDisc(req, res) {
     disc.cover = imagePath
   }
 
-  disc
-    .save()
-    .then((discStorage) => {
-      User.findOne({ _id: ownerId })
-        .then((userStorage) => {
-          userStorage.discs.push(disc._id)
-          const genresToAdd = discStorage.musicalGenre
-          const userStorageGenres = new Set(userStorage.musicalGenre)
-          genresToAdd.forEach((genre) => {
-            userStorageGenres.add(genre)
-          })
-          userStorage.musicalGenre = Array.from(userStorageGenres)
-          userStorage.save()
-        })
-        .catch(() => {
-          return res
-            .status(400)
-            .send({ msg: 'Error al actualizar el array de discos del usuario' })
-        })
+  try {
+    const discStorage = await disc.save()
 
-      Artist.findOne({ ownerId: disc.ownerId })
-        .then((artistStorage) => {
-          artistStorage.discs.push(disc._id)
-          const genresToAdd = discStorage.musicalGenre
-          const artistStorageGenres = new Set(artistStorage.musicalGenre)
-          genresToAdd.forEach((genre) => {
-            artistStorageGenres.add(genre)
-          })
-          artistStorage.musicalGenre = Array.from(artistStorageGenres)
-          artistStorage.save()
-        })
-        .catch(() => {
-          return res
-            .status(400)
-            .send({ msg: 'Error al actualizar el array de discos del artista' })
-        })
+    const userStorage = User.findOneAndUpdate(
+      { _id: ownerId },
+      {
+        $push: { discs: disc._id },
+        $addToSet: { musicalGenre: { $each: discStorage.musicalGenre } },
+      },
+      { new: true }
+    ).exec()
 
-      return res.status(201).send(discStorage)
-    })
-    .catch((error) => {
-      return res.status(400).send({ msg: 'Error al crear el disco' })
-    })
+    let artistStorage
+    if (ownerId) {
+      artistStorage = Artist.findOneAndUpdate(
+        { ownerId: disc.ownerId },
+        {
+          $push: { discs: disc._id },
+          $addToSet: { musicalGenre: { $each: discStorage.musicalGenre } },
+        },
+        { new: true }
+      ).exec()
+    }
+
+    await Promise.all([userStorage, artistStorage])
+
+    return res.status(201).send(discStorage)
+  } catch (error) {
+    return res.status(400).send({ msg: 'Error al crear el disco' })
+  }
 }
 
-//TODO - si se actualiza musiaclgenre, modifical musicalgenre del user y del artista
 async function updateDisc(req, res) {
   const { id } = req.params
   const discData = req.body
   const ownerId = GetId.getUserId(req)
 
-  //Controlando la actualizacion de la imagen
+  // Controlando la actualización de la imagen
   if (req.files.cover) {
     const imagePath = Image.getFilePath(req.files.cover)
     discData.cover = imagePath
@@ -147,68 +133,80 @@ async function updateDisc(req, res) {
     delete discData.cover
   }
 
-  //Controlando que no se actualiza el ownerId
-  if (
-    Object.keys(discData).length === 1 &&
-    discData.hasOwnProperty('ownerId')
-  ) {
+  // Controlando que no se actualiza el ownerId
+  if ('ownerId' in discData) {
     return res.status(400).send({ msg: 'No se puede actualizar el ownerId' })
   }
-  delete discData.ownerId
 
-  Disc.findByIdAndUpdate({ _id: id, ownerId: ownerId }, discData)
-    .then((discStorage) => {
-      if (!discStorage) {
-        return res.status(404).send({ msg: 'Disco no encontrado' })
-      }
+  try {
+    const discStorage = await Disc.findOneAndUpdate(
+      { _id: id, ownerId: ownerId },
+      discData,
+      { new: true }
+    ).exec()
 
-      return res
-        .status(200)
-        .send({ msg: 'Disco actualizado satisfactoriamente' })
-    })
-    .catch(() => {
-      return res.status(500).send({ msg: 'Error al actualizar el disco' })
-    })
+    if (!discStorage) {
+      return res.status(404).send({ msg: 'Disco no encontrado' })
+    }
+
+    const userStorage = User.findOneAndUpdate(
+      { _id: ownerId },
+      { $addToSet: { musicalGenre: { $each: discStorage.musicalGenre } } },
+      { new: true }
+    ).exec()
+
+    let artistStorage
+    if (ownerId) {
+      artistStorage = Artist.findOneAndUpdate(
+        { ownerId: ownerId },
+        { $addToSet: { musicalGenre: { $each: discStorage.musicalGenre } } },
+        { new: true }
+      ).exec()
+    }
+
+    await Promise.all([userStorage, artistStorage])
+
+    return res.status(200).send({ msg: 'Disco actualizado satisfactoriamente' })
+  } catch (error) {
+    return res.status(500).send({ msg: 'Error al actualizar el disco' })
+  }
 }
 
-//TODO - Corregir la eliminacion de discos cuando no existe un artista
 async function deleteDisc(req, res) {
   const { id } = req.params
   const ownerId = GetId.getUserId(req)
 
-  Disc.findByIdAndDelete({ _id: id, ownerId: ownerId })
-    .then((discStorage) => {
-      if (!discStorage) {
-        return res.status(404).send({ msg: 'Disco no encontrado' })
-      }
+  try {
+    const discStorage = await Disc.findOneAndDelete({
+      _id: id,
+      ownerId: ownerId,
+    }).exec()
 
-      User.findOne({ _id: ownerId })
-        .then((userStorage) => {
-          userStorage.discs.pull(id)
-          userStorage.save()
-        })
-        .catch(() => {
-          return res
-            .status(400)
-            .send({ msg: 'Error al actualizar el array de discos del usuario' })
-        })
+    if (!discStorage) {
+      return res.status(404).send({ msg: 'Disco no encontrado' })
+    }
 
-      Artist.findOne({ ownerId: ownerId })
-        .then((artistStorage) => {
-          artistStorage.discs.pull(id)
-          artistStorage.save()
-        })
-        .catch(() => {
-          return res
-            .status(400)
-            .send({ msg: 'Error al actualizar el array de discos del artista' })
-        })
+    const userStorage = User.findOneAndUpdate(
+      { _id: ownerId },
+      { $pull: { discs: id } },
+      { new: true }
+    ).exec()
 
-      return res.status(200).send({ msg: 'Disco eliminado satisfactoriamente' })
-    })
-    .catch(() => {
-      return res.status(500).send({ msg: 'Error al eliminar el disco' })
-    })
+    let artistStorage
+    if (ownerId) {
+      artistStorage = Artist.findOneAndUpdate(
+        { ownerId: ownerId },
+        { $pull: { discs: id } },
+        { new: true }
+      ).exec()
+    }
+
+    await Promise.all([userStorage, artistStorage])
+
+    return res.status(200).send({ msg: 'Disco eliminado satisfactoriamente' })
+  } catch (error) {
+    return res.status(500).send({ msg: 'Error al eliminar el disco' })
+  }
 }
 
 async function addSong(req, res) {

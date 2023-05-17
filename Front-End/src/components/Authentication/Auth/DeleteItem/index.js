@@ -1,1 +1,1 @@
-export * from './DeleteItem';
+export * from './DeleteItem'

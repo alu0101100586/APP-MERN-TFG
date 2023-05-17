@@ -1,2 +1,2 @@
-export { CreateDiscForm } from './CreateDiscForm';
-export { UpdateDiscForm } from './UpdateDiscForm';
+export { CreateDiscForm } from './CreateDiscForm'
+export { UpdateDiscForm } from './UpdateDiscForm'

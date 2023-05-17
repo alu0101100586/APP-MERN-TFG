@@ -51,9 +51,17 @@ async function createArtist(req, res) {
   const { name, startDate } = req.body
   const ownerId = GetId.getUserId(req)
 
-  const userStorage = await User.findById({ _id: ownerId})
-  const { musicalGenre, discs, concerts, merchandise} = userStorage;
-  const artist = new Artist({ ownerId, name, startDate, musicalGenre, discs, concerts, merchandise })
+  const userStorage = await User.findById({ _id: ownerId })
+  const { musicalGenre, discs, concerts, merchandise } = userStorage
+  const artist = new Artist({
+    ownerId,
+    name,
+    startDate,
+    musicalGenre,
+    discs,
+    concerts,
+    merchandise,
+  })
 
   if (req.files.avatar) {
     const imagePath = Image.getFilePath(req.files.avatar)
@@ -91,7 +99,7 @@ async function updateArtist(req, res) {
         .send({ msg: 'Artista actualizado satisfactoriamente' })
     })
     .catch((error) => {
-      console.log(error);
+      console.log(error)
       return res.status(500).send({ msg: 'Error al actualizar el artista' })
     })
 }

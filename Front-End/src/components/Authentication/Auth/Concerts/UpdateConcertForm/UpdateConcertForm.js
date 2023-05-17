@@ -1,65 +1,77 @@
-import React, { useCallback, useState, useEffect } from 'react';
-import { Form, Image } from 'semantic-ui-react';
-import DatePicker from 'react-datepicker';
-import { useDropzone } from 'react-dropzone';
-import { useFormik } from 'formik';
-import { map } from 'lodash';
-import { initialValues, validationSchema} from './UpdateConcertForm.form'
-import { ENV } from '../../../../../utils';
-import { useAuth } from '../../../../../hooks';
-import { ConcertService } from '../../../../../service';
-import './UpdateConcertForm.scss';
+import React, { useCallback, useState, useEffect } from 'react'
+import { Form, Image } from 'semantic-ui-react'
+import DatePicker from 'react-datepicker'
+import { useDropzone } from 'react-dropzone'
+import { useFormik } from 'formik'
+import { map } from 'lodash'
+import { initialValues, validationSchema } from './UpdateConcertForm.form'
+import { ENV } from '../../../../../utils'
+import { useAuth } from '../../../../../hooks'
+import { ConcertService } from '../../../../../service'
+import './UpdateConcertForm.scss'
 
-const concertService = new ConcertService();
+const concertService = new ConcertService()
 
 export function UpdateConcertForm(props) {
-  const { close, onReload } = props;
-  const { accessToken } = useAuth();
-  const [ releaseDate, setReleaseDate ] = useState('');
-  const [ concerts, setConcerts ] = useState(null);
-  const [item , setItem] = useState('');
+  const { close, onReload } = props
+  const { accessToken } = useAuth()
+  const [releaseDate, setReleaseDate] = useState('')
+  const [concerts, setConcerts] = useState(null)
+  const [item, setItem] = useState('')
 
   const formik = useFormik({
     initialValues: initialValues(),
     validationSchema: validationSchema(),
     onSubmit: async (formData) => {
       try {
-        formData.participants = formData.participants.split(',');
-        await concertService.updateConcertApi(accessToken, formData, formData.item)
+        formData.participants = formData.participants.split(',')
+        await concertService.updateConcertApi(
+          accessToken,
+          formData,
+          formData.item
+        )
         onReload()
         close()
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
     },
     validateOnChange: false,
   })
 
   useEffect(() => {
-    (async () => {
-      console.log(formik.values.musicalGenre);
+    ;(async () => {
+      console.log(formik.values.musicalGenre)
       try {
-        const response = await concertService.getConcertsUserApi(accessToken, 1, 1000);
-        setConcerts(response.docs);
+        const response = await concertService.getConcertsUserApi(
+          accessToken,
+          1,
+          1000
+        )
+        setConcerts(response.docs)
       } catch (error) {
-        throw(error);
+        throw error
       }
     })()
   }, [formik.values.musicalGenre])
 
-  const itemOptions = map (concerts, (concert) => ({
+  const itemOptions = map(concerts, (concert) => ({
     key: concert._id,
     text: concert.name,
     value: concert._id,
   }))
 
   const handleItemOptionChange = (event, { value }) => {
-    setItem(value);
-    formik.setFieldValue('item', value);
+    setItem(value)
+    formik.setFieldValue('item', value)
 
-    const concert = concerts.find(concert => concert._id === value);
-    const concertReleaseDate = concert?.date ? new Date(concert.date).toISOString() : ''
-    const concertParticipants = concert?.participants ? concert.participants.join(', ') : ''
+    const concert = concerts.find((concert) => concert._id === value)
+    const concertReleaseDate = concert?.date
+      ? new Date(concert.date).toISOString()
+      : ''
+    const concertParticipants = concert?.participants
+      ? concert.participants.join(', ')
+      : ''
     formik.setFieldValue('name', concert?.name)
     formik.setFieldValue('date', concertReleaseDate)
     formik.setFieldValue('location', concert?.location)
@@ -72,14 +84,14 @@ export function UpdateConcertForm(props) {
   }
 
   const handleDateChange = (date) => {
-    setReleaseDate(date);
-    formik.setFieldValue('date', date);
+    setReleaseDate(date)
+    formik.setFieldValue('date', date)
   }
 
   const onDrop = useCallback((acceptedFiles) => {
-    const file = acceptedFiles[0];
-    formik.setFieldValue('concertPoster', URL.createObjectURL(file));
-    formik.setFieldValue('fileConcertPoster', file);
+    const file = acceptedFiles[0]
+    formik.setFieldValue('concertPoster', URL.createObjectURL(file))
+    formik.setFieldValue('fileConcertPoster', file)
   })
 
   const { getRootProps, getInputProps } = useDropzone({
@@ -93,7 +105,7 @@ export function UpdateConcertForm(props) {
     } else if (formik.values.concertPoster) {
       return `${ENV.BASE_PATH}/${formik.values.concertPoster}`
     }
-    return null;
+    return null
   }
 
   const musicGenre = [
@@ -134,11 +146,11 @@ export function UpdateConcertForm(props) {
   ]
 
   const handleGenreSelected = (event, data) => {
-    const selectedGenres = data.value;
-    formik.setFieldValue('musicalGenre', selectedGenres);
-  };
-  
-  const options = musicGenre.map(genre => {
+    const selectedGenres = data.value
+    formik.setFieldValue('musicalGenre', selectedGenres)
+  }
+
+  const options = musicGenre.map((genre) => {
     return { key: genre.key, text: genre.text, value: genre.value }
   })
 
@@ -154,26 +166,28 @@ export function UpdateConcertForm(props) {
         error={formik.errors.item}
       />
 
-      <div className='update-concert-form__avatar' {...getRootProps()}>
+      <div className="update-concert-form__avatar" {...getRootProps()}>
         <input {...getInputProps()} />
-        <span className='title'> Cartel del concierto: </span>
-        <Image size='small' src={getConcertPoster()} />
+        <span className="title"> Cartel del concierto: </span>
+        <Image size="small" src={getConcertPoster()} />
         {formik.errors.concertPoster && formik.touched.concertPoster ? (
-          <div className="update-concert-form__error">{formik.errors.concertPoster}</div>
+          <div className="update-concert-form__error">
+            {formik.errors.concertPoster}
+          </div>
         ) : null}
       </div>
 
       <Form.Input
-        name='name'
-        placeholder='Nombre del concierto'
+        name="name"
+        placeholder="Nombre del concierto"
         onChange={formik.handleChange}
         value={formik.values.name}
         error={formik.errors.name}
       />
 
       <Form.Input
-        name='location'
-        placeholder='Lugar del concierto (Calle, número, ciudad, país)'
+        name="location"
+        placeholder="Lugar del concierto (Calle, número, ciudad, país)"
         onChange={formik.handleChange}
         value={formik.values.location}
         error={formik.errors.location}
@@ -181,7 +195,9 @@ export function UpdateConcertForm(props) {
 
       <Form.Field>
         <DatePicker
-          selected={formik.values.date ? new Date(formik.values.date) : releaseDate}
+          selected={
+            formik.values.date ? new Date(formik.values.date) : releaseDate
+          }
           onChange={handleDateChange}
           dateFormat={'dd/MM/yyyy'}
           placeholderText="Fecha Salida Estimada"
@@ -189,28 +205,28 @@ export function UpdateConcertForm(props) {
         {formik.touched.date && formik.errors.date ? (
           <div className="update-disc-form__error">Ingresa una fecha</div>
         ) : null}
-      </Form.Field> 
+      </Form.Field>
 
-      <Form.Group widths='three'>
-        <Form.Input 
-          name='moneyLimit'
-          placeholder='Meta de Dinero'
+      <Form.Group widths="three">
+        <Form.Input
+          name="moneyLimit"
+          placeholder="Meta de Dinero"
           onChange={formik.handleChange}
           value={formik.values.moneyLimit}
           error={formik.errors.moneyLimit}
         />
 
-        <Form.Input 
-          name='price'
-          placeholder='Precio de venta'
+        <Form.Input
+          name="price"
+          placeholder="Precio de venta"
           onChange={formik.handleChange}
           value={formik.values.price}
           error={formik.errors.price}
         />
 
-        <Form.Input 
-          name='raisedMoney'
-          placeholder='Dinero Recaudado'
+        <Form.Input
+          name="raisedMoney"
+          placeholder="Dinero Recaudado"
           onChange={formik.handleChange}
           value={formik.values.raisedMoney}
           error={formik.errors.raisedMoney}
@@ -218,8 +234,8 @@ export function UpdateConcertForm(props) {
       </Form.Group>
 
       <Form.Dropdown
-        name='musicalGenre'
-        placeholder='Selecciona los géneros musicales'
+        name="musicalGenre"
+        placeholder="Selecciona los géneros musicales"
         fluid
         multiple
         selection
@@ -230,17 +246,17 @@ export function UpdateConcertForm(props) {
         error={formik.errors.musicalGenre}
       />
 
-      <Form.Input 
-        label='Separe los participantes con comas (,)'
-        name='participants'
-        placeholder='Participantes'
+      <Form.Input
+        label="Separe los participantes con comas (,)"
+        name="participants"
+        placeholder="Participantes"
         value={formik.values.participants}
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
         error={formik.touched.participants && formik.errors.participants}
       />
 
-      <Form.Button type='submit' primary fluid loading={formik.isSubmitting}>
+      <Form.Button type="submit" primary fluid loading={formik.isSubmitting}>
         Actualizar Concierto
       </Form.Button>
     </Form>

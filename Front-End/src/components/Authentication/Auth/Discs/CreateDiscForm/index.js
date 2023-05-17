@@ -1,1 +1,1 @@
-export { CreateDiscForm } from './CreateDiscForm';
+export { CreateDiscForm } from './CreateDiscForm'

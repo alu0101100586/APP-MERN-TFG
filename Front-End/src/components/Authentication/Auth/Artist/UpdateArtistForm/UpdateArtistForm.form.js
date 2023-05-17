@@ -1,7 +1,9 @@
-import * as Yup from 'yup';
+import * as Yup from 'yup'
 
 export function initialValues(artist) {
-  const artistStartDate = artist?.startDate ? new Date(artist.startDate).toISOString() : ''
+  const artistStartDate = artist?.startDate
+    ? new Date(artist.startDate).toISOString()
+    : ''
 
   return {
     name: artist?.name || '',

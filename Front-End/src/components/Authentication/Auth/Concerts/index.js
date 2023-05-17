@@ -1,2 +1,2 @@
-export * from './CreateConcertForm';
-export * from './UpdateConcertForm';
+export * from './CreateConcertForm'
+export * from './UpdateConcertForm'

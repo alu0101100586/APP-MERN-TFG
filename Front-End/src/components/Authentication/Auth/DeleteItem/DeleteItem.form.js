@@ -1,13 +1,13 @@
-import * as Yup from 'yup';
+import * as Yup from 'yup'
 
 export function initialValues() {
   return {
-    item: ''
-  };
+    item: '',
+  }
 }
 
 export function validationSchema() {
   return Yup.object({
-    item: Yup.string().required('Item requerido')
-  });
+    item: Yup.string().required('Item requerido'),
+  })
 }

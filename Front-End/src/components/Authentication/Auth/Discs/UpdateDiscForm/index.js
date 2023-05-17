@@ -1,1 +1,1 @@
-export * from './UpdateDiscForm';
+export * from './UpdateDiscForm'

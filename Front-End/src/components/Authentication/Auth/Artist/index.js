@@ -1,3 +1,3 @@
-export * from './CreateArtistForm';
-export * from './DeleteArtist';
-export * from './UpdateArtistForm';
+export * from './CreateArtistForm'
+export * from './DeleteArtist'
+export * from './UpdateArtistForm'

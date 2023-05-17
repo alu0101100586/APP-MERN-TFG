@@ -149,7 +149,7 @@ export class DiscService {
       }
       return result
     } catch (error) {
-      throw error;
+      throw error
     }
   }
 

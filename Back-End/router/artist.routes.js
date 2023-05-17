@@ -12,8 +12,8 @@ api.get('/artists', artistController.getArtists)
 api.get('/artist/:id', artistController.getArtist)
 
 api.get(
-  '/owned/artist', 
-  [mwAuth.asureAuthenticated], 
+  '/owned/artist',
+  [mwAuth.asureAuthenticated],
   artistController.getOwnerArtist
 )
 
