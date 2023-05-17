@@ -2,6 +2,8 @@ const bcrypt = require('bcryptjs')
 const User = require('../models/user.model')
 const Image = require('../utils/processImage.utils')
 const Artist = require('../models/artist.model')
+const Disc = require('../models/disc.model')
+const Concert = require('../models/concert.model')
 
 async function getMe(req, res) {
   const { user_id } = req.user
@@ -170,10 +172,41 @@ async function deleteUser(req, res) {
     })
 }
 
+async function updateUserMusicalGenre(req, res) {
+  try {
+    const { user_id } = req.user
+    const userStorage = await User.findById({ _id: user_id })
+    const discs = await Disc.find({ _id: { $in: userStorage.discs } })
+    const concerts = await Concert.find({ _id: { $in: userStorage.concerts } })
+
+    const  discMusicalGenre = discs.flatMap((disc) => disc.musicalGenre)
+    const  concertMusicalGenre = concerts.flatMap((concert) => concert.musicalGenre)
+
+    console.log(discMusicalGenre)
+    console.log(concertMusicalGenre)
+
+    const musicalGenre = Array.from(new Set([...discMusicalGenre, ...concertMusicalGenre]))
+
+    userStorage.musicalGenre = musicalGenre
+
+    await userStorage.save()
+
+    const artistStorage = await Artist.findOne({ ownerId: user_id })
+    if (artistStorage) {
+      artistStorage.musicalGenre = musicalGenre
+      await artistStorage.save()
+    }
+    return res.status(200).send({ msg: 'Género musical actualizado satisfactoriamente' })
+  } catch (error) {
+    res.status(500).send({ msg: 'Error al actualizar el género musical del usuario' })
+  }
+}
+
 module.exports = {
   getMe,
   getUsers,
   createUser,
   updateUser,
   deleteUser,
+  updateUserMusicalGenre,
 }

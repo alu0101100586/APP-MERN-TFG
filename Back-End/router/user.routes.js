@@ -10,12 +10,12 @@ api.get('/user/me', [mwAuth.asureAuthenticated], userController.getMe)
 
 api.get('/users', [mwAuth.asureAuthenticated], userController.getUsers)
 
-// api.post(
-//   '/user',
-//   [mwAuth.asureAuthenticated, mw_upload],
-//   userController.createUser
-// )
-4
+api.post(
+  '/user',
+  [mwAuth.asureAuthenticated, mw_upload],
+  userController.createUser
+)
+
 api.patch(
   '/user/me',
   [mwAuth.asureAuthenticated, mw_upload],
@@ -23,5 +23,11 @@ api.patch(
 )
 
 api.delete('/user/me', [mwAuth.asureAuthenticated], userController.deleteUser)
+
+api.patch(
+  '/user/musical-genre',
+  [mwAuth.asureAuthenticated],
+  userController.updateUserMusicalGenre
+)
 
 module.exports = api
