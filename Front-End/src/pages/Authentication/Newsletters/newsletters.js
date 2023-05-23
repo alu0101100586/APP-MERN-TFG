@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../../../hooks';
 import { UserService, NewslettersService } from '../../../service';
 import './newsletters.scss';
+import { set } from 'lodash';
 
 const userService = new UserService();
 const newslettersService = new NewslettersService();
@@ -11,6 +12,8 @@ const newslettersService = new NewslettersService();
 export function Newsletters() {
   const { accessToken } = useAuth();
   const [ email, setEmail ] = useState('');
+  const [ suscribed, setSuscribed ] = useState('');
+  const [ unsuscribed, setUnsuscribed ] = useState('');
 
   useEffect(() => {
     (async () => {
@@ -21,12 +24,14 @@ export function Newsletters() {
 
   const handleSuscribe = async () => {
     const response = await newslettersService.newSubscriptionApi(accessToken, email);
-    console.log(response);
+    setUnsuscribed('');
+    setSuscribed(response.msg);
   }
 
   const handleUnsuscribe = async () => {
     const response = await newslettersService.cancelSubscriptionApi(accessToken, email);
-    console.log(response);
+    setSuscribed('');
+    setUnsuscribed(response.msg);
   }
   
   return (
@@ -60,6 +65,7 @@ export function Newsletters() {
         <Icon name='mail' />
         Suscribirse
       </Button>
+      <p>{suscribed}</p>
 
       <h1>¿Como cancelar tu suscripcion a nuestras newsletters?</h1>
       <p>
@@ -71,6 +77,7 @@ export function Newsletters() {
         <Icon name='window close outline' />
         Cancelar suscripción
       </Button>
+      <p>{unsuscribed}</p>
 
       <h1>¿Como eliminar tu cuenta?</h1>
       <p>
