@@ -33,9 +33,50 @@ async function getOwnerArtist(req, res) {
     })
 }
 
+// async function getArtist(req, res) {
+//   const { id } = req.params
+//   Artist.findById({ _id: id })
+//     .then((artistStorage) => {
+//       if (!artistStorage) {
+//         return res.status(404).send({ msg: 'Artista no encontrado' })
+//       }
+//       return res.status(200).send(artistStorage)
+//     })
+//     .catch(() => {
+//       return res.status(500).send({ msg: 'Error al obtener el artista' })
+//     })
+// }
+
 async function getArtist(req, res) {
   const { id } = req.params
-  Artist.findById({ _id: id })
+  Artist.findById({_id : id})
+    .then((artistStorage) => {
+      if (artistStorage) {
+        return res.status(200).send(artistStorage)
+      } else {
+        Artist.findOne({ ownerId: id })
+          .then((artistByOwnerId) => {
+            if (artistByOwnerId) {
+              return res.status(200).send(artistByOwnerId)
+            } else {
+              return res.status(404).send({ msg: 'Artista no encontrado' })
+            }
+          })
+          .catch(() => {
+            return res.status(500).send({ msg: 'Error al obtener el artista' })
+          })
+      }
+    })
+    .catch(() => {
+      return res.status(500).send({ msg: 'Error al obtener el artista' })
+    })
+}
+
+
+
+async function getArtistByOwner(req, res) {
+  const { id } = req.params
+  Artist.findById({ ownerId: id })
     .then((artistStorage) => {
       if (!artistStorage) {
         return res.status(404).send({ msg: 'Artista no encontrado' })
