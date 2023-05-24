@@ -29,6 +29,9 @@ export class Auth {
       const url = `${this.api}${ENV.API_ROUTES.AUTH.SING_UP}`
       const params = {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify({
           email: formData.email,
           nickName: formData.nickName,
@@ -38,13 +41,9 @@ export class Auth {
           password: formData.password,
           role: formData.role,
         }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
       }
       const response = await fetch(url, params)
       const result = await response.json()
-      console.log(response)
 
       if (response.status !== 200) throw result
 

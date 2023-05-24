@@ -11,13 +11,12 @@ const authService = new Auth()
 export function DeleteUserTransaction(props) {
   const { close } = props
   const { accessToken } = useAuth()
-  const navigate = useNavigate()
 
   const handleDelete = async (accessToken) => {
     try {
       await userService.deleteMeApi(accessToken)
       authService.removeTokens()
-      navigate('/')
+      window.location.reload()
     } catch (error) {
       console.log(error)
     }
