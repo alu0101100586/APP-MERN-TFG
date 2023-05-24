@@ -4,13 +4,13 @@ const Image = require('../utils/processImage.utils')
 const GetId = require('../utils/getUserId.utils')
 
 async function getArtists(req, res) {
-  const { page = 1, pageItems = 10 } = req.query
-  const options = {
-    page: parseInt(page),
-    pageItems: parseInt(pageItems),
-  }
+  // const { page = 1, pageItems = 10 } = req.query
+  // const options = {
+  //   page: parseInt(page),
+  //   pageItems: parseInt(pageItems),
+  // }
 
-  Artist.paginate({}, options)
+  Artist.find()
     .then((artistsStorage) => {
       return res.status(200).send(artistsStorage)
     })
