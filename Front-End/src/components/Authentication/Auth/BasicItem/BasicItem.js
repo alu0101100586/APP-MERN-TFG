@@ -1,15 +1,17 @@
 import React from 'react'
 import { Image, Button } from 'semantic-ui-react'
+import { useNavigate } from 'react-router-dom';
 import { ENV } from '../../../../utils'
 import './BasicItem.scss'
 
 //TODO - hacer que el elemento sea clickeable para ir a la pagina del item
 
 export function BasicItem(props) {
-  const { item } = props
+  const { item, type} = props
+  const navigate = useNavigate()
 
   if (!item) {
-    return <h2>No hay discos que mostrar</h2>
+    return <h2>No hay nada que mostrar</h2>
   }
 
   let imagepath
@@ -28,8 +30,20 @@ export function BasicItem(props) {
     property = item.size
   }
 
+  const handleOnClick = () => {
+    if (type === 'artist') {
+      navigate(`/artist/${item._id}`)
+    } else if (type === 'disc') {
+      navigate(`/disc/${item._id}`)
+    } else if (type === 'concert') {
+      navigate(`/concert/${item._id}`)
+    } else if (type === 'merchandise') {
+      navigate(`/merchandise/${item._id}`)
+    }
+  }
+
   return (
-    <div className="basic-item">
+    <div className="basic-item" onClick={handleOnClick}>
       <Image src={`${imagepath}`} size="small" />
       <div className="basic-item__info">
         <h2>{item.name}</h2>

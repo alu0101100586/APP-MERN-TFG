@@ -151,7 +151,7 @@ async function deleteUser(req, res) {
           Artist.findOneAndDelete({ ownerId: userStorage._id })
             .then((artistStorage) => {
               if (!artistStorage) {
-                res.status(404).send({ msg: 'Error al crear el artista' })
+                res.status(200).send({ msg: 'No tenía asociado un artista' })
               }
               res
                 .status(200)

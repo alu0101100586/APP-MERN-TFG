@@ -85,7 +85,7 @@ export function ItemList(props) {
     <div className="item-list">
       <div className="item-list__list">
         {map(items, (item) => (
-          <BasicItem item={item} />
+          <BasicItem item={item} type={type}/>
         ))}
       </div>
       <div className="item-list__pagination">
