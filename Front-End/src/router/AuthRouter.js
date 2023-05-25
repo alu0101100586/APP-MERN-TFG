@@ -44,7 +44,7 @@ export function AuthRouter() {
             element={loadLayout(LogInLayout, Newsletters)}
           />
           <Route
-            path="/auth/payment"
+            path="/auth/payment/:id"
             element={loadLayout(LogInLayout, PaymentGateway)}
           />
         </>

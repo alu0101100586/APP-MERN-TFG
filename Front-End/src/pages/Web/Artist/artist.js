@@ -1,4 +1,6 @@
-import React from 'react'
+import React from 'react';
+import { Grid, Button, Image, Icon } from 'semantic-ui-react';
+import './artist.scss';
 
 export function Artist() {
   return (

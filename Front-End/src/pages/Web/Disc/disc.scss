@@ -1,0 +1,83 @@
+@import "~/src/scss/index.scss";
+
+.specific-disc {
+  .grid {
+    &.padded {
+      padding: 3rem;
+    }
+
+    .column {
+      &:first-child {
+        .image {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+
+      &:nth-child(2) {
+        .disc-info {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          height: 100%;
+
+          h1 {
+            text-transform: uppercase;
+            margin-bottom: 10px;
+          }
+
+          h2 {
+            margin-bottom: 1rem;
+          }
+
+          h3 {
+            margin-bottom: 1rem;
+          }
+        }
+      }
+
+      &:last-child {
+        .crowdfunding-info {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          justify-content: center;
+          height: 100%;
+
+          .artist-info {
+            position: relative;
+
+            .overlay {
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              background-color: rgba(0, 0, 0, 0.7);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              opacity: 0;
+              transition: opacity 0.3s;
+
+              .name {
+                color: #fff;
+                font-size: 1.2rem;
+              }
+            }
+
+            &:hover .overlay {
+              opacity: 1;
+            }
+          }
+
+          h2 {
+            margin-bottom: 1rem;
+          }
+        }
+      }
+    }
+  }
+}
