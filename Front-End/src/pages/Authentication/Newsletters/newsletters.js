@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Icon } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../hooks';
 import { UserService, NewslettersService } from '../../../service';
 import './newsletters.scss';
@@ -14,6 +15,7 @@ export function Newsletters() {
   const [ email, setEmail ] = useState('');
   const [ suscribed, setSuscribed ] = useState('');
   const [ unsuscribed, setUnsuscribed ] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     (async () => {
@@ -32,6 +34,11 @@ export function Newsletters() {
     const response = await newslettersService.cancelSubscriptionApi(accessToken, email);
     setSuscribed('');
     setUnsuscribed(response.msg);
+  }
+
+  const handleOnClick = () => {
+    navigate(`/auth`);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
   
   return (
@@ -87,7 +94,7 @@ export function Newsletters() {
         a menos que vuelvas a registrarte y que si eliminas tu cuenta, no
         recuperarás los datos que estén asociados a ella.
       </p>
-      <Button as={Link} to='/auth'>
+      <Button onClick={handleOnClick} to='/auth'>
         <Icon name='long arrow alternate left' />
         Volver a la página de Usuario
       </Button>

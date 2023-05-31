@@ -5,12 +5,14 @@ import { useNavigate } from 'react-router-dom';
 import { ENV, formatDate } from '../../../utils';
 import { ProgressBar } from '../../../components/Web';
 import { image } from '../../../assets';
+import { useAuth } from '../../../hooks';
 import './concert.scss';
 
 const concertService = new ConcertService();
 const artistService = new ArtistService();
 
 export function Concert() {
+  const { user } = useAuth();
   const url = window.location.href;
   const urlParts = url.split('/');
   const concertId = urlParts[urlParts.length - 1];
@@ -135,9 +137,11 @@ export function Concert() {
               El progreso de la campaña se puede ver en la siguiente barra de progreso:
             </p>
             <ProgressBar total={concert.moneyLimit} current={concert.raisedMoney} />
-            <Button primary onClick={() => navigate(`/auth/payment/concert-${concertId}`)}>
-              Apoyar la campaña
-            </Button>
+            {user && user.role === 'common' && new Date(concert.releaseDate) >= new Date() && (
+              <Button primary onClick={() => navigate(`/auth/payment/concert-${concertId}`)}>
+                Apoyar la campaña
+              </Button>
+            )}
           </div>
         </Grid.Column>
       </Grid>

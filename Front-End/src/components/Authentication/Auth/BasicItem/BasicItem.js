@@ -4,8 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { ENV } from '../../../../utils'
 import './BasicItem.scss'
 
-//TODO - hacer que el elemento sea clickeable para ir a la pagina del item
-
 export function BasicItem(props) {
   const { item, type} = props
   const navigate = useNavigate()

@@ -5,12 +5,14 @@ import { useNavigate } from 'react-router-dom';
 import { ENV, formatDate } from '../../../utils';
 import { ProgressBar } from '../../../components/Web';
 import { image } from '../../../assets';
+import { useAuth } from '../../../hooks';
 import './disc.scss';
 
 const discService = new DiscService();
 const artistService = new ArtistService();
 
 export function Disc() {
+  const { user } = useAuth();
   const url = window.location.href;
   const urlParts = url.split('/');
   const discId = urlParts[urlParts.length - 1];
@@ -120,9 +122,11 @@ export function Disc() {
               El progreso de la campaña se puede ver en la siguiente barra de progreso:
             </p>
             <ProgressBar total={disc.moneyLimit} current={disc.raisedMoney} />
-            <Button primary onClick={() => navigate(`/auth/payment/disc-${discId}`)}>
-              Apoyar la campaña
-            </Button>
+            {user && user.role === 'common' && new Date(disc.releaseDate) >= new Date() && (
+              <Button primary onClick={() => navigate(`/auth/payment/disc-${discId}`)}>
+                Apoyar la campaña
+              </Button>
+            )}
           </div>
         </Grid.Column>
       </Grid>

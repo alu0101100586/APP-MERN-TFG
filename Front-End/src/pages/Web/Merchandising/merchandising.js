@@ -5,12 +5,14 @@ import { useNavigate } from 'react-router-dom';
 import { ENV, formatDate } from '../../../utils';
 import { ProgressBar } from '../../../components/Web';
 import { image } from '../../../assets';
+import { useAuth } from '../../../hooks';
 import './merchandising.scss';
 
 const merchService = new MerchandiseService();
 const artistService = new ArtistService();
 
 export function Merchandising() {
+  const { user } = useAuth();
   const url = window.location.href;
   const urlParts = url.split('/');
   const merchId = urlParts[urlParts.length - 1];
@@ -120,9 +122,11 @@ export function Merchandising() {
               El progreso de la campaña se puede ver en la siguiente barra de progreso:
             </p>
             <ProgressBar total={merch.moneyLimit} current={merch.raisedMoney} />
-            <Button primary onClick={() => navigate(`/auth/payment/merch-${merchId}`)}>
-              Apoyar la campaña
-            </Button>
+            {user && user.role === 'common' && new Date(merch.releaseDate) >= new Date() && (
+              <Button primary onClick={() => navigate(`/auth/payment/merchandise-${merchId}`)}>
+                Apoyar la campaña
+              </Button>
+            )}
           </div>
         </Grid.Column>
       </Grid>
