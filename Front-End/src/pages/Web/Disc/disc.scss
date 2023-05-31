@@ -20,19 +20,22 @@
           display: flex;
           flex-direction: column;
           align-items: center;
+          text-align: center;
+          justify-content: center;
           height: 100%;
+          margin-left: 5%;
 
           h1 {
             text-transform: uppercase;
-            margin-bottom: 10px;
+            text-align: center;
+            font-size: 50px;
+            font-weight: 700;
           }
 
-          h2 {
-            margin-bottom: 1rem;
-          }
-
-          h3 {
-            margin-bottom: 1rem;
+          p {
+            font-size: 25px;
+            font-weight: 400;
+            text-align: justify;
           }
         }
       }
@@ -45,6 +48,21 @@
           text-align: center;
           justify-content: center;
           height: 100%;
+
+          h1 {
+            text-transform: uppercase;
+            text-align: center;
+            font-size: 30px;
+            font-weight: 700;
+          }
+
+          p {
+            margin-left: 10%;
+            margin-right: 10%;
+            font-size: 15px;
+            font-weight: 400;
+            text-align: justify;
+          }
 
           .artist-info {
             position: relative;
@@ -71,10 +89,6 @@
             &:hover .overlay {
               opacity: 1;
             }
-          }
-
-          h2 {
-            margin-bottom: 1rem;
           }
         }
       }

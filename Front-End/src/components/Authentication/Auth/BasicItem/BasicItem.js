@@ -33,12 +33,16 @@ export function BasicItem(props) {
   const handleOnClick = () => {
     if (type === 'artist') {
       navigate(`/artist/${item._id}`)
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     } else if (type === 'disc') {
       navigate(`/disc/${item._id}`)
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     } else if (type === 'concert') {
       navigate(`/concert/${item._id}`)
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     } else if (type === 'merchandise') {
       navigate(`/merchandise/${item._id}`)
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }
 
