@@ -4,8 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { ENV } from '../../../../utils'
 import './BasicItem.scss'
 
-//TODO - hacer que el elemento sea clickeable para ir a la pagina del item
-
 export function BasicItem(props) {
   const { item, type} = props
   const navigate = useNavigate()
@@ -33,12 +31,16 @@ export function BasicItem(props) {
   const handleOnClick = () => {
     if (type === 'artist') {
       navigate(`/artist/${item._id}`)
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     } else if (type === 'disc') {
       navigate(`/disc/${item._id}`)
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     } else if (type === 'concert') {
       navigate(`/concert/${item._id}`)
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     } else if (type === 'merchandise') {
       navigate(`/merchandise/${item._id}`)
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }
 

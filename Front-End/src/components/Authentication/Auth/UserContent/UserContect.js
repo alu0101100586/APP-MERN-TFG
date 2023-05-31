@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Image } from 'semantic-ui-react'
+import { Image, Grid, Input } from 'semantic-ui-react'
 import { ENV } from '../../../../utils'
 import { image } from '../../../../assets'
 import { UserService } from '../../../../service'
@@ -19,18 +19,15 @@ export function UserContect(props) {
   let DiscHeader
   let ConcertHeader
   let MerchHeader
-  let GenresHeader
 
   if (role === 'artist') {
     DiscHeader = 'Discos que has subido'
     ConcertHeader = 'Conciertos que has subido'
     MerchHeader = 'Merchandise que has subido'
-    GenresHeader = 'Géneros musicales que tocas'
   } else {
     DiscHeader = 'Discos en los que has participado'
     ConcertHeader = 'Conciertos en los que has participado'
     MerchHeader = 'Merchandise en los que has participado'
-    GenresHeader = 'Géneros musicales que te gustan'
   }
 
   const [profile, setProfile] = useState(user)
@@ -52,43 +49,72 @@ export function UserContect(props) {
   return (
     <div className="user-content">
       <div className="user-content__info">
-        <Image
-          src={
-            profile.avatar
-              ? `${ENV.BASE_PATH}/${profile.avatar}`
-              : image.Default_Avatar
-          }
-          avatar
-        />
-        <div className="user-content__info__data">
-          <div className="user-content__info__data__email">
-            <h3>Correo Electrónico</h3>
-            <span>{profile.email}</span>
-          </div>
-          <div className="user-content__info__data__nickname">
-            <h3>Nombre de Usuario</h3>
-            <span>{profile.nickName}</span>
-          </div>
-          <div className="user-content__info__data__name">
-            <h3>Nombre</h3>
-            <span>
-              {profile.firstName} {profile.lastName}
-            </span>
-          </div>
-          <div className="user-content__info__data__date">
-            <h3>Fecha Inicio</h3>
-            <span>{date}</span>
-          </div>
-        </div>
+        <Grid columns={2} divided padded>
+          <Grid.Column>
+            <div className="avatar-container">
+              <Image
+                src={
+                  profile.avatar
+                    ? `${ENV.BASE_PATH}/${profile.avatar}`
+                    : image.Default_Avatar
+                }
+                avatar
+              />
+            </div>
+          </Grid.Column>
+          <Grid.Column>
+            <div classname='info-container'>
+              <Input
+                label='Nombre de Usuario'
+                type='text'
+                value={profile.nickName}
+                readonly='true'
+                tabIndex={-1}
+              />
+              <Input
+                label='Nombre'
+                type='text'
+                value={profile.firstName}
+                readonly='true'
+                tabIndex={-1}
+              />
+              <Input
+                label='Apellidos'
+                type='text'
+                value={profile.lastName}
+                readonly='true'
+                tabIndex={-1}
+              />
+              <Input
+                label='Correo Electrónico'
+                type='text'
+                value={profile.email}
+                readonly='true'
+                tabIndex={-1}
+              />
+              <Input
+                label='Fecha de Inicio'
+                type='text'
+                value={date}
+                readonly='true'
+                tabIndex={-1}
+              />
+              <Input
+                label='Géneros Musicales'
+                type='text'
+                value={
+                  profile.musicalGenre.length > 0
+                    ? profile.musicalGenre.join(', ')
+                    : 'No te has decantado por ningún género'
+                }
+                readonly='true'
+                tabIndex={-1}
+              />
+            </div>
+          </Grid.Column>
+        </Grid>
       </div>
-      <div className="user-content__genres">
-        <h1>{GenresHeader}</h1>
-        <span>
-          {profile.musicalGenre.length > 0
-            ? profile.musicalGenre.join(', ')
-            : 'No te has decantado por ningún género'}
-        </span>
-      </div>
+      
       {profile.discs.length > 0 ? (
         <div className="user-content__list">
           <h1>{DiscHeader}</h1>
