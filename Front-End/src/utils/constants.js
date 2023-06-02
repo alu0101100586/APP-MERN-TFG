@@ -71,4 +71,5 @@ export const ENV = {
     ACCESS: 'accessToken',
     REFRESH: 'refreshToken',
   },
+  API_KEY_GEOCODE:'ce4d4f72f6424069b225f517b115d2df'
 }
