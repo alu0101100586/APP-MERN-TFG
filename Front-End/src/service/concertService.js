@@ -60,6 +60,24 @@ export class ConcertService {
     }
   }
 
+  async getConcertsArtistApi(artistId) {
+    try {
+      const url = `${this.api}${ENV.API_ROUTES.CONCERT.GET_CONCERTS_ARTIST}/${artistId}`
+      const params = {
+        method: 'GET',
+      }
+      const response = await fetch(url, params)
+      const result = await response.json()
+
+      if (response.status !== 200) {
+        throw new Error('UnExpected Error')
+      }
+      return result
+    } catch (error) {
+      throw error
+    }
+  }
+
   async createConcertApi(accessToken, concertData) {
     try {
       const data = concertData

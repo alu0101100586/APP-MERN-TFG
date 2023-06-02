@@ -49,7 +49,7 @@ export function UserContect(props) {
   return (
     <div className="user-content">
       <div className="user-content__info">
-        <Grid columns={2} divided padded>
+        <Grid columns={2} divided padded stackable>
           <Grid.Column>
             <div className="avatar-container">
               <Image

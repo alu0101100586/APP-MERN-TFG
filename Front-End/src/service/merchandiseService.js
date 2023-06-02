@@ -61,6 +61,25 @@ export class MerchandiseService {
     }
   }
 
+  async getMerchandiseArtistApi(artistId) {
+    try {
+      const url = `${this.api}${ENV.API_ROUTES.MERCHANDISE.GET_MERCHANDISES_ARTIST}/${artistId}`
+      const params = {
+        method: 'GET',
+      }
+
+      const response = await fetch(url, params)
+      const result = await response.json()
+
+      if (response.status !== 200) {
+        throw new Error('UnExpected Error')
+      }
+      return result
+    } catch (error) {
+      throw error
+    }
+  }
+
   async createMerchandiseApi(accessToken, merchandiseData) {
     try {
       const data = merchandiseData
