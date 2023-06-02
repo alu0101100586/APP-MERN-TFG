@@ -12,6 +12,8 @@ api.get('/concerts', concertController.getConcerts)
 
 api.get('/concert/:id', concertController.getConcert)
 
+api.get('/concerts/artist/:id', concertController.getConcertsByArtist)
+
 api.get(
   '/concerts/user',
   [mwAuth.asureAuthenticated],

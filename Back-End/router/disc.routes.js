@@ -12,6 +12,8 @@ api.get('/discs', discController.getDiscs)
 
 api.get('/disc/:id', discController.getDisc)
 
+api.get('/discs/artist/:id', discController.getDiscsByArtist)
+
 api.get(
   '/discs/user',
   [mwAuth.asureAuthenticated],

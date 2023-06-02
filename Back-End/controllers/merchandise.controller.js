@@ -20,6 +20,20 @@ async function getMerchandises(req, res) {
     })
 }
 
+async function getMerchandise(req, res) {
+  const { id } = req.params
+  Merchandise.findById({ _id: id })
+    .then((merchStorage) => {
+      if (!merchStorage) {
+        return res.status(404).send({ msg: 'Merchandise no encontrado' })
+      }
+      return res.status(200).send(merchStorage)
+    })
+    .catch(() => {
+      return res.status(500).send({ msg: 'Error al obtener el merchandise' })
+    })
+}
+
 async function getMerchandiseByUser(req, res) {
   const { page = 1, limit = 3 } = req.query
   const options = {
@@ -49,18 +63,32 @@ async function getMerchandiseByUser(req, res) {
   }
 }
 
-async function getMerchandise(req, res) {
+async function getMerchandisesByArtist(req, res) {
   const { id } = req.params
-  Merchandise.findById({ _id: id })
-    .then((merchStorage) => {
-      if (!merchStorage) {
-        return res.status(404).send({ msg: 'Merchandise no encontrado' })
-      }
-      return res.status(200).send(merchStorage)
-    })
-    .catch(() => {
-      return res.status(500).send({ msg: 'Error al obtener el merchandise' })
-    })
+  const options = {
+    page: parseInt(1),
+    limit: parseInt(3),
+  }
+
+  try {
+    const artistStorage = await Artist.findById({ _id: id })
+    if (!artistStorage) {
+      return res.status(404).send({ msg: 'Artista no encontrado' })
+    }
+    const merchsIds = artistStorage.merchandise
+
+    Merchandise.paginate({ _id: { $in: merchsIds } }, options)
+      .then((merchsStorage) => {
+        return res.status(200).send(merchsStorage)
+      })
+      .catch(() => {
+        return res
+          .status(500)
+          .send({ msg: 'Error al obtener los merchandises' })
+      })
+  } catch (error) {
+    return res.status(500).send({ msg: 'Error al obtener los merchandises' })
+  }
 }
 
 async function createMerchandise(req, res) {
@@ -338,6 +366,7 @@ module.exports = {
   getMerchandises,
   getMerchandise,
   getMerchandiseByUser,
+  getMerchandisesByArtist,
   createMerchandise,
   updateMerchandise,
   deleteMerchandise,
