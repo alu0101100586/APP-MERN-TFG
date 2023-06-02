@@ -12,6 +12,8 @@ api.get('/merchandises', merchController.getMerchandises)
 
 api.get('/merchandise/:id', merchController.getMerchandise)
 
+api.get('/merchandises/artist/:id', merchController.getMerchandisesByArtist)
+
 api.get(
   '/merchandises/user',
   [mwAuth.asureAuthenticated],

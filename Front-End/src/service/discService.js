@@ -62,6 +62,24 @@ export class DiscService {
     }
   }
 
+  async getDiscsArtistApi(artistId) {
+    try {
+      const url = `${this.api}${ENV.API_ROUTES.DISC.GET_DISCS_ARTIST}/${artistId}`
+      const params = {
+        method: 'GET',
+      }
+      const response = await fetch(url, params)
+      const result = await response.json()
+      
+      if (response.status !== 200) {
+        throw new Error('UnExpected Error')
+      }
+      return result
+    } catch (error) {
+      throw error
+    }
+  }
+
   async createDiscApi(accessToken, discData) {
     try {
       const data = discData

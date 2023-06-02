@@ -3,7 +3,7 @@ import { Grid, Image, Button } from 'semantic-ui-react';
 import { ConcertService, ArtistService } from '../../../service';
 import { useNavigate } from 'react-router-dom';
 import { ENV, formatDate } from '../../../utils';
-import { ProgressBar } from '../../../components/Web';
+import { ProgressBar, Map } from '../../../components/Web';
 import { image } from '../../../assets';
 import { useAuth } from '../../../hooks';
 import './concert.scss';
@@ -90,8 +90,7 @@ export function Concert() {
               <span style={{ fontWeight: "bold" }}>{participants}</span>.
             </p>
             <h1>Ubicación:</h1>
-            <p>{concert.location}</p>
-            <p>Aqui va el componente de mapa</p>
+            <Map location={concert.location} />
           </div>
         </Grid.Column>
 

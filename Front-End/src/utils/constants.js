@@ -21,6 +21,7 @@ export const ENV = {
       GET_DISCS: '/discs',
       GET_DISC: '/disc',
       GET_DISCS_USER: '/discs/user',
+      GET_DISCS_ARTIST: '/discs/artist',
       CREATE_DISC: '/disc',
       UPDATE_DISC: '/disc',
       DELETE_DISC: '/disc',
@@ -33,6 +34,7 @@ export const ENV = {
       GET_CONCERTS: '/concerts',
       GET_CONCERT: '/concert',
       GET_CONCERTS_USER: '/concerts/user',
+      GET_CONCERTS_ARTIST: '/concerts/artist',
       CREATE_CONCERT: '/concert',
       UPDATE_CONCERT: '/concert',
       DELETE_CONCERT: '/concert',
@@ -45,6 +47,7 @@ export const ENV = {
       GET_MERCHANDISES: '/merchandises',
       GET_MERCHANDISE: '/merchandise',
       GET_MERCHANDISES_USER: '/merchandises/user',
+      GET_MERCHANDISES_ARTIST: '/merchandises/artist',
       CREATE_MERCHANDISE: '/merchandise',
       UPDATE_MERCHANDISE: '/merchandise',
       DELETE_MERCHANDISE: '/merchandise',
@@ -71,4 +74,5 @@ export const ENV = {
     ACCESS: 'accessToken',
     REFRESH: 'refreshToken',
   },
+  API_KEY_GEOCODE:'ce4d4f72f6424069b225f517b115d2df'
 }

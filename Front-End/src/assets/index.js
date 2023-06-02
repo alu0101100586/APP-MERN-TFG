@@ -8,6 +8,7 @@ import Guitarist from './jpg/Guitarist.jpg'
 import Disc from './jpg/FZWivbri0Xk-unsplash.jpg'
 import Concert from './jpg/gNvyK_RpHRk-unsplash.jpg';
 import Merchandising from './jpg/zgw3sn2vhrQ-unsplash.jpg';
+import Marker from './png/map_marker.png';
 
 
 const WebIcon = {
@@ -23,6 +24,7 @@ const image = {
   Disc,
   Concert,
   Merchandising,
+  Marker,
 }
 
 export { WebIcon, image }

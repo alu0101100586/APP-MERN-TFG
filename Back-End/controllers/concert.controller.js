@@ -61,6 +61,32 @@ async function getConcertsByUser(req, res) {
   }
 }
 
+async function getConcertsByArtist(req, res) {
+  const { id } = req.params
+  const options = {
+    page: parseInt(1),
+    limit: parseInt(3),
+  }
+
+  try {
+    const artistStorage = await Artist.findById({ _id: id })
+    if (!artistStorage) {
+      return res.status(404).send({ msg: 'Artista no encontrado' })
+    }
+    const concertsIds = artistStorage.concerts
+
+    Concert.paginate({ _id: { $in: concertsIds } }, options)
+      .then((concertsStorage) => {
+        return res.status(200).send(concertsStorage)
+      })
+      .catch(() => {
+        return res.status(500).send({ msg: 'Error al obtener los conciertos del artista' })
+      })
+  } catch (error) {
+    return res.status(500).send({ msg: 'Error al obtener los conciertos del artista' })
+  }
+}
+
 async function createConcert(req, res) {
   const {
     name,
@@ -382,6 +408,7 @@ module.exports = {
   getConcerts,
   getConcert,
   getConcertsByUser,
+  getConcertsByArtist,
   createConcert,
   updateConcert,
   deleteConcert,

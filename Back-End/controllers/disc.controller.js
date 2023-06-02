@@ -61,6 +61,33 @@ async function getDiscsByUser(req, res) {
   }
 }
 
+async function getDiscsByArtist(req, res) {
+  const { id } = req.params
+
+  const options = {
+    page: parseInt(1),
+    limit: parseInt(3),
+  }
+
+  try {
+    const artistStorage = await Artist.findById({ _id: id })
+    if (!artistStorage) {
+      return res.status(404).send({ msg: 'Artista no encontrado' })
+    }
+    const discsIds = artistStorage.discs
+
+    Disc.paginate({ _id: { $in: discsIds } }, options)
+      .then((discsStorage) => {
+        return res.status(200).send(discsStorage)
+      })
+      .catch(() => {
+        return res.status(500).send({ msg: 'Error al obtener los discos del artista' })
+      })
+  } catch (error) {
+    return res.status(500).send({ msg: 'Error al obtener los discos del artista' })
+  }
+}
+
 async function createDisc(req, res) {
   const {
     name,
@@ -365,6 +392,7 @@ module.exports = {
   getDiscs,
   getDisc,
   getDiscsByUser,
+  getDiscsByArtist,
   createDisc,
   updateDisc,
   deleteDisc,
