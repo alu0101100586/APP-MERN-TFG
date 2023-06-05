@@ -1,5 +1,10 @@
 @import "~/src/scss/index.scss";
 
 .search-bar {
-  
+  justify-content: center;
+  align-items: center;
+
+  .search-results {
+    margin-top:5%;
+  }
 }

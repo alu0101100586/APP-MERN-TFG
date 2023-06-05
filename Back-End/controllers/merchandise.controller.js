@@ -5,18 +5,12 @@ const Image = require('../utils/processImage.utils')
 const GetId = require('../utils/getUserId.utils')
 
 async function getMerchandises(req, res) {
-  const { page = 1, pageItems = 10 } = req.query
-  const options = {
-    page: parseInt(page),
-    pageItems: parseInt(pageItems),
-  }
-
-  Merchandise.paginate({}, options)
+  Merchandise.find()
     .then((merchStorage) => {
       return res.status(200).send(merchStorage)
     })
     .catch(() => {
-      return res.status(500).send({ msg: 'Error al obtener los Merchandises' })
+      return res.status(500).send({ msg: 'Error al obtener los merchandises' })
     })
 }
 
@@ -112,6 +106,8 @@ async function createMerchandise(req, res) {
     size,
     description,
   })
+
+  merchandise.name = merchandise.name.toLowerCase()
 
   if (req.files.image) {
     const imagePath = Image.getFilePath(req.files.image)

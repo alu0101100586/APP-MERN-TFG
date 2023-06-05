@@ -1,0 +1,17 @@
+@import "~/src/scss/index.scss";
+
+.item-pagination {
+  &__items {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 3%;
+  }
+
+  &__pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 3%;
+  }
+}
