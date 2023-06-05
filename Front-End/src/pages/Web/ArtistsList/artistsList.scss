@@ -1,5 +1,18 @@
 @import "~/src/scss/index.scss";
 
 .artist-list {
+  margin-top: 2%;
+  margin-left: 10%;
+  margin-right: 10%;
   
+  .ui.grid {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    .row {
+      margin-bottom: 2%;
+    }
+  }
 }

@@ -5,12 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import { image } from '../../../assets';
 import './ItemRender.scss'
 
-//para borrar
-import { MerchandiseService } from '../../../service';
-const discService = new MerchandiseService();
-//para borrar
-
-
 export function ItemRender(props) {
   const { item, type } = props;
   const [ isHovered, setIsHovered ] = useState(false);
