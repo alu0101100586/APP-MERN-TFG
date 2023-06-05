@@ -37,7 +37,7 @@ export function Home() {
           Proyectos en CrowdSound 
           <Icon name='angle double down' />
         </h1>
-        <Grid padded columns={3}>
+        <Grid padded columns={3} stackable>
           <Grid.Column>
             <div className='item'>
               <Image src={image.Disc} size='large' onClick={() => navigate('/discs')} />

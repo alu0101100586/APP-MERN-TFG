@@ -1,9 +1,11 @@
-import React from 'react'
+import React from 'react';
+import { SearchBar } from '../../../components/Web';
+import './concertsList.scss';
 
 export function ConcertsList() {
   return (
-    <div>
-      <h1>Estamos en ConcertsList</h1>
+    <div className='concert-list'>
+      <SearchBar type='concert' />
     </div>
   )
 }

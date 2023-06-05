@@ -1,9 +1,12 @@
-import React from 'react'
+import React from 'react';
+import { SearchBar } from '../../../components/Web';
+import './discsList.scss';
 
+//TODO - hacer el scss
 export function DiscList() {
   return (
-    <div>
-      <h1>Estamos en DiscList</h1>
+    <div className='disc-list'>
+      <SearchBar type='disc' />
     </div>
   )
 }

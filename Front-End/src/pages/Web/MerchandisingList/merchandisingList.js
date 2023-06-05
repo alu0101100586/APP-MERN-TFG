@@ -1,9 +1,12 @@
 import React from 'react'
+import { SearchBar } from '../../../components/Web'
+import './merchandisingList.scss'
 
+//TODO - hacer el scss
 export function MerchandisingList() {
   return (
-    <div>
-      <h1>Estamos en MerchandisingList</h1>
+    <div className='merchandise-list'>
+      <SearchBar type='merchandise' />
     </div>
   )
 }
