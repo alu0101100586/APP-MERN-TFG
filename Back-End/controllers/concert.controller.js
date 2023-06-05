@@ -5,13 +5,7 @@ const Image = require('../utils/processImage.utils')
 const GetId = require('../utils/getUserId.utils')
 
 async function getConcerts(req, res) {
-  const { page = 1, pageItems = 10 } = req.query
-  const options = {
-    page: parseInt(page),
-    pageItems: parseInt(pageItems),
-  }
-
-  Concert.paginate({}, options)
+  Concert.find()
     .then((concertsStorage) => {
       return res.status(200).send(concertsStorage)
     })
@@ -110,6 +104,8 @@ async function createConcert(req, res) {
     musicalGenre,
     participants,
   })
+
+  concert.name = concert.name.toLowerCase()
 
   if (req.files.concertPoster) {
     const imagePath = Image.getFilePath(req.files.concertPoster)

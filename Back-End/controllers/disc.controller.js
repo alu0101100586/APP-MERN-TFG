@@ -5,13 +5,7 @@ const Image = require('../utils/processImage.utils')
 const GetId = require('../utils/getUserId.utils')
 
 async function getDiscs(req, res) {
-  const { page = 1, limit = 10 } = req.query
-  const options = {
-    page: parseInt(page),
-    limit: parseInt(limit),
-  }
-
-  Disc.paginate({}, options)
+  Disc.find()
     .then((discsStorage) => {
       return res.status(200).send(discsStorage)
     })
@@ -109,6 +103,8 @@ async function createDisc(req, res) {
     musicalGenre,
     songs,
   })
+
+  disc.name = disc.name.toLowerCase()
 
   if (req.files.cover) {
     const imagePath = Image.getFilePath(req.files.cover)

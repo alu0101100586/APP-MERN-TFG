@@ -4,12 +4,6 @@ const Image = require('../utils/processImage.utils')
 const GetId = require('../utils/getUserId.utils')
 
 async function getArtists(req, res) {
-  // const { page = 1, pageItems = 10 } = req.query
-  // const options = {
-  //   page: parseInt(page),
-  //   pageItems: parseInt(pageItems),
-  // }
-
   Artist.find()
     .then((artistsStorage) => {
       return res.status(200).send(artistsStorage)
@@ -73,6 +67,8 @@ async function createArtist(req, res) {
     concerts,
     merchandise,
   })
+
+  artist.name = artist.name.toLowerCase()
 
   if (req.files.avatar) {
     const imagePath = Image.getFilePath(req.files.avatar)
