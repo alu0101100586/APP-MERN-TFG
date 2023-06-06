@@ -1,11 +1,11 @@
 import React from 'react'
 import { Image, Button } from 'semantic-ui-react'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
 import { ENV } from '../../../../utils'
 import './BasicItem.scss'
 
 export function BasicItem(props) {
-  const { item, type} = props
+  const { item, type } = props
   const navigate = useNavigate()
 
   if (!item) {
@@ -31,16 +31,16 @@ export function BasicItem(props) {
   const handleOnClick = () => {
     if (type === 'artist') {
       navigate(`/artist/${item._id}`)
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: 'smooth' })
     } else if (type === 'disc') {
       navigate(`/disc/${item._id}`)
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: 'smooth' })
     } else if (type === 'concert') {
       navigate(`/concert/${item._id}`)
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: 'smooth' })
     } else if (type === 'merchandise') {
       navigate(`/merchandise/${item._id}`)
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: 'smooth' })
     }
   }
 

@@ -1,1 +1,1 @@
-export * from './ArtistItem';
+export * from './ArtistItem'

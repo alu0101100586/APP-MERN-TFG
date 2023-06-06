@@ -6,10 +6,11 @@ import Musical_Studio from './jpg/Musical_Studio.jpg'
 import Pianist from './jpg/Pianist.jpg'
 import Guitarist from './jpg/Guitarist.jpg'
 import Disc from './jpg/FZWivbri0Xk-unsplash.jpg'
-import Concert from './jpg/gNvyK_RpHRk-unsplash.jpg';
-import Merchandising from './jpg/zgw3sn2vhrQ-unsplash.jpg';
-import Marker from './png/map_marker.png';
+import Concert from './jpg/gNvyK_RpHRk-unsplash.jpg'
+import Merchandising from './jpg/zgw3sn2vhrQ-unsplash.jpg'
+import ElectricGuitar from './jpg/electricguitar.jpg'
 
+import Marker from './png/map_marker.png'
 
 const WebIcon = {
   LogoWhite,
@@ -24,6 +25,7 @@ const image = {
   Disc,
   Concert,
   Merchandising,
+  ElectricGuitar,
   Marker,
 }
 

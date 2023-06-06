@@ -1,23 +1,5 @@
 @import "~/src/scss/index.scss";
 
-// .carousel {
-//   width: 100%;
-
-//   .image-container {
-//     display: flex;
-//     justify-content: center;
-//     align-items: center;
-
-//     &__dark {
-//       background-color: $primary-dark-hover;
-//     }
-
-//     .ui.image {
-//       width: 100%;
-//     }
-//   }
-// }
-
 .carousel {
   .slick-slide {
     position: relative;

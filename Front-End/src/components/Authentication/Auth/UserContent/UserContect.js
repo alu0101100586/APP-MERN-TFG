@@ -63,58 +63,58 @@ export function UserContect(props) {
             </div>
           </Grid.Column>
           <Grid.Column>
-            <div classname='info-container'>
+            <div classname="info-container">
               <Input
-                label='Nombre de Usuario'
-                type='text'
+                label="Nombre de Usuario"
+                type="text"
                 value={profile.nickName}
-                readonly='true'
+                readonly="true"
                 tabIndex={-1}
               />
               <Input
-                label='Nombre'
-                type='text'
+                label="Nombre"
+                type="text"
                 value={profile.firstName}
-                readonly='true'
+                readonly="true"
                 tabIndex={-1}
               />
               <Input
-                label='Apellidos'
-                type='text'
+                label="Apellidos"
+                type="text"
                 value={profile.lastName}
-                readonly='true'
+                readonly="true"
                 tabIndex={-1}
               />
               <Input
-                label='Correo Electrónico'
-                type='text'
+                label="Correo Electrónico"
+                type="text"
                 value={profile.email}
-                readonly='true'
+                readonly="true"
                 tabIndex={-1}
               />
               <Input
-                label='Fecha de Inicio'
-                type='text'
+                label="Fecha de Inicio"
+                type="text"
                 value={date}
-                readonly='true'
+                readonly="true"
                 tabIndex={-1}
               />
               <Input
-                label='Géneros Musicales'
-                type='text'
+                label="Géneros Musicales"
+                type="text"
                 value={
                   profile.musicalGenre.length > 0
                     ? profile.musicalGenre.join(', ')
                     : 'No te has decantado por ningún género'
                 }
-                readonly='true'
+                readonly="true"
                 tabIndex={-1}
               />
             </div>
           </Grid.Column>
         </Grid>
       </div>
-      
+
       {profile.discs.length > 0 ? (
         <div className="user-content__list">
           <h1>{DiscHeader}</h1>

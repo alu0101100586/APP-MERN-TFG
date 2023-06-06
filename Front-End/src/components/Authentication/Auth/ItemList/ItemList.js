@@ -25,7 +25,7 @@ export function ItemList(props) {
   const navigate = useNavigate(searchParams.get('page') || 1)
 
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       try {
         if (type === 'disc') {
           const response = await discController.getDiscsUserApi(
@@ -85,7 +85,7 @@ export function ItemList(props) {
     <div className="item-list">
       <div className="item-list__list">
         {map(items, (item) => (
-          <BasicItem item={item} type={type}/>
+          <BasicItem item={item} type={type} />
         ))}
       </div>
       <div className="item-list__pagination">

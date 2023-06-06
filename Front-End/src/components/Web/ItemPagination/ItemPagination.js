@@ -1,24 +1,24 @@
-import React, { useState } from 'react';
-import { Pagination } from 'semantic-ui-react';
-import { ItemRender } from '../ItemRender';
-import './ItemPagination.scss';
+import React, { useState } from 'react'
+import { Pagination } from 'semantic-ui-react'
+import { ItemRender } from '../ItemRender'
+import './ItemPagination.scss'
 
 export function ItemPagination(props) {
-  const { items, type } = props;
-  const [currentPage, setCurrentPage] = useState(1);
+  const { items, type } = props
+  const [currentPage, setCurrentPage] = useState(1)
 
   const handlePageChange = (event, { activePage }) => {
-    setCurrentPage(activePage);
+    setCurrentPage(activePage)
   }
 
-  const itemsPerPage = 3;
-  const totalItems = items.length;
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = items.slice(indexOfFirstItem, indexOfLastItem);
+  const itemsPerPage = 3
+  const totalItems = items.length
+  const totalPages = Math.ceil(totalItems / itemsPerPage)
+  const indexOfLastItem = currentPage * itemsPerPage
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage
+  const currentItems = items.slice(indexOfFirstItem, indexOfLastItem)
 
-  if (items.length === 0) return null;
+  if (items.length === 0) return null
 
   return (
     <div className="item-pagination">
@@ -27,7 +27,7 @@ export function ItemPagination(props) {
           <ItemRender key={index} item={item} type={type} />
         ))}
       </div>
-      
+
       <div className="item-pagination__pagination">
         <Pagination
           activePage={currentPage}
@@ -38,7 +38,7 @@ export function ItemPagination(props) {
           lastItem={null}
           secondary
           pointing
-          size='massive'
+          size="massive"
         />
       </div>
     </div>

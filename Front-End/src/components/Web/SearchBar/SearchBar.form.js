@@ -9,7 +9,6 @@ export function initialValues() {
 
 export function validationSchema() {
   return yup.object({
-    searchTerm: yup.string().required('Ingrese un término de búsqueda'),
     filter: yup.string().required('Seleccione un filtro'),
   })
 }
