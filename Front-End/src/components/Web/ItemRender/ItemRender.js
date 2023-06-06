@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import { Image } from 'semantic-ui-react';
-import { ENV } from '../../../utils';
-import { useNavigate } from 'react-router-dom';
-import { image } from '../../../assets';
+import { Image } from 'semantic-ui-react'
+import { ENV } from '../../../utils'
+import { useNavigate } from 'react-router-dom'
+import { image } from '../../../assets'
 import './ItemRender.scss'
 
 export function ItemRender(props) {
-  const { item, type } = props;
-  const [ isHovered, setIsHovered ] = useState(false);
-  const navigate = useNavigate();
+  const { item, type } = props
+  const [isHovered, setIsHovered] = useState(false)
+  const navigate = useNavigate()
 
   let imagepath = image.Default_Avatar
   if (item.cover) {
@@ -29,11 +29,11 @@ export function ItemRender(props) {
   }
 
   const handleMouseEnter = () => {
-    setIsHovered(true);
+    setIsHovered(true)
   }
 
   const handleMouseLeave = () => {
-    setIsHovered(false);
+    setIsHovered(false)
   }
 
   const handleOnClick = () => {
@@ -49,24 +49,19 @@ export function ItemRender(props) {
   }
 
   return (
-    <div 
-    className={`item-render ${isHovered ? 'hovered' : ''}`}
-    onMouseEnter={handleMouseEnter}
-    onMouseLeave={handleMouseLeave}
-    onClick={handleOnClick}
+    <div
+      className={`item-render ${isHovered ? 'hovered' : ''}`}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onClick={handleOnClick}
     >
       <Image src={`${imagepath}`} size="large" />
 
-      <div className='overlay'>
-        <div 
-          className='name'
-          style={{ textTransform: 'capitalize' }}
-        >
+      <div className="overlay">
+        <div className="name" style={{ textTransform: 'capitalize' }}>
           {item.name}
         </div>
-        <div className='property'>
-          {property.join(' ')}
-        </div>
+        <div className="property">{property.join(' ')}</div>
       </div>
     </div>
   )

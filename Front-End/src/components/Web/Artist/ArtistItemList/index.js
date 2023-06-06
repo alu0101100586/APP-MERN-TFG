@@ -1,1 +1,1 @@
-export { ArtistItemList } from './ArtistItemList';
+export { ArtistItemList } from './ArtistItemList'

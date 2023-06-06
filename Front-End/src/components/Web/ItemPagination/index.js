@@ -1,1 +1,1 @@
-export * from './ItemPagination';
+export * from './ItemPagination'

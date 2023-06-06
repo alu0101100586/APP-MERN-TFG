@@ -43,7 +43,7 @@ export class NewslettersService {
       }
       return result
     } catch (error) {
-      throw error  
+      throw error
     }
   }
 

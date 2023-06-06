@@ -1,2 +1,2 @@
-export { ArtistItemList } from './ArtistItemList';
-export * from './ArtistItem';
+export { ArtistItemList } from './ArtistItemList'
+export * from './ArtistItem'

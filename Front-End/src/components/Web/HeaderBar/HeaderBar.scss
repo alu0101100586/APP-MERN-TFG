@@ -1,23 +1,27 @@
 @import "~/src/scss/index.scss";
 
 .header-bar {
-  height: 100px;
+  height: auto;
   background-image: linear-gradient(to bottom right, $background-aqua, $background-yellow);
   display: flex;
+  align-items: center;
   justify-content: flex-start;
 
   &__left {
     height: 100%;
+    width: 100%;
     display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
+    flex-direction: column;
 
     .logo {
-      height: 90%;
-      margin-right: 50px;
       > svg {
-        height: 90%;
+        width: 70%;
+        height: auto;
       }
+    }
+
+    .menu {
+      
     }
     .text {
       font-size: 35px;
@@ -47,7 +51,7 @@
     width: 100%;
 
     .ui.button {
-      font-size: large;
+      font-size: x-large;
     }
   }
 }
