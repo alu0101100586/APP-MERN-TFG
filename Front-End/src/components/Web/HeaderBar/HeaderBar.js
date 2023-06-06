@@ -1,5 +1,5 @@
-import React from 'react'
-import { Button, Image, Grid } from 'semantic-ui-react'
+import React, { useState } from 'react'
+import { Button, Image, Grid, Menu, Icon } from 'semantic-ui-react'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { image } from '../../../assets'
@@ -12,6 +12,15 @@ import './HeaderBar.scss'
 export function HeaderBar() {
   const { user } = useAuth()
   const navigate = useNavigate()
+  const [state, setState] = useState({ activeItem: '' })
+
+  const handleOnClick = (e, { name }) => {
+    setState({ activeItem: name })
+    if (name === 'home') {
+      return navigate('/')
+    }
+    navigate(`/${name}`)
+  }
 
   const getAvatar = () => {
     if (user.avatar) {
@@ -22,38 +31,69 @@ export function HeaderBar() {
 
   return (
     <div className="header-bar">
-      <div className="header-bar__left">
-        <div className="logo">
-          <Link to="/" className="logo" name="icono">
-            <WebIcon.LogoBlack />
-          </Link>
-        </div>
+      <Grid columns='equal' padded stackable className='header-bar__content'>
+        <Grid.Column>
+          <WebIcon.LogoBlack />
+        </Grid.Column>
 
-        <div className="menu">
-          <Link to="/artists" className="text" name="artists">
-            Artistas/Grupos
-          </Link>
-          <Link to="/discs" className="text" name="discs">
-            Discos
-          </Link>
-          <Link to="/concerts" className="text" name="concerts">
-            Conciertos
-          </Link>
-          <Link to="/merchandising" className="text" name="merchandising">
-            Merchandising
-          </Link>
-          <Link to="/web-data" className="text" name="data">
-            Datos
-          </Link>
-        </div>
-      </div>
+        <Grid.Column>
+          <Menu secondary pointing stackable widths={6}>
+            <Menu.Item
+              name='home'
+              active={state.activeItem === 'home'}
+              onClick={handleOnClick}
+            >
+              Inicio
+            </Menu.Item>
+            <Menu.Item
+              name='artists'
+              active={state.activeItem === 'artists'}
+              onClick={handleOnClick}
+            >
+              Artistas
+            </Menu.Item>
 
-      <div className="header-bar__right">
-        <Button basic color="black" onClick={() => navigate('/auth')}>
-          {user ? <Image src={getAvatar()} avatar /> : <span>Registro / </span>}
-          {user ? <span>Tu perfil</span> : <span>Iniciar sesión</span>}
-        </Button>
-      </div>
+            <Menu.Item
+              name='discs'
+              active={state.activeItem === 'discs'}
+              onClick={handleOnClick}
+            >
+              Discos
+            </Menu.Item>
+
+            <Menu.Item
+              name='concerts'
+              active={state.activeItem === 'concerts'}
+              onClick={handleOnClick}
+            >
+              Conciertos
+            </Menu.Item>
+
+            <Menu.Item
+              name='merchandising'
+              active={state.activeItem === 'merchandising'}
+              onClick={handleOnClick}
+            >
+              Merchandising
+            </Menu.Item>
+
+            <Menu.Item
+              name='web-data'
+              active={state.activeItem === 'web-data'}
+              onClick={handleOnClick}
+            >
+              Datos
+            </Menu.Item>
+          </Menu>
+        </Grid.Column>
+
+        <Grid.Column>
+          <Button basic color="black" onClick={() => navigate('/auth')}>
+            {user ? <Image src={getAvatar()} avatar /> : <span>Registro / </span>}
+            {user ? <span>Tu perfil</span> : <span>Iniciar sesión</span>}
+          </Button>
+        </Grid.Column>
+      </Grid>
     </div>
   )
 }
