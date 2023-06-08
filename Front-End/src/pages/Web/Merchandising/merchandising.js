@@ -3,7 +3,7 @@ import { Grid, Image, Button } from 'semantic-ui-react'
 import { MerchandiseService, ArtistService } from '../../../service'
 import { useNavigate } from 'react-router-dom'
 import { ENV, formatDate } from '../../../utils'
-import { ProgressBar } from '../../../components/Web'
+import { ProgressBar, NotFound } from '../../../components/Web'
 import { image } from '../../../assets'
 import { useAuth } from '../../../hooks'
 import './merchandising.scss'
@@ -51,6 +51,10 @@ export function Merchandising() {
 
   const handleMouseLeave = () => {
     setIsHovered(false)
+  }
+
+  if (merch.status === 404) {
+    return <NotFound />
   }
 
   return (
