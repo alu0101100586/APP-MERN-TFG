@@ -3,7 +3,7 @@ import { Grid, Image, Button } from 'semantic-ui-react'
 import { ConcertService, ArtistService } from '../../../service'
 import { useNavigate } from 'react-router-dom'
 import { ENV, formatDate } from '../../../utils'
-import { ProgressBar, Map } from '../../../components/Web'
+import { ProgressBar, Map, NotFound } from '../../../components/Web'
 import { image } from '../../../assets'
 import { useAuth } from '../../../hooks'
 import './concert.scss'
@@ -70,6 +70,10 @@ export function Concert() {
 
   const handleMouseLeave = () => {
     setIsHovered(false)
+  }
+
+  if (concert.status === 404) {
+    return <NotFound />
   }
 
   return (

@@ -3,7 +3,7 @@ import { Grid, Image, Button } from 'semantic-ui-react'
 import { DiscService, ArtistService } from '../../../service'
 import { useNavigate } from 'react-router-dom'
 import { ENV, formatDate } from '../../../utils'
-import { ProgressBar } from '../../../components/Web'
+import { ProgressBar, NotFound } from '../../../components/Web'
 import { image } from '../../../assets'
 import { useAuth } from '../../../hooks'
 import './disc.scss'
@@ -54,6 +54,10 @@ export function Disc() {
 
   const handleMouseLeave = () => {
     setIsHovered(false)
+  }
+
+  if (disc.status === 404) {
+    return <NotFound />
   }
 
   return (

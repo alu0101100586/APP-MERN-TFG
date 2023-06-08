@@ -33,7 +33,7 @@ export class DiscService {
       const result = await response.json()
 
       if (response.status !== 200) {
-        throw new Error('UnExpected Error')
+        return { status: response.status }
       }
       return result
     } catch (error) {
