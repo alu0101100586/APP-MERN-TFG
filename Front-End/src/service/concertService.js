@@ -262,7 +262,8 @@ export class ConcertService {
       const result = await response.json()
 
       if (response.status !== 200) {
-        throw new Error('UnExpected Error')
+        response.msg = 'Ya participaste en el concierto o no puedes hacerlo'
+        return { status: response.status, msg: response.msg }
       }
       return result
     } catch (error) {

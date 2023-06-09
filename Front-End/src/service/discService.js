@@ -261,7 +261,8 @@ export class DiscService {
       const result = await response.json()
 
       if (response.status !== 200) {
-        throw new Error('UnExpected Error')
+        response.msg = 'El disco ya fue comprado anteriormente o no puedes comprarlo'
+        return { status: response.status, msg: response.msg }
       }
       return result
     } catch (error) {

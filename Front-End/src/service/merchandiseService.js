@@ -249,7 +249,8 @@ export class MerchandiseService {
       const result = await response.json()
 
       if (response.status !== 200) {
-        throw new Error('UnExpected Error')
+        response.msg = 'Ya participaste en el merchandise o no tienes permitido hacerlo'
+        return { status: response.status, msg: response.msg }
       }
 
       return result
