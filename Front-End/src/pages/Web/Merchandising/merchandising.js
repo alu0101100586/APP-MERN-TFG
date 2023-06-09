@@ -89,7 +89,6 @@ export function Merchandising() {
             </p>
             <h1>Descripción:</h1>
             <p>{merch.description}</p>
-            <p>Hacer más bonita la descripción</p>
           </div>
         </Grid.Column>
 

@@ -6,7 +6,6 @@ import {
   ArtistsList,
   Concert,
   ConcertsList,
-  Contact,
   Disc,
   DiscList,
   Merchandising,
@@ -34,7 +33,6 @@ export function WebRouter() {
         path="/concerts"
         element={loadLayout(ClientLayout, ConcertsList)}
       />
-      <Route path="/contact" element={loadLayout(ClientLayout, Contact)} />
       <Route path="/disc/:id" element={loadLayout(ClientLayout, Disc)} />
       <Route path="/discs" element={loadLayout(ClientLayout, DiscList)} />
       <Route
