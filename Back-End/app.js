@@ -22,7 +22,7 @@ app.use(bodyParser.json())
 app.use(express.static('uploads'))
 
 // Configuración de CORS
-app.use(cors()) // Allow all domains
+app.use(cors())
 
 // Configuración de las rutas
 app.use(`/api/${API_VERSION}`, authRoutes)
