@@ -1,0 +1,6 @@
+{
+  "exit": true,
+  "recursive": true,
+  "reporter": "spec",
+  "spec": "./tests/**/*.test.mjs"
+}
