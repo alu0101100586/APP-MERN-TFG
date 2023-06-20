@@ -24,7 +24,7 @@ export function Concert() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       const concertResponse = await concertService.getConcertApi(concertId)
       const artistResponse = await artistService.getArtistApi(
         concertResponse.ownerId

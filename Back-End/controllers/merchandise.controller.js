@@ -59,10 +59,6 @@ async function getMerchandiseByUser(req, res) {
 
 async function getMerchandisesByArtist(req, res) {
   const { id } = req.params
-  const options = {
-    page: parseInt(1),
-    limit: parseInt(3),
-  }
 
   try {
     const artistStorage = await Artist.findById({ _id: id })
@@ -71,7 +67,7 @@ async function getMerchandisesByArtist(req, res) {
     }
     const merchsIds = artistStorage.merchandise
 
-    Merchandise.paginate({ _id: { $in: merchsIds } }, options)
+    Merchandise.find({ _id: { $in: merchsIds } })
       .then((merchsStorage) => {
         return res.status(200).send(merchsStorage)
       })

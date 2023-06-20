@@ -29,8 +29,13 @@
     flex-grow: 1;
   }
 
+  h1 {
+    text-transform: capitalize;
+  }
+
   h3 {
     margin-bottom: 0.5rem;
+    text-transform: capitalize;
   }
   
   span {

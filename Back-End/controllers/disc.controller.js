@@ -58,11 +58,6 @@ async function getDiscsByUser(req, res) {
 async function getDiscsByArtist(req, res) {
   const { id } = req.params
 
-  const options = {
-    page: parseInt(1),
-    limit: parseInt(3),
-  }
-
   try {
     const artistStorage = await Artist.findById({ _id: id })
     if (!artistStorage) {
@@ -70,15 +65,19 @@ async function getDiscsByArtist(req, res) {
     }
     const discsIds = artistStorage.discs
 
-    Disc.paginate({ _id: { $in: discsIds } }, options)
+    Disc.find({ _id: { $in: discsIds } })
       .then((discsStorage) => {
         return res.status(200).send(discsStorage)
       })
       .catch(() => {
-        return res.status(500).send({ msg: 'Error al obtener los discos del artista' })
+        return res
+          .status(500)
+          .send({ msg: 'Error al obtener los discos del artista' })
       })
   } catch (error) {
-    return res.status(500).send({ msg: 'Error al obtener los discos del artista' })
+    return res
+      .status(500)
+      .send({ msg: 'Error al obtener los discos del artista' })
   }
 }
 

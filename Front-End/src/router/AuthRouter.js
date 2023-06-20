@@ -32,7 +32,7 @@ export function AuthRouter() {
         <Route path="/auth/*" element={<Auth />} />
       ) : (
         <>
-          {['/auth/my-profile', '/auth'].map((path) => (
+          {['/auth/my-profile', '/auth/*'].map((path) => (
             <Route
               key={path}
               path={path}

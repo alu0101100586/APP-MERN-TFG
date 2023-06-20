@@ -57,10 +57,6 @@ async function getConcertsByUser(req, res) {
 
 async function getConcertsByArtist(req, res) {
   const { id } = req.params
-  const options = {
-    page: parseInt(1),
-    limit: parseInt(3),
-  }
 
   try {
     const artistStorage = await Artist.findById({ _id: id })
@@ -69,15 +65,19 @@ async function getConcertsByArtist(req, res) {
     }
     const concertsIds = artistStorage.concerts
 
-    Concert.paginate({ _id: { $in: concertsIds } }, options)
+    Concert.find({ _id: { $in: concertsIds } })
       .then((concertsStorage) => {
         return res.status(200).send(concertsStorage)
       })
       .catch(() => {
-        return res.status(500).send({ msg: 'Error al obtener los conciertos del artista' })
+        return res
+          .status(500)
+          .send({ msg: 'Error al obtener los conciertos del artista' })
       })
   } catch (error) {
-    return res.status(500).send({ msg: 'Error al obtener los conciertos del artista' })
+    return res
+      .status(500)
+      .send({ msg: 'Error al obtener los conciertos del artista' })
   }
 }
 

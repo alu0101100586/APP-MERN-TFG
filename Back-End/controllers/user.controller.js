@@ -179,10 +179,14 @@ async function updateUserMusicalGenre(req, res) {
     const discs = await Disc.find({ _id: { $in: userStorage.discs } })
     const concerts = await Concert.find({ _id: { $in: userStorage.concerts } })
 
-    const  discMusicalGenre = discs.flatMap((disc) => disc.musicalGenre)
-    const  concertMusicalGenre = concerts.flatMap((concert) => concert.musicalGenre)
+    const discMusicalGenre = discs.flatMap((disc) => disc.musicalGenre)
+    const concertMusicalGenre = concerts.flatMap(
+      (concert) => concert.musicalGenre
+    )
 
-    const musicalGenre = Array.from(new Set([...discMusicalGenre, ...concertMusicalGenre]))
+    const musicalGenre = Array.from(
+      new Set([...discMusicalGenre, ...concertMusicalGenre])
+    )
 
     userStorage.musicalGenre = musicalGenre
 
@@ -193,9 +197,13 @@ async function updateUserMusicalGenre(req, res) {
       artistStorage.musicalGenre = musicalGenre
       await artistStorage.save()
     }
-    return res.status(200).send({ msg: 'Género musical actualizado satisfactoriamente' })
+    return res
+      .status(200)
+      .send({ msg: 'Género musical actualizado satisfactoriamente' })
   } catch (error) {
-    res.status(500).send({ msg: 'Error al actualizar el género musical del usuario' })
+    res
+      .status(500)
+      .send({ msg: 'Error al actualizar el género musical del usuario' })
   }
 }
 

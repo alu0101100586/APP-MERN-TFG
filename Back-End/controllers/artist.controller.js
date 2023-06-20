@@ -29,7 +29,7 @@ async function getOwnerArtist(req, res) {
 
 async function getArtist(req, res) {
   const { id } = req.params
-  Artist.findById({_id : id})
+  Artist.findById({ _id: id })
     .then((artistStorage) => {
       if (artistStorage) {
         return res.status(200).send(artistStorage)
