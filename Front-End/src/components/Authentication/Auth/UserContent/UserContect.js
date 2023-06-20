@@ -59,6 +59,7 @@ export function UserContect(props) {
                     : image.Default_Avatar
                 }
                 avatar
+                size="medium"
               />
             </div>
           </Grid.Column>

@@ -31,7 +31,7 @@ export function HeaderBar() {
 
   return (
     <div className="header-bar">
-      <Grid columns='equal' padded stackable className='header-bar__content'>
+      <Grid columns="equal" padded stackable className="header-bar__content">
         <Grid.Column>
           <WebIcon.LogoBlack />
         </Grid.Column>
@@ -39,14 +39,14 @@ export function HeaderBar() {
         <Grid.Column>
           <Menu secondary pointing stackable widths={6}>
             <Menu.Item
-              name='home'
+              name="home"
               active={state.activeItem === 'home'}
               onClick={handleOnClick}
             >
               Inicio
             </Menu.Item>
             <Menu.Item
-              name='artists'
+              name="artists"
               active={state.activeItem === 'artists'}
               onClick={handleOnClick}
             >
@@ -54,7 +54,7 @@ export function HeaderBar() {
             </Menu.Item>
 
             <Menu.Item
-              name='discs'
+              name="discs"
               active={state.activeItem === 'discs'}
               onClick={handleOnClick}
             >
@@ -62,7 +62,7 @@ export function HeaderBar() {
             </Menu.Item>
 
             <Menu.Item
-              name='concerts'
+              name="concerts"
               active={state.activeItem === 'concerts'}
               onClick={handleOnClick}
             >
@@ -70,7 +70,7 @@ export function HeaderBar() {
             </Menu.Item>
 
             <Menu.Item
-              name='merchandising'
+              name="merchandising"
               active={state.activeItem === 'merchandising'}
               onClick={handleOnClick}
             >
@@ -78,7 +78,7 @@ export function HeaderBar() {
             </Menu.Item>
 
             <Menu.Item
-              name='web-data'
+              name="web-data"
               active={state.activeItem === 'web-data'}
               onClick={handleOnClick}
             >
@@ -89,7 +89,11 @@ export function HeaderBar() {
 
         <Grid.Column>
           <Button basic color="black" onClick={() => navigate('/auth')}>
-            {user ? <Image src={getAvatar()} avatar /> : <span>Registro / </span>}
+            {user ? (
+              <Image src={getAvatar()} avatar />
+            ) : (
+              <span>Registro / </span>
+            )}
             {user ? <span>Tu perfil</span> : <span>Iniciar sesión</span>}
           </Button>
         </Grid.Column>

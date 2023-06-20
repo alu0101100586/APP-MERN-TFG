@@ -1,4 +1,4 @@
-import * as yup from 'yup';
+import * as yup from 'yup'
 
 export function initialValues() {
   return {
@@ -6,7 +6,7 @@ export function initialValues() {
     name: '',
     date: '',
     cvv: '',
-  };
+  }
 }
 
 export function validationSchema() {
@@ -15,5 +15,5 @@ export function validationSchema() {
     name: yup.string().required('Nombre requerido'),
     date: yup.string().required('Fecha requerida'),
     cvv: yup.number().required('CVV requerido'),
-  });
+  })
 }

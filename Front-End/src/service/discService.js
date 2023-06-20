@@ -150,7 +150,6 @@ export class DiscService {
       }
 
       const url = `${this.api}${ENV.API_ROUTES.DISC.UPDATE_DISC}/${discId}`
-      console.log(url)
       const params = {
         method: 'PATCH',
         headers: {
@@ -261,7 +260,8 @@ export class DiscService {
       const result = await response.json()
 
       if (response.status !== 200) {
-        response.msg = 'El disco ya fue comprado anteriormente o no puedes comprarlo'
+        response.msg =
+          'El disco ya fue comprado anteriormente o no puedes comprarlo'
         return { status: response.status, msg: response.msg }
       }
       return result

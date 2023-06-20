@@ -16,14 +16,14 @@ export function Artist() {
   const [artist, setArtist] = useState({})
 
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       const artistResponse = await artistService.getArtistApi(artistId)
       setArtist(artistResponse)
     })()
   }, [])
 
   if (artist.status === 404) {
-    return (<NotFound />)
+    return <NotFound />
   } else {
     return (
       <div className="artist-page">
@@ -67,7 +67,7 @@ export function Artist() {
             </Grid.Column>
           </Grid>
         </div>
-  
+
         <div className="artist-page__proyects">
           <h1>
             <Icon name="angle double down" />
