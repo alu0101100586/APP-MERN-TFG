@@ -13,7 +13,9 @@ const PORT = process.env.PORT || 3977
 
 const startServer = async () => {
   try {
-    await moongose.connect(`mongodb+srv://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/`);
+    await moongose.connect(
+      `mongodb+srv://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/`
+    )
     app.listen(PORT, () => {
       console.log('------------------------------------')
       console.log('---------- Music API ---------------')
@@ -21,12 +23,12 @@ const startServer = async () => {
       console.log(
         `Server running on http://${IP_SERVER}:${PORT}/api/${API_VERSION}`
       )
-    });
+    })
   } catch (error) {
-    console.error('Database connection error:', error);
+    console.error('Database connection error:', error)
   }
 }
 
-startServer();
+startServer()
 
-module.exports = app;
+module.exports = app
