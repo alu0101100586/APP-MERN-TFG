@@ -1,4 +1,5 @@
-const SERVER_IP = 'localhost:3977'
+const SERVER_IP = 'backend-tfg-nmyl.onrender.com'
+// const SERVER_IP ='localhost:3977'
 
 export const ENV = {
   BASE_PATH: `http://${SERVER_IP}`,
