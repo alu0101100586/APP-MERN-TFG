@@ -68,8 +68,6 @@ Para el desarrollo de la aplicación web se han usado una gran diversidad de tec
 * [![Semantic UI React][Semantic UI React]][Semantic UI React-url]
 
 ## Inicialización
-Para poder usar la aplicación web se recomienda usar la aplicación que está desplegada y es accesible desde [https://crowdsound.netlify.app](https://crowdsound.netlify.app)
-
 ### Clonación
 En caso de que quiera desplegarla en local y probar diferentes cosas con la estructura y diseños actuales, se recomienda clonar este repositorio.
   ```sh
@@ -100,6 +98,8 @@ Una vez tenga el repositorio clonado, se debe tener en cuenta que debe realizar 
 Tenga en cuenta que cuando se pueda usar la aplicación, se mostrará un mensaje por terminar que indique si el Back-end o el Front-end están listos para su uso.
 
 ## Uso
+Para poder usar la aplicación web se recomienda usar la aplicación que está desplegada y es accesible desde [https://crowdsound.netlify.app](https://crowdsound.netlify.app)
+
 Para usar las diferentes API REST de las que disponen los sistemas definidos en el Back-End le recomendamos usar herramientas que faciliten esta tarea. Como por ejemplo:
 * [![Postman][Postman]][Postman-url]
 * [![Swagger][Swagger]][Swagger-url]
