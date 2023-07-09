@@ -110,7 +110,7 @@ Para un uso del Front-End, le recomendamos que disponga de algún navegador en s
 ## Licencia
 
 <div align="center">
-  <img src="images/by-nc-sa_88x31.png.png">
+  <img src="images/by-nc-sa_88x31.png">
 </div>
 
 © Esta obra está bajo una licencia de Creative Commons Reconocimiento-NoComercial-CompartirIgual 4.0 Internacional.
