@@ -1,7 +1,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/alu0101100586/APP-MERN-TFG">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src="images/logo.png" alt="Logo">
   </a>
 
   <p align="center">
@@ -52,7 +52,7 @@ Por otro lado, también se puede acceder a todos los proyectos de manera separad
 La segunda zona de la aplicación, denominada zona de autenticación, requiere iniciar sesión para acceder. Sin embargo, se ha habilitado una página especial para el registro e inicio de sesión, que está disponible para todos los usuarios. Al registrarse, se pueden crear dos tipos diferentes de cuentas: usuarios comunes y artistas. Los usuarios comunes tienen la capacidad de administrar su participación en los proyectos, es decir, comprar o devolver productos. Por otro lado, los artistas tienen la posibilidad de crear, actualizar y eliminar cualquiera de sus proyectos, así como gestionar su página de artista, incluyendo la opción de eliminarla si así lo desean. Ambos tipos de usuarios tienen la capacidad de gestionar su cuenta personal, actualizando o eliminándola según sea necesario. Además, pueden modificar su contraseña y decidir si desean suscribirse o no a las noticias y actualizaciones de la aplicación.
 
 <div align="center">
-  <img src="images/logo.png" alt="Funcionalidad">
+  <img src="images/diagrama_aplicación.png" alt="Funcionalidad">
 </div>
 
 ### Tecnologías
@@ -110,7 +110,7 @@ Para un uso del Front-End, le recomendamos que disponga de algún navegador en s
 ## Licencia
 
 <div align="center">
-  <img src="images/logo.png">
+  <img src="images/by-nc-sa_88x31.png.png">
 </div>
 
 © Esta obra está bajo una licencia de Creative Commons Reconocimiento-NoComercial-CompartirIgual 4.0 Internacional.
